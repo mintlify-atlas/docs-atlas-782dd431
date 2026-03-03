@@ -1,0 +1,376 @@
+---
+title: Design Tokens
+description: The foundation of the Soft UI design system - colors, spacing, typography, and border radii.
+---
+
+Design tokens are the visual building blocks of Soft UI. They map to Tailwind scales and provide a consistent foundation across all components.
+
+## Token Categories
+
+Soft UI tokens are organized into four main categories:
+
+- **Colors**: Semantic color tokens that adapt to theme and mode
+- **Spacing**: Consistent scale from 0px to 128px
+- **Typography**: Font sizes, line heights, and weights
+- **Radii**: Border radius scale from 0px to max (800px)
+
+<Note>
+All tokens are defined as CSS variables in `packages/tokens/src/tokens.css` and automatically adapt to theme changes.
+</Note>
+
+## Color Tokens
+
+### Theme Colors
+
+Theme colors derive from Tailwind palettes and map to `--theme-*` variables:
+
+```css
+--theme-50 through --theme-950
+```
+
+Default theme is **blue**, but can be changed via `data-theme-color` attribute:
+
+```html
+<html data-theme-color="violet">
+```
+
+**Available theme colors**: red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose, mauve, mist, olive, taupe
+
+### Base Colors
+
+Base (neutral) colors map to `--base-*` variables:
+
+```css
+--base-50 through --base-950
+```
+
+Default base is **neutral**, but can be changed via `data-base-color` attribute:
+
+```html
+<html data-base-color="slate">
+```
+
+**Available base colors**: neutral, slate, gray, zinc, stone, mauve, mist, olive, taupe
+
+### Semantic Color Tokens
+
+Semantic tokens adapt based on mode and scheme:
+
+#### Surface
+
+```css
+--color-surface-page
+--color-surface-canvas
+--color-surface-overlay
+--color-surface-inverse
+--color-surface-interactive-default
+--color-surface-interactive-hover
+--color-surface-interactive-selected
+```
+
+#### Content
+
+```css
+--color-content-strong
+--color-content-subtle
+--color-content-muted
+--color-content-disabled
+--color-content-link-default
+--color-content-link-hover
+```
+
+#### Actions
+
+```css
+--color-actions-primary-default
+--color-actions-primary-hover
+--color-actions-primary-disabled
+--color-actions-secondary-default
+--color-actions-secondary-hover
+--color-actions-secondary-disabled
+--color-actions-tertiary-default
+--color-actions-tertiary-hover
+--color-actions-tertiary-disabled
+--color-actions-danger-default
+--color-actions-danger-hover
+--color-actions-danger-disabled
+```
+
+#### Border
+
+```css
+--color-border-subtle
+--color-border-muted
+--color-border-inverse
+--color-border-interactive-default
+--color-border-interactive-hover
+--color-border-interactive-active
+```
+
+#### Feedback
+
+```css
+--color-surface-feedback-success-subtle
+--color-surface-feedback-success-muted
+--color-content-feedback-success-strong
+--color-content-feedback-success-subtle
+--color-border-feedback-success-subtle
+
+--color-surface-feedback-warning-subtle
+--color-surface-feedback-warning-muted
+--color-content-feedback-warning-strong
+--color-content-feedback-warning-subtle
+--color-border-feedback-warning-subtle
+
+--color-surface-feedback-danger-subtle
+--color-surface-feedback-danger-muted
+--color-content-feedback-danger-strong
+--color-content-feedback-danger-subtle
+--color-border-feedback-danger-subtle
+
+--color-surface-feedback-info-subtle
+--color-surface-feedback-info-muted
+--color-content-feedback-info-strong
+--color-content-feedback-info-subtle
+--color-border-feedback-info-subtle
+```
+
+<Tip>
+Feedback colors use **lime** for success, **amber** for warning, **rose** for danger, and **sky** for info.
+</Tip>
+
+#### Utility
+
+```css
+--color-utility-kbd
+--color-utility-kbd-border
+--color-utility-focus-outer
+--color-utility-focus-inner
+--color-utility-shadow-l1
+--color-utility-shadow-l2
+--color-utility-shadow-l3
+--color-utility-shadow-l4
+--color-utility-backdrop
+--color-utility-avatar
+```
+
+### Lighten & Darken Overlays
+
+Transparent white/black overlays for layering:
+
+```css
+--lighten-0: 255 255 255 / 0
+--lighten-2: 255 255 255 / 0.02
+--lighten-4: 255 255 255 / 0.04
+--lighten-8: 255 255 255 / 0.08
+--lighten-12: 255 255 255 / 0.12
+--lighten-16: 255 255 255 / 0.16
+--lighten-24: 255 255 255 / 0.24
+--lighten-32: 255 255 255 / 0.32
+--lighten-56: 255 255 255 / 0.56
+--lighten-64: 255 255 255 / 0.64
+--lighten-96: 255 255 255 / 0.96
+
+--darken-0: 0 0 0 / 0
+--darken-2: 0 0 0 / 0.02
+--darken-4: 0 0 0 / 0.04
+--darken-8: 0 0 0 / 0.08
+--darken-12: 0 0 0 / 0.12
+--darken-16: 0 0 0 / 0.16
+--darken-24: 0 0 0 / 0.24
+--darken-32: 0 0 0 / 0.32
+--darken-56: 0 0 0 / 0.56
+--darken-64: 0 0 0 / 0.64
+--darken-96: 0 0 0 / 0.96
+```
+
+<Info>
+Lighten/darken values use RGB format without `rgb()` wrapper, making them composable with `rgb(var(--darken-8))`.
+</Info>
+
+## Spacing Tokens
+
+Consistent spacing scale based on multiples of 2:
+
+```css
+--space-0: 0px
+--space-2: 2px
+--space-4: 4px
+--space-6: 6px
+--space-8: 8px
+--space-10: 10px
+--space-12: 12px
+--space-14: 14px
+--space-16: 16px
+--space-18: 18px
+--space-20: 20px
+--space-24: 24px
+--space-28: 28px
+--space-32: 32px
+--space-36: 36px
+--space-40: 40px
+--space-48: 48px
+--space-52: 52px
+--space-56: 56px
+--space-64: 64px
+--space-128: 128px
+```
+
+These map to Tailwind's spacing scale and are used throughout components for padding, margin, and gap.
+
+## Typography Tokens
+
+### Font Sizes
+
+```css
+--font-size-2xs: 10px
+--font-size-xs: 12px
+--font-size-s: 13px
+--font-size-m: 14px
+--font-size-l: 16px
+--font-size-xl: 18px
+--font-size-2xl: 20px
+--font-size-3xl: 24px
+```
+
+### Line Heights
+
+```css
+--line-height-2xs: 10px
+--line-height-xs: 16px
+--line-height-s: 18px
+--line-height-m: 20px
+--line-height-l: 22px
+--line-height-xl: 24px
+--line-height-2xl: 28px
+--line-height-3xl: 32px
+```
+
+### Font Weights
+
+```css
+--font-weight-default: 400
+--font-weight-medium: 480
+--font-weight-semibold: 550
+```
+
+<Note>
+Soft UI uses **Inter Variable** font with custom weights (480 and 550) for refined optical balance.
+</Note>
+
+### Typography Scale
+
+| Size | Font Size | Line Height | Usage |
+|------|-----------|-------------|-------|
+| `2xs` | 10px | 10px | Captions, labels |
+| `xs` | 12px | 16px | Small UI text |
+| `s` | 13px | 18px | Compact UI |
+| `m` | 14px | 20px | Body text (default) |
+| `l` | 16px | 22px | Emphasized body |
+| `xl` | 18px | 24px | Subheadings |
+| `2xl` | 20px | 28px | Headings |
+| `3xl` | 24px | 32px | Large headings |
+
+## Border Radius Tokens
+
+```css
+--radius-0: 0px
+--radius-2: 2px
+--radius-4: 4px
+--radius-6: 6px
+--radius-8: 8px
+--radius-10: 10px
+--radius-12: 12px
+--radius-16: 16px
+--radius-24: 20px  /* Maps to radius-24 token */
+--radius-32: 24px  /* Maps to radius-32 token */
+--radius-max: 800px
+```
+
+These are aliased in `@theme inline` for easier Tailwind integration:
+
+```css
+--radius-sm: var(--radius-4)
+--radius-md: var(--radius-6)
+--radius-lg: var(--radius-8)
+--radius-xl: var(--radius-10)
+--radius-2xl: var(--radius-12)
+--radius-3xl: var(--radius-16)
+--radius-4xl: var(--radius-24)
+```
+
+## Composite Tokens
+
+Some tokens combine multiple values for complex effects:
+
+### Shadows
+
+```css
+--shadow-modal: 0 0 0 1px var(--color-utility-shadow-l1), 
+                0 1px 2px 0 var(--color-utility-shadow-l2), 
+                0 3px 12px 0 var(--color-utility-shadow-l2), 
+                0 4px 16px 0 var(--color-utility-shadow-l3);
+
+--shadow-modal-content: 0 0 0 1px var(--color-utility-shadow-l1), 
+                        0 0 1px 0 var(--color-utility-shadow-l2), 
+                        0 1px 2px 1px var(--color-utility-shadow-l2);
+```
+
+<Tip>
+Composite shadows adapt to light/dark mode automatically through their underlying utility color tokens.
+</Tip>
+
+## Using Tokens
+
+### In CSS
+
+```css
+.my-element {
+  background-color: var(--color-surface-page);
+  color: var(--color-content-strong);
+  padding: var(--space-16);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-m);
+  line-height: var(--line-height-m);
+}
+```
+
+### In Tailwind
+
+Tokens are mapped to Tailwind config, so you can use them directly:
+
+```jsx
+<div className="bg-surface-page text-content-strong p-16 rounded-lg">
+  Content
+</div>
+```
+
+### In Components
+
+```tsx
+import { css } from '@/lib/css';
+
+const styles = css({
+  backgroundColor: 'var(--color-surface-canvas)',
+  padding: 'var(--space-12)',
+  borderRadius: 'var(--radius-md)',
+});
+```
+
+## Token Organization
+
+Tokens follow a clear naming convention:
+
+```
+--{category}-{element}-{variant}-{state}
+```
+
+Examples:
+- `--color-actions-primary-hover`
+- `--color-content-feedback-danger-strong`
+- `--color-border-interactive-active`
+
+This structure ensures tokens are:
+- **Discoverable**: Easy to find in autocomplete
+- **Predictable**: Follow consistent patterns
+- **Semantic**: Names describe purpose, not value

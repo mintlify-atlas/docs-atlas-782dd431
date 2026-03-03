@@ -1,0 +1,168 @@
+---
+title: Dialog
+description: Modal dialogs for focused user interactions and confirmations.
+---
+
+Dialogs display content in a layer above the application, focusing user attention on a specific task or message. Use them for confirmations, forms, and important information.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Dialog
+import { Dialog } from "@soft-ui/react/dialog"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <Button>Open Dialog</Button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Popup>
+          <Dialog.Content>
+            <Dialog.Header>
+              <Dialog.Title>Dialog Title</Dialog.Title>
+              <Dialog.Close />
+            </Dialog.Header>
+            <Dialog.Body>
+              <p>Dialog content goes here.</p>
+            </Dialog.Body>
+            <Dialog.Footer>
+              <Dialog.Close>
+                <Button variant="secondary">Cancel</Button>
+              </Dialog.Close>
+              <Button>Confirm</Button>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+</CodeGroup>
+
+## Positions
+
+Control where the dialog appears with the `position` prop:
+
+- **center** - Centered on screen (default)
+- **right** - Slides in from the right as a panel
+- **sheet** - Bottom sheet on mobile, centered on desktop
+
+<CodeGroup>
+```tsx Positions
+import { Dialog } from "@soft-ui/react/dialog"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <>
+      <Dialog.Root>
+        <Dialog.Trigger><Button>Center</Button></Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Backdrop />
+          <Dialog.Popup position="center">
+            {/* ... */}
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      <Dialog.Root>
+        <Dialog.Trigger><Button>Right Panel</Button></Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Backdrop />
+          <Dialog.Popup position="right">
+            {/* ... */}
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Swipeable Sheet
+
+Enable drag-to-dismiss for sheet-style dialogs:
+
+<CodeGroup>
+```tsx Swipeable
+import { Dialog } from "@soft-ui/react/dialog"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger><Button>Open Sheet</Button></Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Popup position="sheet" swipeable>
+          <Dialog.Content>
+            <Dialog.Header>
+              <Dialog.Title>Swipeable Sheet</Dialog.Title>
+              <Dialog.Close />
+            </Dialog.Header>
+            <Dialog.Body>
+              Drag down to dismiss
+            </Dialog.Body>
+          </Dialog.Content>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+</CodeGroup>
+
+<Note>
+The drag indicator is automatically shown when `swipeable={true}` is set on sheet-style dialogs.
+</Note>
+
+## Nested Dialogs
+
+Dialogs support nesting. When a child dialog opens, the parent dims and scales down:
+
+<CodeGroup>
+```tsx Nested
+import { Dialog } from "@soft-ui/react/dialog"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger><Button>Open Parent</Button></Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Popup>
+          <Dialog.Content>
+            <Dialog.Header>
+              <Dialog.Title>Parent Dialog</Dialog.Title>
+              <Dialog.Close />
+            </Dialog.Header>
+            <Dialog.Body>
+              <Dialog.Root>
+                <Dialog.Trigger><Button>Open Child</Button></Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Backdrop />
+                  <Dialog.Popup>
+                    {/* Nested dialog content */}
+                  </Dialog.Popup>
+                </Dialog.Portal>
+              </Dialog.Root>
+            </Dialog.Body>
+          </Dialog.Content>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+</CodeGroup>
+
+## API Reference
+
+For complete prop documentation including controlled state and animation options, see the [Dialog API reference](/api/dialog).

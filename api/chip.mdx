@@ -1,0 +1,246 @@
+---
+title: Chip
+description: API reference for the Chip and ChipGroup components
+---
+
+# Chip
+
+Compact elements for tags, filters, or selections with optional removal functionality.
+
+## Import
+
+```jsx
+import { Chip, ChipGroup } from "@soft-ui/react/chip"
+```
+
+## Anatomy
+
+```jsx
+<ChipGroup size="s" label="Tags">
+  <Chip selected onRemove={() => {}}>Tag 1</Chip>
+  <Chip>Tag 2</Chip>
+  <Chip leadingIcon={<Icon />}>Tag 3</Chip>
+</ChipGroup>
+```
+
+## Chip
+
+Individual chip component for tags and selections.
+
+<ParamField path="size" type="'s' | 'm'" default="'s'">
+  Size of the chip (can be inherited from ChipGroup)
+</ParamField>
+
+<ParamField path="selected" type="boolean" default="false">
+  Whether the chip is in a selected state (shows remove button unless `hideRemove` is true)
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the chip is disabled
+</ParamField>
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Icon displayed before the chip label
+</ParamField>
+
+<ParamField path="prefix" type="React.ReactNode">
+  Custom prefix content (e.g., ChipPrefix for avatar, token, logo)
+</ParamField>
+
+<ParamField path="onRemove" type="() => void">
+  Callback fired when the remove button is clicked (only shown when `selected` is true)
+</ParamField>
+
+<ParamField path="hideRemove" type="boolean" default="false">
+  Hide the remove button even when selected
+</ParamField>
+
+<ParamField path="onClick" type="(event: React.MouseEvent) => void">
+  Callback fired when the chip is clicked
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="chip"`
+- `data-size`: Current size (`s`, `m`)
+- `data-selected`: Present when the chip is selected
+- `data-disabled`: Present when the chip is disabled
+
+### Keyboard Interactions
+
+- `Enter` / `Space` - Activates the chip (triggers onClick)
+- `Backspace` / `Delete` - Removes the chip (when selected and onRemove is provided)
+
+## ChipGroup
+
+Container for organizing multiple chips with optional label and description.
+
+<ParamField path="size" type="'s' | 'm'" default="'s'">
+  Default size for all chips in the group
+</ParamField>
+
+<ParamField path="label" type="string">
+  Optional label displayed above the chips
+</ParamField>
+
+<ParamField path="description" type="string">
+  Optional description text displayed below the label
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the chip container
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="chip-group"`
+- `data-size`: Current size (`s`, `m`)
+
+## Examples
+
+### Basic Chips
+
+```jsx
+<div className="flex gap-2">
+  <Chip>Design</Chip>
+  <Chip>Development</Chip>
+  <Chip>Marketing</Chip>
+</div>
+```
+
+### Selected Chips with Remove
+
+```jsx
+const [tags, setTags] = React.useState(["React", "TypeScript", "Next.js"])
+
+return (
+  <div className="flex gap-2">
+    {tags.map((tag) => (
+      <Chip
+        key={tag}
+        selected
+        onRemove={() => setTags(tags.filter((t) => t !== tag))}
+      >
+        {tag}
+      </Chip>
+    ))}
+  </div>
+)
+```
+
+### With Icons
+
+```jsx
+import { RiStarLine, RiHeartLine, RiBookmarkLine } from "@soft-ui/icons"
+
+<div className="flex gap-2">
+  <Chip leadingIcon={<RiStarLine />}>Favorites</Chip>
+  <Chip leadingIcon={<RiHeartLine />}>Liked</Chip>
+  <Chip leadingIcon={<RiBookmarkLine />}>Saved</Chip>
+</div>
+```
+
+### Chip Group with Label
+
+```jsx
+<ChipGroup
+  label="Categories"
+  description="Select categories that interest you"
+  size="m"
+>
+  <Chip>Technology</Chip>
+  <Chip selected onRemove={() => {}}>
+    Design
+  </Chip>
+  <Chip>Business</Chip>
+  <Chip>Science</Chip>
+</ChipGroup>
+```
+
+### Different Sizes
+
+```jsx
+<div className="flex flex-col gap-4">
+  <div className="flex gap-2">
+    <Chip size="s">Small</Chip>
+    <Chip size="s" selected onRemove={() => {}}>
+      Small Selected
+    </Chip>
+  </div>
+  <div className="flex gap-2">
+    <Chip size="m">Medium</Chip>
+    <Chip size="m" selected onRemove={() => {}}>
+      Medium Selected
+    </Chip>
+  </div>
+</div>
+```
+
+### With Custom Prefix
+
+```jsx
+import { ChipPrefix } from "@soft-ui/react/chip-prefix"
+
+<div className="flex gap-2">
+  <Chip prefix={<ChipPrefix color="blue">AB</ChipPrefix>}>Alice Brown</Chip>
+  <Chip prefix={<ChipPrefix color="green" src="/avatar.jpg" />}>
+    John Doe
+  </Chip>
+</div>
+```
+
+### Controlled Selection
+
+```jsx
+const [selected, setSelected] = React.useState(["react"])
+
+const toggleTag = (tag: string) => {
+  setSelected((prev) =>
+    prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+  )
+}
+
+const tags = ["react", "vue", "angular", "svelte"]
+
+return (
+  <ChipGroup label="Frameworks">
+    {tags.map((tag) => (
+      <Chip
+        key={tag}
+        selected={selected.includes(tag)}
+        onClick={() => toggleTag(tag)}
+        onRemove={() => toggleTag(tag)}
+      >
+        {tag}
+      </Chip>
+    ))}
+  </ChipGroup>
+)
+```
+
+### Disabled State
+
+```jsx
+<div className="flex gap-2">
+  <Chip disabled>Disabled</Chip>
+  <Chip disabled selected onRemove={() => {}}>
+    Disabled Selected
+  </Chip>
+</div>
+```
+
+### Hide Remove Button
+
+```jsx
+<Chip selected hideRemove>
+  Selected (No Remove)
+</Chip>
+```

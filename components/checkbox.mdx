@@ -1,0 +1,108 @@
+---
+title: Checkbox
+description: Allow users to select multiple options from a set.
+---
+
+Checkboxes enable users to toggle options on or off. They work well for multi-select scenarios and boolean settings.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Checkbox
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+function Example() {
+  return <Checkbox label="Accept terms and conditions" />
+}
+```
+
+```tsx With Description
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+function Example() {
+  return (
+    <Checkbox
+      label="Marketing emails"
+      description="Receive updates about new features and products"
+    />
+  )
+}
+```
+</CodeGroup>
+
+## Controlled State
+
+<CodeGroup>
+```tsx Controlled
+import { useState } from "react"
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+function Example() {
+  const [checked, setChecked] = useState(false)
+
+  return (
+    <Checkbox
+      label="Subscribe to newsletter"
+      checked={checked}
+      onCheckedChange={setChecked}
+    />
+  )
+}
+```
+</CodeGroup>
+
+## Checkbox Without Label
+
+For cases where the label is provided separately (e.g., in a table cell):
+
+<CodeGroup>
+```tsx Standalone
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+function Example() {
+  return <Checkbox aria-label="Select row" />
+}
+```
+</CodeGroup>
+
+<Note>
+When using Checkbox without a label, always provide an `aria-label` for accessibility.
+</Note>
+
+## Indeterminate State
+
+<CodeGroup>
+```tsx Indeterminate
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+function Example() {
+  return (
+    <Checkbox
+      label="Select all"
+      checked="indeterminate"
+    />
+  )
+}
+```
+</CodeGroup>
+
+## Disabled State
+
+<CodeGroup>
+```tsx Disabled
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+function Example() {
+  return (
+    <Checkbox
+      label="This option is disabled"
+      disabled
+    />
+  )
+}
+```
+</CodeGroup>
+
+## API Reference
+
+For complete prop documentation, see the [Checkbox API reference](/api/checkbox).

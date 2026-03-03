@@ -1,0 +1,229 @@
+---
+title: Breadcrumbs
+description: Navigation component that shows the user's current location in a hierarchical structure.
+---
+
+Breadcrumbs help users understand their current location within an application's hierarchy and navigate back to parent pages.
+
+## Anatomy
+
+Breadcrumbs consist of three sub-components:
+
+- **Breadcrumbs**: Root container that wraps all breadcrumb items
+- **BreadcrumbsItem**: Individual breadcrumb link or text node
+- **BreadcrumbsSeparator**: Visual separator between items (slash or chevron)
+
+## Basic Usage
+
+```tsx
+import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from '@soft-ui/react/breadcrumbs'
+
+<Breadcrumbs>
+  <BreadcrumbsItem href="/" showHomeIcon>
+    Home
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem href="/products">
+    Products
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>
+    Laptops
+  </BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+## Breadcrumbs
+
+Root navigation component that provides context for separator styling.
+
+### Props
+
+<ParamField path="separator" type="'slash' | 'chevron'" default="'slash'">
+  Visual separator style between breadcrumb items.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the nav element.
+</ParamField>
+
+### Example: Chevron Separator
+
+```tsx
+<Breadcrumbs separator="chevron">
+  <BreadcrumbsItem href="/" showHomeIcon>
+    Home
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem href="/docs">
+    Documentation
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>
+    Components
+  </BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+## BreadcrumbsItem
+
+Individual breadcrumb representing a page in the navigation hierarchy.
+
+### Props
+
+<ParamField path="href" type="string">
+  URL to navigate to when the breadcrumb is clicked. If not provided, the item renders as plain text.
+</ParamField>
+
+<ParamField path="isCurrent" type="boolean" default="false">
+  Marks this item as the current page. Sets `aria-current="page"` and removes interactivity.
+</ParamField>
+
+<ParamField path="showHomeIcon" type="boolean" default="false">
+  Displays a home icon before the label. Typically used for the first breadcrumb item.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the list item element.
+</ParamField>
+
+### Example: Home Icon
+
+```tsx
+<Breadcrumbs>
+  <BreadcrumbsItem href="/" showHomeIcon>
+    Home
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>
+    Settings
+  </BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+### Example: Current Page
+
+```tsx
+<Breadcrumbs>
+  <BreadcrumbsItem href="/products">
+    Products
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem href="/products/electronics">
+    Electronics
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>
+    Laptops
+  </BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+## BreadcrumbsSeparator
+
+Visual separator between breadcrumb items. Style is determined by the parent `Breadcrumbs` component's `separator` prop.
+
+### Props
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the separator element.
+</ParamField>
+
+### Automatic Styling
+
+The separator automatically renders as:
+- `/` when `separator="slash"` (default)
+- Chevron icon when `separator="chevron"`
+
+```tsx
+{/* Slash separator (default) */}
+<Breadcrumbs separator="slash">
+  <BreadcrumbsItem href="/">Home</BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>Page</BreadcrumbsItem>
+</Breadcrumbs>
+
+{/* Chevron separator */}
+<Breadcrumbs separator="chevron">
+  <BreadcrumbsItem href="/">Home</BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>Page</BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+## Navigation Patterns
+
+### Three-Level Hierarchy
+
+```tsx
+<Breadcrumbs>
+  <BreadcrumbsItem href="/" showHomeIcon>
+    Home
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem href="/category">
+    Category
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem href="/category/subcategory">
+    Subcategory
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>
+    Current Page
+  </BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+### Dynamic Breadcrumbs
+
+```tsx
+const pathSegments = [
+  { label: 'Home', href: '/', showHomeIcon: true },
+  { label: 'Products', href: '/products' },
+  { label: 'Laptops', isCurrent: true }
+]
+
+<Breadcrumbs separator="chevron">
+  {pathSegments.map((segment, index) => (
+    <React.Fragment key={segment.href || segment.label}>
+      <BreadcrumbsItem
+        href={segment.href}
+        isCurrent={segment.isCurrent}
+        showHomeIcon={segment.showHomeIcon}
+      >
+        {segment.label}
+      </BreadcrumbsItem>
+      {index < pathSegments.length - 1 && <BreadcrumbsSeparator />}
+    </React.Fragment>
+  ))}
+</Breadcrumbs>
+```
+
+## Accessibility
+
+- The root element uses `<nav>` with `aria-label="Breadcrumb"`
+- Current page items have `aria-current="page"`
+- Separators have `role="presentation"` and `aria-hidden="true"`
+- Keyboard navigation follows standard link behavior
+- Focus indicators use design system focus rings
+
+## Data Attributes
+
+### Breadcrumbs
+
+- `data-slot="breadcrumbs"`: Identifies the root breadcrumbs container
+- `data-separator`: Current separator type ("slash" or "chevron")
+
+### BreadcrumbsItem
+
+- `data-slot="breadcrumbs-item"`: Identifies the item container
+- `data-current`: Present when `isCurrent={true}`
+
+### BreadcrumbsSeparator
+
+- `data-slot="breadcrumbs-separator"`: Identifies the separator element
+
+## Source Reference
+
+Implementation: `packages/react/src/components/breadcrumbs.tsx`

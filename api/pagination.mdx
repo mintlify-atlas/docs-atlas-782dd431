@@ -1,0 +1,402 @@
+---
+title: Pagination
+description: Navigation component for splitting content across multiple pages.
+---
+
+Pagination helps users navigate through large datasets by dividing content into discrete pages.
+
+## Anatomy
+
+Pagination consists of five sub-components:
+
+- **Pagination**: Root container that manages sizing context
+- **PaginationPrevious**: Navigation button to go to the previous page
+- **PaginationNext**: Navigation button to go to the next page
+- **PaginationContent**: Container for page indicators
+- **PageIndicator**: Button representing a specific page number
+- **PaginationEllipsis**: Visual indicator for skipped page ranges
+
+## Basic Usage
+
+```tsx
+import {
+  Pagination,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationContent,
+  PageIndicator
+} from '@soft-ui/react/pagination'
+
+<Pagination>
+  <PaginationPrevious onClick={() => setPage(page - 1)} />
+  <PaginationContent>
+    <PageIndicator onClick={() => setPage(1)}>1</PageIndicator>
+    <PageIndicator isActive onClick={() => setPage(2)}>2</PageIndicator>
+    <PageIndicator onClick={() => setPage(3)}>3</PageIndicator>
+  </PaginationContent>
+  <PaginationNext onClick={() => setPage(page + 1)} />
+</Pagination>
+```
+
+## Pagination
+
+Root container that provides sizing context to all child components.
+
+### Props
+
+<ParamField path="size" type="'xs' | 's' | 'm' | 'l'" default="'m'">
+  Controls the size of all pagination elements. Automatically propagates to child components.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the nav element.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for intentional structural overrides. Use with caution.
+</ParamField>
+
+### Example: Size Variants
+
+```tsx
+{/* Extra small */}
+<Pagination size="xs">
+  <PaginationPrevious />
+  <PaginationContent>
+    <PageIndicator>1</PageIndicator>
+    <PageIndicator isActive>2</PageIndicator>
+  </PaginationContent>
+  <PaginationNext />
+</Pagination>
+
+{/* Large */}
+<Pagination size="l">
+  <PaginationPrevious />
+  <PaginationContent>
+    <PageIndicator>1</PageIndicator>
+    <PageIndicator isActive>2</PageIndicator>
+  </PaginationContent>
+  <PaginationNext />
+</Pagination>
+```
+
+## PaginationPrevious
+
+Navigation button that moves to the previous page.
+
+### Props
+
+<ParamField path="size" type="'xs' | 's' | 'm' | 'l'" default="'m'">
+  Button size. Inherited from parent `Pagination` unless explicitly overridden.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the button (typically when on the first page).
+</ParamField>
+
+<ParamField path="onClick" type="() => void">
+  Handler called when the button is clicked.
+</ParamField>
+
+<ParamField path="children" type="ReactNode" default="'Previous'">
+  Custom label text. Defaults to "Previous".
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Example: Custom Label
+
+```tsx
+<PaginationPrevious onClick={handlePrev} disabled={currentPage === 1}>
+  Back
+</PaginationPrevious>
+```
+
+## PaginationNext
+
+Navigation button that moves to the next page.
+
+### Props
+
+<ParamField path="size" type="'xs' | 's' | 'm' | 'l'" default="'m'">
+  Button size. Inherited from parent `Pagination` unless explicitly overridden.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the button (typically when on the last page).
+</ParamField>
+
+<ParamField path="onClick" type="() => void">
+  Handler called when the button is clicked.
+</ParamField>
+
+<ParamField path="children" type="ReactNode" default="'Next'">
+  Custom label text. Defaults to "Next".
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Example: Custom Label
+
+```tsx
+<PaginationNext onClick={handleNext} disabled={currentPage === totalPages}>
+  Forward
+</PaginationNext>
+```
+
+## PaginationContent
+
+Container for page indicators and ellipsis elements.
+
+### Props
+
+<ParamField path="size" type="'xs' | 's' | 'm' | 'l'" default="'m'">
+  Size inherited from parent `Pagination`. Propagates to child `PageIndicator` and `PaginationEllipsis` components.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+## PageIndicator
+
+Clickable button representing a specific page number.
+
+### Props
+
+<ParamField path="isActive" type="boolean" default="false">
+  Marks this page as currently active. Applies active styling.
+</ParamField>
+
+<ParamField path="size" type="'xs' | 's' | 'm' | 'l'" default="'m'">
+  Button size. Inherited from parent components unless explicitly overridden.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the button.
+</ParamField>
+
+<ParamField path="onClick" type="() => void">
+  Handler called when the page indicator is clicked.
+</ParamField>
+
+<ParamField path="children" type="ReactNode">
+  Page number or label to display.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Example: Active State
+
+```tsx
+<PaginationContent>
+  <PageIndicator onClick={() => goToPage(1)}>1</PageIndicator>
+  <PageIndicator isActive onClick={() => goToPage(2)}>2</PageIndicator>
+  <PageIndicator onClick={() => goToPage(3)}>3</PageIndicator>
+</PaginationContent>
+```
+
+## PaginationEllipsis
+
+Non-interactive indicator showing that page numbers are being skipped.
+
+### Props
+
+<ParamField path="size" type="'xs' | 's' | 'm' | 'l'" default="'m'">
+  Size inherited from parent components.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Example: Truncated Range
+
+```tsx
+<PaginationContent>
+  <PageIndicator onClick={() => goToPage(1)}>1</PageIndicator>
+  <PaginationEllipsis />
+  <PageIndicator onClick={() => goToPage(5)}>5</PageIndicator>
+  <PageIndicator isActive onClick={() => goToPage(6)}>6</PageIndicator>
+  <PageIndicator onClick={() => goToPage(7)}>7</PageIndicator>
+  <PaginationEllipsis />
+  <PageIndicator onClick={() => goToPage(20)}>20</PageIndicator>
+</PaginationContent>
+```
+
+## Navigation Patterns
+
+### Simple Pagination
+
+```tsx
+function SimplePagination() {
+  const [currentPage, setCurrentPage] = useState(1)
+  const totalPages = 10
+
+  return (
+    <Pagination>
+      <PaginationPrevious
+        onClick={() => setCurrentPage(p => p - 1)}
+        disabled={currentPage === 1}
+      />
+      <PaginationContent>
+        <PageIndicator onClick={() => setCurrentPage(1)} isActive={currentPage === 1}>
+          1
+        </PageIndicator>
+        <PageIndicator onClick={() => setCurrentPage(2)} isActive={currentPage === 2}>
+          2
+        </PageIndicator>
+        <PageIndicator onClick={() => setCurrentPage(3)} isActive={currentPage === 3}>
+          3
+        </PageIndicator>
+      </PaginationContent>
+      <PaginationNext
+        onClick={() => setCurrentPage(p => p + 1)}
+        disabled={currentPage === totalPages}
+      />
+    </Pagination>
+  )
+}
+```
+
+### Smart Truncation
+
+```tsx
+function SmartPagination({ currentPage, totalPages, onPageChange }) {
+  const pages = []
+
+  // Always show first page
+  pages.push(1)
+
+  // Show ellipsis if needed
+  if (currentPage > 3) pages.push('ellipsis-start')
+
+  // Show pages around current
+  for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+    pages.push(i)
+  }
+
+  // Show ellipsis if needed
+  if (currentPage < totalPages - 2) pages.push('ellipsis-end')
+
+  // Always show last page
+  if (totalPages > 1) pages.push(totalPages)
+
+  return (
+    <Pagination>
+      <PaginationPrevious
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      />
+      <PaginationContent>
+        {pages.map((page, index) =>
+          typeof page === 'string' ? (
+            <PaginationEllipsis key={page} />
+          ) : (
+            <PageIndicator
+              key={page}
+              isActive={page === currentPage}
+              onClick={() => onPageChange(page)}
+            >
+              {page}
+            </PageIndicator>
+          )
+        )}
+      </PaginationContent>
+      <PaginationNext
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      />
+    </Pagination>
+  )
+}
+```
+
+### Compact Pagination
+
+```tsx
+<Pagination size="xs">
+  <PaginationPrevious />
+  <PaginationContent>
+    <PageIndicator isActive>5</PageIndicator>
+  </PaginationContent>
+  <PaginationNext />
+</Pagination>
+```
+
+## Size Specifications
+
+### PageIndicator Sizes
+
+- **xs**: 28px height/width
+- **s**: 32px height/width
+- **m**: 36px height/width (default)
+- **l**: 40px height/width
+
+### Navigation Button Sizes
+
+- **xs**: 28px height, 10px horizontal padding
+- **s**: 32px height, 12px horizontal padding
+- **m**: 36px height, 16px horizontal padding (default)
+- **l**: 40px height, 16px horizontal padding
+
+## Accessibility
+
+- Root element uses `<nav>` with `role="navigation"` and `aria-label="pagination"`
+- All buttons support keyboard navigation (Enter/Space)
+- Disabled states prevent interaction and convey unavailability
+- Active page indicator shows current location
+- Focus indicators use design system focus rings
+
+## Data Attributes
+
+### Pagination
+
+- `data-slot="pagination"`: Identifies the root container
+- `data-size`: Current size variant
+
+### PageIndicator
+
+- `data-slot="page-indicator"`: Identifies page indicator buttons
+- `data-active`: Present when `isActive={true}`
+- `data-size`: Current size variant
+
+### Navigation Buttons
+
+- `data-slot="pagination-previous"`: Identifies previous button
+- `data-slot="pagination-next"`: Identifies next button
+- `data-size`: Current size variant
+
+### PaginationContent
+
+- `data-slot="pagination-content"`: Identifies the content container
+
+## Source Reference
+
+Implementation: `packages/react/src/components/pagination.tsx`

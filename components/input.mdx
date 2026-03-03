@@ -1,0 +1,124 @@
+---
+title: Input
+description: Text input fields for collecting user data.
+---
+
+Input allows users to enter text, numbers, dates, and other data. It supports icons, variants, and customizable focus behavior.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Input
+import { Input } from "@soft-ui/react/input"
+
+function Example() {
+  return <Input placeholder="Enter your name" />
+}
+```
+
+```tsx With Icons
+import { Input } from "@soft-ui/react/input"
+import { RiSearchLine, RiCloseLine } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <>
+      <Input
+        placeholder="Search..."
+        leadingIcon={<RiSearchLine />}
+      />
+      <Input
+        placeholder="Search..."
+        trailingIcon={<RiCloseLine />}
+      />
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Variants
+
+Two variants control the input's visual style:
+
+- **secondary** - Solid background (default)
+- **tertiary** - Translucent background with subtle shadow
+
+<CodeGroup>
+```tsx Variants
+import { Input } from "@soft-ui/react/input"
+
+function Example() {
+  return (
+    <>
+      <Input variant="secondary" placeholder="Secondary" />
+      <Input variant="tertiary" placeholder="Tertiary" />
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Sizes
+
+Three sizes are available: `s`, `m` (default), and `l`.
+
+<CodeGroup>
+```tsx Sizes
+import { Input } from "@soft-ui/react/input"
+
+function Example() {
+  return (
+    <>
+      <Input size="s" placeholder="Small" />
+      <Input size="m" placeholder="Medium" />
+      <Input size="l" placeholder="Large" />
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Focus Behavior
+
+By default, Input only shows focus ring when using keyboard navigation (`focusVisibleOnly={true}`). Set to `false` to always show focus ring on focus:
+
+<CodeGroup>
+```tsx Focus Visible Only
+import { Input } from "@soft-ui/react/input"
+
+function Example() {
+  return (
+    <Input
+      placeholder="Keyboard focus only"
+      focusVisibleOnly={true}
+    />
+  )
+}
+```
+</CodeGroup>
+
+<Note>
+The entire input container is clickable and will focus the internal input element.
+</Note>
+
+## Disabled State
+
+<CodeGroup>
+```tsx Disabled
+import { Input } from "@soft-ui/react/input"
+
+function Example() {
+  return (
+    <Input
+      placeholder="Disabled input"
+      disabled
+    />
+  )
+}
+```
+</CodeGroup>
+
+## API Reference
+
+For complete prop documentation, see the [Input API reference](/api/input).

@@ -1,0 +1,137 @@
+---
+title: Tabs
+description: Organize content into multiple panels with tabbed navigation.
+---
+
+Tabs allow users to switch between different views or sections without leaving the page. Use them to organize related content.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Tabs
+import { Tabs } from "@soft-ui/react/tabs"
+
+function Example() {
+  return (
+    <Tabs defaultValue="tab-1">
+      <Tabs.List>
+        <Tabs.Trigger value="tab-1">Tab 1</Tabs.Trigger>
+        <Tabs.Trigger value="tab-2">Tab 2</Tabs.Trigger>
+        <Tabs.Trigger value="tab-3">Tab 3</Tabs.Trigger>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Content value="tab-1">Content for tab 1</Tabs.Content>
+      <Tabs.Content value="tab-2">Content for tab 2</Tabs.Content>
+      <Tabs.Content value="tab-3">Content for tab 3</Tabs.Content>
+    </Tabs>
+  )
+}
+```
+</CodeGroup>
+
+## Variants
+
+Tabs supports three visual styles:
+
+- **stroke** - Underlined tabs with border (default)
+- **pill** - Rounded pill-shaped tabs
+- **pill-emphasized** - Pill tabs with accent background
+
+<CodeGroup>
+```tsx Variants
+import { Tabs } from "@soft-ui/react/tabs"
+
+function Example() {
+  return (
+    <>
+      <Tabs variant="stroke" defaultValue="tab-1">
+        <Tabs.List>
+          <Tabs.Trigger value="tab-1">Stroke</Tabs.Trigger>
+          <Tabs.Indicator />
+        </Tabs.List>
+      </Tabs>
+
+      <Tabs variant="pill" defaultValue="tab-1">
+        <Tabs.List>
+          <Tabs.Trigger value="tab-1">Pill</Tabs.Trigger>
+          <Tabs.Indicator />
+        </Tabs.List>
+      </Tabs>
+
+      <Tabs variant="pill-emphasized" defaultValue="tab-1">
+        <Tabs.List>
+          <Tabs.Trigger value="tab-1">Emphasized</Tabs.Trigger>
+          <Tabs.Indicator />
+        </Tabs.List>
+      </Tabs>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Sizes
+
+Two sizes are available: `s` and `m` (default).
+
+<CodeGroup>
+```tsx Sizes
+import { Tabs } from "@soft-ui/react/tabs"
+
+function Example() {
+  return (
+    <>
+      <Tabs size="s" defaultValue="tab-1">
+        <Tabs.List>
+          <Tabs.Trigger value="tab-1">Small</Tabs.Trigger>
+          <Tabs.Indicator />
+        </Tabs.List>
+      </Tabs>
+
+      <Tabs size="m" defaultValue="tab-1">
+        <Tabs.List>
+          <Tabs.Trigger value="tab-1">Medium</Tabs.Trigger>
+          <Tabs.Indicator />
+        </Tabs.List>
+      </Tabs>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Tabs with Icons
+
+<CodeGroup>
+```tsx With Icons
+import { Tabs } from "@soft-ui/react/tabs"
+import { RiHome5Fill, RiUserFill, RiSettings4Fill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <Tabs defaultValue="home">
+      <Tabs.List>
+        <Tabs.Trigger value="home" leadingIcon={<RiHome5Fill />}>
+          Home
+        </Tabs.Trigger>
+        <Tabs.Trigger value="profile" leadingIcon={<RiUserFill />}>
+          Profile
+        </Tabs.Trigger>
+        <Tabs.Trigger value="settings" leadingIcon={<RiSettings4Fill />}>
+          Settings
+        </Tabs.Trigger>
+        <Tabs.Indicator />
+      </Tabs.List>
+    </Tabs>
+  )
+}
+```
+</CodeGroup>
+
+<Note>
+The indicator animates smoothly between tabs using spring physics. Animation respects user's reduced motion preferences.
+</Note>
+
+## API Reference
+
+For complete prop documentation, see the [Tabs API reference](/api/tabs).

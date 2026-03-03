@@ -1,0 +1,226 @@
+---
+title: IconButton
+description: Square button optimized for displaying icons without text labels.
+---
+
+# IconButton
+
+A square button component specifically designed for icon-only interactions. Automatically sizes to maintain perfect square proportions.
+
+## Import
+
+```tsx
+import { IconButton } from "@soft-ui/react/icon-button"
+```
+
+## Props
+
+<ParamField path="variant" type="string" default="secondary">
+  The visual style variant of the icon button.
+  
+  **Options:**
+  - `primary` - Filled accent color background
+  - `secondary` - Subtle gray background (default)
+  - `tertiary` - Glass-like appearance with shadow and blur
+  - `ghost` - Transparent background, visible on hover
+  - `icon` - Accent-colored icon with transparent background
+  - `plain` - Minimal style with subtle to strong color on hover
+  - `danger` - Destructive action styling with red background
+</ParamField>
+
+<ParamField path="size" type="string" default="m">
+  The size of the icon button (applied to both width and height).
+  
+  **Options:**
+  - `3xs` - 20px square (var(--space-20))
+  - `2xs` - 24px square (var(--space-24))
+  - `xs` - 28px square (var(--space-28))
+  - `s` - 32px square (var(--space-32))
+  - `m` - 36px square (var(--space-36))
+  - `l` - 40px square (var(--space-40))
+</ParamField>
+
+<ParamField path="tone" type="string">
+  Color tone applied to the icon.
+  
+  **Feedback tones:**
+  - `default` - No tone applied
+  - `info` - Information blue
+  - `warning` - Warning amber
+  - `danger` - Error red
+  - `success` - Success green
+  
+  **Decorative tones:**
+  - `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`
+  - `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`
+  - `fuchsia`, `pink`, `rose`
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  The icon element to display. Automatically sized to fit the button.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  When true, disables interaction and applies disabled styling.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides. Use with caution.
+</ParamField>
+
+## Usage
+
+### Basic Icon Button
+
+```tsx
+import { SearchIcon } from "@soft-ui/icons"
+
+<IconButton aria-label="Search">
+  <SearchIcon />
+</IconButton>
+```
+
+### Variants
+
+```tsx
+import { SettingsIcon } from "@soft-ui/icons"
+
+<IconButton variant="primary" aria-label="Settings">
+  <SettingsIcon />
+</IconButton>
+<IconButton variant="secondary" aria-label="Settings">
+  <SettingsIcon />
+</IconButton>
+<IconButton variant="tertiary" aria-label="Settings">
+  <SettingsIcon />
+</IconButton>
+<IconButton variant="ghost" aria-label="Settings">
+  <SettingsIcon />
+</IconButton>
+<IconButton variant="icon" aria-label="Settings">
+  <SettingsIcon />
+</IconButton>
+<IconButton variant="plain" aria-label="Settings">
+  <SettingsIcon />
+</IconButton>
+<IconButton variant="danger" aria-label="Delete">
+  <TrashIcon />
+</IconButton>
+```
+
+### Sizes
+
+```tsx
+import { HeartIcon } from "@soft-ui/icons"
+
+<IconButton size="3xs" aria-label="Like">
+  <HeartIcon />
+</IconButton>
+<IconButton size="2xs" aria-label="Like">
+  <HeartIcon />
+</IconButton>
+<IconButton size="xs" aria-label="Like">
+  <HeartIcon />
+</IconButton>
+<IconButton size="s" aria-label="Like">
+  <HeartIcon />
+</IconButton>
+<IconButton size="m" aria-label="Like">
+  <HeartIcon />
+</IconButton>
+<IconButton size="l" aria-label="Like">
+  <HeartIcon />
+</IconButton>
+```
+
+### With Tone
+
+```tsx
+import { BellIcon } from "@soft-ui/icons"
+
+<IconButton variant="ghost" tone="info" aria-label="Notifications">
+  <BellIcon />
+</IconButton>
+<IconButton variant="ghost" tone="warning" aria-label="Alerts">
+  <BellIcon />
+</IconButton>
+<IconButton variant="ghost" tone="purple" aria-label="Messages">
+  <BellIcon />
+</IconButton>
+```
+
+### Icon vs. Plain Variants
+
+The `icon` and `plain` variants are unique to IconButton:
+
+```tsx
+import { StarIcon } from "@soft-ui/icons"
+
+{/* Icon variant - uses link color (accent) */}
+<IconButton variant="icon" aria-label="Favorite">
+  <StarIcon />
+</IconButton>
+
+{/* Plain variant - subtle to strong on hover */}
+<IconButton variant="plain" aria-label="Favorite">
+  <StarIcon />
+</IconButton>
+```
+
+### Disabled State
+
+```tsx
+import { DownloadIcon } from "@soft-ui/icons"
+
+<IconButton disabled aria-label="Download">
+  <DownloadIcon />
+</IconButton>
+```
+
+## Accessibility
+
+- **Always provide an `aria-label`** since IconButton has no visible text
+- Built on Base UI's `Button` primitive with full keyboard support
+- Focus ring uses utility-focus-inner (1px) and utility-focus-outer (3px)
+- Icon is wrapped with `aria-hidden="true"` since the button itself has the label
+- Active state includes a subtle scale animation (0.98)
+- Disabled buttons use `cursor-not-allowed` and reduced opacity
+
+## Icon Sizing
+
+IconButton automatically sizes the icon based on the button size:
+
+| Button Size | Icon Size |
+|-------------|----------|
+| 3xs (20px)  | 16px     |
+| 2xs (24px)  | 16px     |
+| xs (28px)   | 16px     |
+| s (32px)    | 16px     |
+| m (36px)    | 16px     |
+| l (40px)    | 18px     |
+
+## Design Tokens
+
+The IconButton component uses the following design tokens:
+
+**Colors:**
+- `actions-primary-default`, `actions-primary-hover`, `actions-primary-disabled`
+- `actions-secondary-default`, `actions-secondary-hover`, `actions-secondary-disabled`
+- `actions-tertiary-default`, `actions-tertiary-hover`, `actions-tertiary-disabled`
+- `actions-danger-default`, `actions-danger-hover`, `actions-danger-disabled`
+- `content-strong`, `content-subtle`, `content-disabled`
+- `content-link-default`, `content-link-hover`
+
+**Spacing:**
+- Sizes: `space-20`, `space-24`, `space-28`, `space-32`, `space-36`, `space-40`
+- Icon sizes: `space-16`, `space-18`
+
+**Other:**
+- Border radius: `radius-max` (fully rounded)
+- Font weight: `font-weight-medium`
+- Focus ring: `utility-focus-inner`, `utility-focus-outer`
+- Shadows (tertiary): `utility-shadow-l1`, `utility-shadow-l2`, `utility-shadow-l3`

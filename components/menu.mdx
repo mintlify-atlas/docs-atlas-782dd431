@@ -1,0 +1,148 @@
+---
+title: Menu
+description: Contextual menus for displaying lists of actions and options.
+---
+
+Menus display a list of actions or options triggered by a button or context. Use them for dropdown menus, context menus, and action lists.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Menu
+import { Menu, MenuItem } from "@soft-ui/react/menu"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger>
+        <Button>Open Menu</Button>
+      </Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup>
+            <MenuItem value="edit">Edit</MenuItem>
+            <MenuItem value="duplicate">Duplicate</MenuItem>
+            <MenuItem value="delete">Delete</MenuItem>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
+  )
+}
+```
+</CodeGroup>
+
+## Menu with Icons
+
+<CodeGroup>
+```tsx With Icons
+import { Menu, MenuItem, MenuPrefix } from "@soft-ui/react/menu"
+import { RiEditFill, RiDeleteBinFill } from "@soft-ui/icons"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger>
+        <Button>Actions</Button>
+      </Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup>
+            <MenuItem value="edit">
+              <MenuPrefix><RiEditFill /></MenuPrefix>
+              Edit
+            </MenuItem>
+            <MenuItem value="delete">
+              <MenuPrefix><RiDeleteBinFill /></MenuPrefix>
+              Delete
+            </MenuItem>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
+  )
+}
+```
+</CodeGroup>
+
+## Grouped Items
+
+<CodeGroup>
+```tsx Groups
+import { Menu, MenuItem, MenuGroup, MenuGroupLabel, MenuSeparator } from "@soft-ui/react/menu"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger>
+        <Button>Options</Button>
+      </Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup>
+            <MenuGroup>
+              <MenuGroupLabel>Edit</MenuGroupLabel>
+              <MenuItem value="cut">Cut</MenuItem>
+              <MenuItem value="copy">Copy</MenuItem>
+            </MenuGroup>
+            <MenuSeparator />
+            <MenuGroup>
+              <MenuGroupLabel>View</MenuGroupLabel>
+              <MenuItem value="zoom-in">Zoom In</MenuItem>
+              <MenuItem value="zoom-out">Zoom Out</MenuItem>
+            </MenuGroup>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
+  )
+}
+```
+</CodeGroup>
+
+## Checkbox and Radio Items
+
+<CodeGroup>
+```tsx Selection Items
+import { Menu, MenuItem, MenuSeparator } from "@soft-ui/react/menu"
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger>
+        <Button>View Options</Button>
+      </Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup>
+            <Menu.CheckboxItem value="sidebar">
+              Show Sidebar
+            </Menu.CheckboxItem>
+            <Menu.CheckboxItem value="toolbar">
+              Show Toolbar
+            </Menu.CheckboxItem>
+            <MenuSeparator />
+            <Menu.RadioGroup value="view">
+              <Menu.RadioItem value="list">List View</Menu.RadioItem>
+              <Menu.RadioItem value="grid">Grid View</Menu.RadioItem>
+            </Menu.RadioGroup>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
+  )
+}
+```
+</CodeGroup>
+
+<Tip>
+Menu automatically positions itself to stay within the viewport using collision detection.
+</Tip>
+
+## API Reference
+
+For complete prop documentation including submenus and custom triggers, see the [Menu API reference](/api/menu).

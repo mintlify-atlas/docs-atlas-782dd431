@@ -1,0 +1,256 @@
+---
+title: Form
+description: API reference for the Form component
+---
+
+# Form
+
+A form container with validation support, built on Base UI's Form primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/form`](https://base-ui.com/react/components/form)
+
+## Import
+
+```tsx
+import { Form } from "@soft-ui/react/form"
+```
+
+## Usage
+
+```tsx
+import { Form } from "@soft-ui/react/form"
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+import { Button } from "@soft-ui/react/button"
+
+export default function Example() {
+  return (
+    <Form onSubmit={(e) => {
+      e.preventDefault()
+      console.log(new FormData(e.currentTarget))
+    }}>
+      <Field label="Name">
+        <Input name="name" required />
+      </Field>
+      <Field label="Email">
+        <Input name="email" type="email" required />
+      </Field>
+      <Button type="submit">Submit</Button>
+    </Form>
+  )
+}
+```
+
+## Props
+
+<ParamField path="onSubmit" type="(event: React.FormEvent<HTMLFormElement>) => void">
+  Form submission handler.
+</ParamField>
+
+<ParamField path="method" type="'get' | 'post'">
+  HTTP method for form submission.
+</ParamField>
+
+<ParamField path="action" type="string">
+  URL to submit form data.
+</ParamField>
+
+<ParamField path="encType" type="string">
+  Encoding type for form data.
+</ParamField>
+
+<ParamField path="noValidate" type="boolean">
+  Disables browser validation.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes. Default: `flex flex-col gap-[var(--space-24)]`
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Form fields and controls.
+</ParamField>
+
+## Examples
+
+### Basic Form
+
+```tsx
+import { Form } from "@soft-ui/react/form"
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+import { Button } from "@soft-ui/react/button"
+
+export default function BasicForm() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    console.log(Object.fromEntries(formData))
+  }
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field label="Name">
+        <Input name="name" required />
+      </Field>
+      <Field label="Email">
+        <Input name="email" type="email" required />
+      </Field>
+      <Button type="submit">Submit</Button>
+    </Form>
+  )
+}
+```
+
+### With Validation
+
+```tsx
+import { Form } from "@soft-ui/react/form"
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+import { Button } from "@soft-ui/react/button"
+import { useState } from "react"
+
+export default function WithValidation() {
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData)
+    
+    // Validation
+    const newErrors: Record<string, string> = {}
+    if (!data.name) newErrors.name = "Name is required"
+    if (!data.email) newErrors.email = "Email is required"
+    if (data.email && !data.email.toString().includes("@")) {
+      newErrors.email = "Invalid email address"
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    
+    setErrors({})
+    console.log("Form submitted:", data)
+  }
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field 
+        label="Name"
+        error={errors.name}
+      >
+        <Input name="name" />
+      </Field>
+      <Field 
+        label="Email"
+        error={errors.email}
+      >
+        <Input name="email" type="email" />
+      </Field>
+      <Button type="submit">Submit</Button>
+    </Form>
+  )
+}
+```
+
+### With Multiple Field Types
+
+```tsx
+import { Form } from "@soft-ui/react/form"
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+import { Textarea } from "@soft-ui/react/textarea"
+import { Select } from "@soft-ui/react/select"
+import { Checkbox } from "@soft-ui/react/checkbox"
+import { Button } from "@soft-ui/react/button"
+
+export default function MultipleFieldTypes() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    console.log(Object.fromEntries(formData))
+  }
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Field label="Name">
+        <Input name="name" required />
+      </Field>
+      
+      <Field label="Country">
+        <Select.Root name="country">
+          <Select.Trigger>
+            <Select.Value placeholder="Select a country" />
+            <Select.Icon />
+          </Select.Trigger>
+          <Select.Portal>
+            <Select.Positioner>
+              <Select.Popup>
+                <Select.List>
+                  <Select.Item value="us">
+                    <Select.ItemText>United States</Select.ItemText>
+                    <Select.ItemIndicator />
+                  </Select.Item>
+                  <Select.Item value="ca">
+                    <Select.ItemText>Canada</Select.ItemText>
+                    <Select.ItemIndicator />
+                  </Select.Item>
+                </Select.List>
+              </Select.Popup>
+            </Select.Positioner>
+          </Select.Portal>
+        </Select.Root>
+      </Field>
+      
+      <Field label="Message">
+        <Textarea name="message" rows={4} />
+      </Field>
+      
+      <Checkbox 
+        name="terms" 
+        label="I agree to the terms and conditions"
+      />
+      
+      <Button type="submit">Submit</Button>
+    </Form>
+  )
+}
+```
+
+### With Custom Layout
+
+```tsx
+import { Form } from "@soft-ui/react/form"
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+import { Button } from "@soft-ui/react/button"
+
+export default function CustomLayout() {
+  return (
+    <Form className="space-y-6">
+      <div className="grid grid-cols-2 gap-4">
+        <Field label="First name">
+          <Input name="firstName" />
+        </Field>
+        <Field label="Last name">
+          <Input name="lastName" />
+        </Field>
+      </div>
+      
+      <Field label="Email">
+        <Input name="email" type="email" />
+      </Field>
+      
+      <div className="flex justify-end gap-2">
+        <Button variant="secondary">Cancel</Button>
+        <Button type="submit">Submit</Button>
+      </div>
+    </Form>
+  )
+}
+```

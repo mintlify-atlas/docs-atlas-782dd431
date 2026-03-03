@@ -1,0 +1,324 @@
+---
+title: Tooltip
+description: API reference for the Tooltip component - floating hints and explanations on hover.
+---
+
+# Tooltip
+
+A tooltip component for displaying contextual information on hover or focus. Built on Base UI Tooltip primitive with three content variants: Simple, Explainer, and Breakdown.
+
+## Compound Components
+
+### Tooltip.Provider
+
+Optional provider for consistent delay across multiple tooltips.
+
+<ParamField path="delay" type="number" default="600">
+  Delay in milliseconds before showing tooltips.
+</ParamField>
+
+<ParamField path="closeDelay" type="number" default="0">
+  Delay in milliseconds before hiding tooltips.
+</ParamField>
+
+### Tooltip.Root
+
+The root container that manages tooltip state.
+
+<ParamField path="open" type="boolean">
+  Controlled open state. When provided, the tooltip becomes controlled.
+</ParamField>
+
+<ParamField path="defaultOpen" type="boolean" default="false">
+  Uncontrolled default open state.
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean) => void">
+  Callback fired when the open state changes.
+</ParamField>
+
+<ParamField path="delay" type="number" default="600">
+  Delay in milliseconds before showing the tooltip (overrides Provider delay).
+</ParamField>
+
+<ParamField path="closeDelay" type="number" default="0">
+  Delay in milliseconds before hiding the tooltip (overrides Provider closeDelay).
+</ParamField>
+
+### Tooltip.Trigger
+
+The trigger element that shows the tooltip on hover/focus.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+<ParamField path="asChild" type="boolean" default="false">
+  Merge props onto the child element instead of rendering a button.
+</ParamField>
+
+### Tooltip.Portal
+
+Portals the tooltip content to the end of the document body.
+
+<ParamField path="keepMounted" type="boolean" default="false">
+  Whether to keep the tooltip mounted in the DOM when closed.
+</ParamField>
+
+<ParamField path="container" type="HTMLElement | null">
+  The container element to portal into. Defaults to `document.body`.
+</ParamField>
+
+### Tooltip.Positioner
+
+Positions the tooltip relative to the trigger.
+
+<ParamField path="side" type="'top' | 'right' | 'bottom' | 'left'" default="'top'">
+  The side of the trigger to position the tooltip.
+</ParamField>
+
+<ParamField path="align" type="'start' | 'center' | 'end'" default="'center'">
+  The alignment of the tooltip relative to the trigger.
+</ParamField>
+
+<ParamField path="sideOffset" type="number" default="4">
+  The distance in pixels from the trigger.
+</ParamField>
+
+<ParamField path="alignOffset" type="number" default="0">
+  The offset in pixels along the alignment axis.
+</ParamField>
+
+<ParamField path="collisionPadding" type="number | { top?: number; right?: number; bottom?: number; left?: number }" default="8">
+  The padding in pixels from the viewport edges.
+</ParamField>
+
+### Tooltip.Popup
+
+The tooltip popup container with inverse surface styling.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Dark background with shadow and backdrop blur.
+</ParamField>
+
+**Animation**: 
+- Scale from 0.96 to 1 with fade
+- Spring transition (bounce: 0, duration: 0.15s)
+- Respects reduced motion preferences
+
+### Tooltip.Arrow
+
+Optional arrow pointing to the trigger.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: `"fill-surface-inverse"` with drop shadow.
+</ParamField>
+
+### Tooltip.Simple
+
+Simple tooltip variant with text and optional keyboard shortcut.
+
+<ParamField path="shortcut" type="string[]">
+  Optional keyboard shortcut keys to display (e.g., `["⌘", "K"]`).
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Layout**: 
+- Text only: 12px horizontal, 8px vertical padding
+- Text + shortcut: 12px left, 8px right, 8px vertical padding
+
+### Tooltip.Explainer
+
+Explainer tooltip variant with title, description, and optional shortcut.
+
+<ParamField path="title" type="string" required>
+  The tooltip title.
+</ParamField>
+
+<ParamField path="shortcut" type="string[]">
+  Optional keyboard shortcut keys to display.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Layout**: 16px padding, 10px gap between sections, 2px gap between title and description.
+
+### Tooltip.Breakdown
+
+Breakdown tooltip variant for data visualizations (charts, graphs).
+
+<ParamField path="title" type="string" required>
+  The tooltip title.
+</ParamField>
+
+<ParamField path="description" type="string">
+  Optional description text.
+</ParamField>
+
+<ParamField path="items" type="TooltipBreakdownItem[]" required>
+  Array of breakdown items with label, value, and optional color.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**TooltipBreakdownItem Type**:
+```tsx
+type TooltipBreakdownItem = {
+  label: string
+  value: string | number
+  color?: 'warning' | 'success' | 'info' | 'danger' | string // CSS color or preset
+}
+```
+
+**Layout**: Min-width 220px, 16px padding, items with color dots.
+
+## Usage
+
+### Simple Tooltip
+
+```tsx
+import { Tooltip } from '@soft-ui/react/tooltip'
+import { Button } from '@soft-ui/react/button'
+
+function Example() {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger asChild>
+        <Button variant="ghost">Hover me</Button>
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>
+            <Tooltip.Simple>This is a tooltip</Tooltip.Simple>
+          </Tooltip.Popup>
+          <Tooltip.Arrow />
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  )
+}
+```
+
+### With Keyboard Shortcut
+
+```tsx
+<Tooltip.Popup>
+  <Tooltip.Simple shortcut={["⌘", "K"]}>Search</Tooltip.Simple>
+</Tooltip.Popup>
+```
+
+### Explainer Tooltip
+
+```tsx
+<Tooltip.Popup>
+  <Tooltip.Explainer 
+    title="Quick Actions" 
+    shortcut={["⌘", "K"]}
+  >
+    Open the command palette to search and execute actions quickly.
+  </Tooltip.Explainer>
+</Tooltip.Popup>
+```
+
+### Breakdown Tooltip (Charts)
+
+```tsx
+<Tooltip.Popup>
+  <Tooltip.Breakdown
+    title="September 2024"
+    description="Total revenue"
+    items={[
+      { label: "Product Sales", value: "$45,231", color: "success" },
+      { label: "Subscriptions", value: "$12,450", color: "info" },
+      { label: "Services", value: "$8,320", color: "warning" },
+      { label: "Other", value: "$1,234", color: "#6366f1" },
+    ]}
+  />
+</Tooltip.Popup>
+```
+
+### Multiple Tooltips with Provider
+
+```tsx
+<Tooltip.Provider delay={400}>
+  <Tooltip.Root>
+    <Tooltip.Trigger asChild>
+      <Button>First</Button>
+    </Tooltip.Trigger>
+    <Tooltip.Portal>
+      <Tooltip.Positioner>
+        <Tooltip.Popup>
+          <Tooltip.Simple>First tooltip</Tooltip.Simple>
+        </Tooltip.Popup>
+      </Tooltip.Positioner>
+    </Tooltip.Portal>
+  </Tooltip.Root>
+
+  <Tooltip.Root>
+    <Tooltip.Trigger asChild>
+      <Button>Second</Button>
+    </Tooltip.Trigger>
+    <Tooltip.Portal>
+      <Tooltip.Positioner>
+        <Tooltip.Popup>
+          <Tooltip.Simple>Second tooltip</Tooltip.Simple>
+        </Tooltip.Popup>
+      </Tooltip.Positioner>
+    </Tooltip.Portal>
+  </Tooltip.Root>
+</Tooltip.Provider>
+```
+
+## Types
+
+```tsx
+export type TooltipRootProps = {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  delay?: number
+  closeDelay?: number
+  children?: React.ReactNode
+}
+
+export type TooltipContentSimpleProps = {
+  shortcut?: string[]
+  className?: string
+  children?: React.ReactNode
+}
+
+export type TooltipContentExplainerProps = {
+  title: string
+  shortcut?: string[]
+  className?: string
+  children?: React.ReactNode
+}
+
+export type TooltipBreakdownItem = {
+  label: string
+  value: string | number
+  color?: 'warning' | 'success' | 'info' | 'danger' | string
+}
+
+export type TooltipContentBreakdownProps = {
+  title: string
+  description?: string
+  items: TooltipBreakdownItem[]
+  className?: string
+}
+```
+
+## Accessibility
+
+- Tooltip is linked to trigger via `aria-describedby`
+- Opens on hover and focus
+- Closes on blur, mouse leave, and Escape key
+- Respects `prefers-reduced-motion`
+- Keyboard shortcuts are displayed with KbdGroup component for proper semantics

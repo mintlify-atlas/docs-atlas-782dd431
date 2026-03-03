@@ -1,122 +1,139 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Soft UI",
+  "theme": "palm",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#3b82f6",
+    "light": "#60a5fa",
+    "dark": "#2563eb"
   },
-  "favicon": "/favicon.svg",
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/saugatxyz/softui"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/saugatxyz/softui"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Get Started",
+            "pages": ["introduction", "installation", "quickstart"]
+          },
+          {
+            "group": "Design System",
+            "pages": ["design-system/tokens", "design-system/theming", "design-system/typography", "design-system/colors"]
+          },
+          {
+            "group": "Components",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "components/button",
+              "components/icon-button",
+              "components/input",
+              "components/select",
+              "components/checkbox",
+              "components/switch",
+              "components/tabs",
+              "components/dialog",
+              "components/menu",
+              "components/tooltip"
             ]
           },
           {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
+            "group": "Advanced",
+            "pages": ["advanced/customization", "advanced/animations", "advanced/accessibility"]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Components",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Actions",
             "pages": [
-              "api-reference/introduction"
+              "api/button",
+              "api/icon-button",
+              "api/button-group",
+              "api/toggle-button",
+              "api/toggle-group"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Forms",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api/input",
+              "api/textarea",
+              "api/select",
+              "api/combobox",
+              "api/autocomplete",
+              "api/checkbox",
+              "api/radio-group",
+              "api/switch",
+              "api/slider",
+              "api/number-field",
+              "api/field",
+              "api/form"
+            ]
+          },
+          {
+            "group": "Selection",
+            "pages": [
+              "api/tabs",
+              "api/segmented-control",
+              "api/checkbox-group",
+              "api/switch-group",
+              "api/filter",
+              "api/chip"
+            ]
+          },
+          {
+            "group": "Overlays",
+            "pages": [
+              "api/dialog",
+              "api/alert-dialog",
+              "api/menu",
+              "api/context-menu",
+              "api/popover",
+              "api/tooltip"
+            ]
+          },
+          {
+            "group": "Display",
+            "pages": [
+              "api/badge",
+              "api/avatar",
+              "api/separator",
+              "api/table",
+              "api/progress",
+              "api/meter"
+            ]
+          },
+          {
+            "group": "Feedback",
+            "pages": [
+              "api/toast",
+              "api/banner",
+              "api/inline-notification",
+              "api/empty-state"
+            ]
+          },
+          {
+            "group": "Navigation",
+            "pages": [
+              "api/breadcrumbs",
+              "api/pagination",
+              "api/accordion"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

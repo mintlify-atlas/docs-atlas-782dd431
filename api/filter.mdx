@@ -1,0 +1,192 @@
+---
+title: Filter
+description: API reference for the Filter component
+---
+
+# Filter
+
+A button-like component for triggering filter actions with an optional value display.
+
+## Import
+
+```jsx
+import { Filter } from "@soft-ui/react/filter"
+```
+
+## Anatomy
+
+```jsx
+<Filter
+  icon={<FilterIcon />}
+  label="Status"
+  value="Active"
+  onClear={() => {}}
+  onClick={() => {}}
+  size="m"
+/>
+```
+
+## Filter
+
+<ParamField path="label" type="string" required>
+  The filter label text
+</ParamField>
+
+<ParamField path="size" type="'xs' | 's' | 'm'" default="'m'">
+  Size of the filter component
+</ParamField>
+
+<ParamField path="icon" type="React.ReactNode">
+  Leading icon displayed before the label
+</ParamField>
+
+<ParamField path="value" type="string">
+  Current filter value (when set, shows active state with value and clear button)
+</ParamField>
+
+<ParamField path="onClear" type="() => void">
+  Callback fired when the clear button is clicked (only shown when `value` is set)
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the filter is disabled
+</ParamField>
+
+<ParamField path="onClick" type="(event: React.MouseEvent) => void">
+  Callback fired when the filter is clicked
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="filter-chip-trigger"`
+- `data-size`: Current size (`xs`, `s`, `m`)
+- `data-active`: Present when a value is set
+- `data-disabled`: Present when disabled
+
+### Keyboard Interactions
+
+- `Enter` / `Space` - Activates the filter (triggers onClick)
+- `Backspace` / `Delete` - Clears the filter value (when value is set and onClear is provided)
+- Focus on clear button + `Enter` / `Space` - Clears the value
+
+## Examples
+
+### Basic Filter
+
+```jsx
+<Filter label="Category" onClick={() => console.log('Filter clicked')} />
+```
+
+### With Icon
+
+```jsx
+import { RiFilterLine } from "@soft-ui/icons"
+
+<Filter
+  icon={<RiFilterLine />}
+  label="Status"
+  onClick={() => setOpen(true)}
+/>
+```
+
+### Active State with Value
+
+```jsx
+<Filter
+  label="Priority"
+  value="High"
+  onClear={() => setPriority(null)}
+  onClick={() => setOpen(true)}
+/>
+```
+
+### Different Sizes
+
+```jsx
+<div className="flex gap-2">
+  <Filter size="xs" label="Small" />
+  <Filter size="s" label="Medium" />
+  <Filter size="m" label="Large" />
+</div>
+```
+
+### Controlled Filter with Popover
+
+```jsx
+import { Popover } from "@soft-ui/react/popover"
+import { RiFilterLine } from "@soft-ui/icons"
+
+const [status, setStatus] = React.useState("")
+const [open, setOpen] = React.useState(false)
+
+return (
+  <Popover.Root open={open} onOpenChange={setOpen}>
+    <Popover.Trigger asChild>
+      <Filter
+        icon={<RiFilterLine />}
+        label="Status"
+        value={status}
+        onClear={() => setStatus("")}
+      />
+    </Popover.Trigger>
+    <Popover.Content>
+      <button onClick={() => { setStatus("Active"); setOpen(false) }}>
+        Active
+      </button>
+      <button onClick={() => { setStatus("Inactive"); setOpen(false) }}>
+        Inactive
+      </button>
+    </Popover.Content>
+  </Popover.Root>
+)
+```
+
+### Filter Group
+
+```jsx
+import { RiFilterLine, RiCalendarLine, RiUserLine } from "@soft-ui/icons"
+
+const [filters, setFilters] = React.useState({
+  status: "",
+  date: "",
+  assignee: "",
+})
+
+return (
+  <div className="flex gap-2">
+    <Filter
+      icon={<RiFilterLine />}
+      label="Status"
+      value={filters.status}
+      onClear={() => setFilters((prev) => ({ ...prev, status: "" }))}
+    />
+    <Filter
+      icon={<RiCalendarLine />}
+      label="Date"
+      value={filters.date}
+      onClear={() => setFilters((prev) => ({ ...prev, date: "" }))}
+    />
+    <Filter
+      icon={<RiUserLine />}
+      label="Assignee"
+      value={filters.assignee}
+      onClear={() => setFilters((prev) => ({ ...prev, assignee: "" }))}
+    />
+  </div>
+)
+```
+
+### Disabled State
+
+```jsx
+<Filter
+  label="Category"
+  value="Technology"
+  disabled
+  onClear={() => {}}
+/>
+```

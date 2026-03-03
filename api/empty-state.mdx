@@ -1,0 +1,146 @@
+---
+title: Empty State
+description: API reference for the Empty State component
+---
+
+# Empty State
+
+Displays a message when there is no content to show.
+
+## Anatomy
+
+```tsx
+<EmptyState.Root filled>
+  <EmptyState.Icon>
+    <SearchIcon />
+  </EmptyState.Icon>
+  <EmptyState.Content>
+    <EmptyState.Title>No results found</EmptyState.Title>
+    <EmptyState.Description>Try adjusting your search</EmptyState.Description>
+  </EmptyState.Content>
+  <EmptyState.Actions>
+    <EmptyState.Action>Clear filters</EmptyState.Action>
+  </EmptyState.Actions>
+</EmptyState.Root>
+```
+
+## Components
+
+### EmptyState.Root
+
+The root container for the empty state.
+
+<ParamField path="filled" type="boolean" default="false">
+  Whether to show a filled background
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### EmptyState.Icon
+
+Icon that visually represents the empty state.
+
+<ParamField path="children" type="ReactNode">
+  Custom icon element. Defaults to search icon if not provided.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### EmptyState.Content
+
+Container that groups title and description.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### EmptyState.Title
+
+The main heading text.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### EmptyState.Description
+
+Supporting description text.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### EmptyState.Actions
+
+Container for action buttons.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### EmptyState.Action
+
+Action button (tertiary variant, s size).
+
+<ParamField path="variant" type="string" default="tertiary">
+  Button variant (inherited from Button component)
+</ParamField>
+
+<ParamField path="size" type="string" default="s">
+  Button size (inherited from Button component)
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+## Usage
+
+### Basic Empty State
+
+Minimal empty state without background.
+
+```tsx
+<EmptyState.Root>
+  <EmptyState.Icon />
+  <EmptyState.Content>
+    <EmptyState.Title>No items</EmptyState.Title>
+  </EmptyState.Content>
+</EmptyState.Root>
+```
+
+### Filled Empty State
+
+Empty state with background for emphasis.
+
+```tsx
+<EmptyState.Root filled>
+  <EmptyState.Icon />
+  <EmptyState.Content>
+    <EmptyState.Title>No items</EmptyState.Title>
+    <EmptyState.Description>Get started by creating your first item</EmptyState.Description>
+  </EmptyState.Content>
+  <EmptyState.Actions>
+    <EmptyState.Action>Create item</EmptyState.Action>
+  </EmptyState.Actions>
+</EmptyState.Root>
+```
+
+### Custom Icon
+
+Provide your own icon element.
+
+```tsx
+<EmptyState.Root>
+  <EmptyState.Icon>
+    <CustomIcon />
+  </EmptyState.Icon>
+  <EmptyState.Content>
+    <EmptyState.Title>No data available</EmptyState.Title>
+  </EmptyState.Content>
+</EmptyState.Root>
+```

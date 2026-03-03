@@ -1,0 +1,155 @@
+---
+title: Checkbox
+description: API reference for the Checkbox component
+---
+
+# Checkbox
+
+A checkbox control with optional label and description, built on Base UI's Field primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/field`](https://base-ui.com/react/components/field) wrapping a checkbox control
+
+## Import
+
+```tsx
+import { Checkbox } from "@soft-ui/react/checkbox"
+```
+
+## Usage
+
+```tsx
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+export default function Example() {
+  return (
+    <Checkbox 
+      label="Accept terms"
+      description="By checking this box, you agree to our terms and conditions"
+    />
+  )
+}
+```
+
+## Props
+
+<ParamField path="label" type="React.ReactNode">
+  Label text displayed next to the checkbox.
+</ParamField>
+
+<ParamField path="description" type="React.ReactNode">
+  Description text displayed below the label.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the checkbox and applies disabled styles.
+</ParamField>
+
+<ParamField path="checked" type="boolean">
+  Controlled checked state.
+</ParamField>
+
+<ParamField path="defaultChecked" type="boolean">
+  Uncontrolled default checked state.
+</ParamField>
+
+<ParamField path="indeterminate" type="boolean">
+  Shows indeterminate state (mixed/partial selection).
+</ParamField>
+
+<ParamField path="onCheckedChange" type="(checked: boolean) => void">
+  Callback fired when checked state changes.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="value" type="string">
+  Value attribute for form submission.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the control.
+</ParamField>
+
+<ParamField path="containerClassName" type="string">
+  Additional CSS classes for the container (when label/description is present).
+</ParamField>
+
+## Examples
+
+### Basic
+
+```tsx
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+export default function Basic() {
+  return <Checkbox label="Accept terms" />
+}
+```
+
+### With Description
+
+```tsx
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+export default function WithDescription() {
+  return (
+    <Checkbox 
+      label="Marketing emails"
+      description="Receive updates about new features and promotions"
+    />
+  )
+}
+```
+
+### Controlled
+
+```tsx
+import { Checkbox } from "@soft-ui/react/checkbox"
+import { useState } from "react"
+
+export default function Controlled() {
+  const [checked, setChecked] = useState(false)
+  
+  return (
+    <Checkbox 
+      label="Controlled checkbox"
+      checked={checked}
+      onCheckedChange={setChecked}
+    />
+  )
+}
+```
+
+### Indeterminate
+
+```tsx
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+export default function Indeterminate() {
+  return (
+    <Checkbox 
+      label="Select all"
+      indeterminate
+    />
+  )
+}
+```
+
+### Disabled
+
+```tsx
+import { Checkbox } from "@soft-ui/react/checkbox"
+
+export default function Disabled() {
+  return (
+    <Checkbox 
+      label="Disabled checkbox"
+      disabled
+    />
+  )
+}
+```

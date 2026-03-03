@@ -1,0 +1,306 @@
+---
+title: ToggleButton
+description: Toggle button with icon morphing and label animations for on/off states.
+---
+
+# ToggleButton
+
+A toggle button component that supports pressed/unpressed states with optional icon morphing and label animations.
+
+## Import
+
+```tsx
+import { ToggleButton } from "@soft-ui/react/toggle-button"
+```
+
+## Props
+
+<ParamField path="icon" type="React.ReactNode" required>
+  Icon to display when not pressed.
+</ParamField>
+
+<ParamField path="pressedIcon" type="React.ReactNode">
+  Icon to display when pressed. Falls back to `icon` if not provided.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode">
+  Label to display when not pressed.
+</ParamField>
+
+<ParamField path="pressedChildren" type="React.ReactNode">
+  Label to display when pressed. Falls back to `children` if not provided.
+</ParamField>
+
+<ParamField path="variant" type="string" default="tertiary">
+  The visual style variant.
+  
+  **Options:**
+  - `tertiary` - Glass-like appearance with shadow and blur (default)
+  - `ghost` - Transparent background, visible on hover
+  - `secondary` - Subtle gray background
+</ParamField>
+
+<ParamField path="size" type="string" default="m">
+  The size of the button.
+  
+  **Options:**
+  - `xs` - 28px height/width (var(--space-28))
+  - `s` - 32px height/width (var(--space-32))
+  - `m` - 36px height/width (var(--space-36))
+  - `l` - 40px height/width (var(--space-40))
+</ParamField>
+
+<ParamField path="pressedTone" type="string">
+  Color tone applied when pressed.
+  
+  **Feedback tones:**
+  - `default`, `info`, `warning`, `danger`, `success`
+  
+  **Decorative tones:**
+  - `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`
+  - `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`
+  - `fuchsia`, `pink`, `rose`
+</ParamField>
+
+<ParamField path="morph" type="boolean" default={false}>
+  Enable morphing animation between icons (blur, scale, y-position). When false, uses a smooth fade transition.
+</ParamField>
+
+<ParamField path="pressed" type="boolean">
+  Controlled pressed state. When provided, the component becomes controlled.
+</ParamField>
+
+<ParamField path="defaultPressed" type="boolean">
+  Default pressed state for uncontrolled usage.
+</ParamField>
+
+<ParamField path="onPressedChange" type="(pressed: boolean, eventDetails: object) => void">
+  Callback fired when the pressed state changes.
+</ParamField>
+
+<ParamField path="labelWidth" type="number">
+  Fixed width in pixels for label animation (unpressed state). Enables smooth width transitions.
+</ParamField>
+
+<ParamField path="pressedLabelWidth" type="number">
+  Fixed width in pixels for label animation (pressed state).
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  When true, disables interaction and applies disabled styling.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+## Usage
+
+### Icon-Only Toggle
+
+```tsx
+import { HeartIcon, HeartFilledIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  icon={<HeartIcon />}
+  pressedIcon={<HeartFilledIcon />}
+  aria-label="Like"
+/>
+```
+
+### With Label
+
+```tsx
+import { BookmarkIcon, BookmarkFilledIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  icon={<BookmarkIcon />}
+  pressedIcon={<BookmarkFilledIcon />}
+>
+  Save
+</ToggleButton>
+```
+
+### Variants
+
+```tsx
+import { StarIcon, StarFilledIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  variant="tertiary"
+  icon={<StarIcon />}
+  pressedIcon={<StarFilledIcon />}
+  aria-label="Favorite"
+/>
+<ToggleButton
+  variant="ghost"
+  icon={<StarIcon />}
+  pressedIcon={<StarFilledIcon />}
+  aria-label="Favorite"
+/>
+<ToggleButton
+  variant="secondary"
+  icon={<StarIcon />}
+  pressedIcon={<StarFilledIcon />}
+  aria-label="Favorite"
+/>
+```
+
+### Sizes
+
+```tsx
+import { BellIcon } from "@soft-ui/icons"
+
+<ToggleButton size="xs" icon={<BellIcon />} aria-label="Notifications" />
+<ToggleButton size="s" icon={<BellIcon />} aria-label="Notifications" />
+<ToggleButton size="m" icon={<BellIcon />} aria-label="Notifications" />
+<ToggleButton size="l" icon={<BellIcon />} aria-label="Notifications" />
+```
+
+### With Pressed Tone
+
+```tsx
+import { HeartIcon, HeartFilledIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  icon={<HeartIcon />}
+  pressedIcon={<HeartFilledIcon />}
+  pressedTone="danger"
+  aria-label="Like"
+/>
+```
+
+### Icon Morph Animation
+
+```tsx
+import { SunIcon, MoonIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  icon={<SunIcon />}
+  pressedIcon={<MoonIcon />}
+  morph
+  aria-label="Toggle theme"
+/>
+```
+
+### Changing Labels
+
+```tsx
+import { BookmarkIcon, BookmarkFilledIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  icon={<BookmarkIcon />}
+  pressedIcon={<BookmarkFilledIcon />}
+  pressedChildren="Saved"
+>
+  Save
+</ToggleButton>
+```
+
+### Animated Label Width
+
+```tsx
+import { BookmarkIcon, BookmarkFilledIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  icon={<BookmarkIcon />}
+  pressedIcon={<BookmarkFilledIcon />}
+  labelWidth={40}
+  pressedLabelWidth={55}
+  pressedChildren="Saved"
+>
+  Save
+</ToggleButton>
+```
+
+### Controlled Toggle
+
+```tsx
+import { useState } from "react"
+import { MicIcon, MicOffIcon } from "@soft-ui/icons"
+
+function AudioControls() {
+  const [muted, setMuted] = useState(false)
+  
+  return (
+    <ToggleButton
+      icon={<MicIcon />}
+      pressedIcon={<MicOffIcon />}
+      pressed={muted}
+      onPressedChange={setMuted}
+      aria-label="Toggle mute"
+    />
+  )
+}
+```
+
+### Uncontrolled with Default
+
+```tsx
+import { StarIcon, StarFilledIcon } from "@soft-ui/icons"
+
+<ToggleButton
+  icon={<StarIcon />}
+  pressedIcon={<StarFilledIcon />}
+  defaultPressed={true}
+  aria-label="Favorite"
+/>
+```
+
+## Animation
+
+ToggleButton includes two animation modes:
+
+### Fade Mode (default)
+
+Smooth opacity transition between icons:
+- Duration: 150ms
+- Easing: ease-out
+- No morphing effects
+
+### Morph Mode
+
+Dynamic icon transformation with:
+- Y-axis translation: 8px
+- Scale: 0.5 to 1.0
+- Blur: 0 to 8px
+- Spring animation: bounce 0.2, duration 250ms
+
+Label animations use spring physics (bounce 0.15, duration 250ms) when `labelWidth` is provided.
+
+All animations respect `prefers-reduced-motion` and become instant transitions.
+
+## Accessibility
+
+- Built on Base UI's `Toggle` primitive with ARIA support
+- When using icon-only, always provide `aria-label`
+- Focus ring uses utility-focus-inner and utility-focus-outer
+- Active state includes subtle scale animation (0.98)
+- Pressed state is communicated via `aria-pressed` attribute
+- Disabled state uses `cursor-not-allowed` and reduced opacity
+
+## Design Tokens
+
+The ToggleButton component uses the following design tokens:
+
+**Colors:**
+- `actions-tertiary-default`, `actions-tertiary-hover`, `actions-tertiary-disabled`
+- `actions-secondary-default`, `actions-secondary-hover`, `actions-secondary-disabled`
+- `content-strong`, `content-subtle`, `content-disabled`
+
+**Spacing:**
+- Heights/widths: `space-28`, `space-32`, `space-36`, `space-40`
+- Horizontal padding: `space-10`, `space-12`, `space-16`
+- Gap between elements: `space-2`, `space-4`
+- Icon sizes: `space-16`, `space-18`
+- Label padding: `space-4`, `space-6`
+
+**Other:**
+- Border radius: `radius-max`
+- Font weight: `font-weight-medium`
+- Focus ring: `utility-focus-inner`, `utility-focus-outer`
+- Shadows (tertiary): `utility-shadow-l1`, `utility-shadow-l2`, `utility-shadow-l3`

@@ -1,0 +1,106 @@
+---
+title: Icon Button
+description: Compact buttons designed for icon-only actions.
+---
+
+Icon buttons display an icon without accompanying text, ideal for toolbars, compact interfaces, and actions where space is limited.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Icon Button
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiSettings4Fill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <IconButton aria-label="Settings">
+      <RiSettings4Fill />
+    </IconButton>
+  )
+}
+```
+</CodeGroup>
+
+<Tip>
+Always provide an `aria-label` for icon buttons to ensure accessibility.
+</Tip>
+
+## Variants
+
+Icon buttons support several variants:
+
+- **secondary** - Default, medium emphasis (default)
+- **primary** - High emphasis with accent background
+- **tertiary** - Low emphasis with subtle shadow
+- **ghost** - Minimal background, reveals on hover
+- **icon** - Accent-colored icon style
+- **plain** - Minimal with no background
+- **danger** - For destructive actions
+
+<CodeGroup>
+```tsx Variants
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiDeleteBinFill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <>
+      <IconButton variant="primary"><RiDeleteBinFill /></IconButton>
+      <IconButton variant="secondary"><RiDeleteBinFill /></IconButton>
+      <IconButton variant="ghost"><RiDeleteBinFill /></IconButton>
+      <IconButton variant="danger"><RiDeleteBinFill /></IconButton>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Sizes
+
+Six sizes from `3xs` to `l` allow precise control:
+
+<CodeGroup>
+```tsx Sizes
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiStarFill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <>
+      <IconButton size="3xs"><RiStarFill /></IconButton>
+      <IconButton size="2xs"><RiStarFill /></IconButton>
+      <IconButton size="xs"><RiStarFill /></IconButton>
+      <IconButton size="s"><RiStarFill /></IconButton>
+      <IconButton size="m"><RiStarFill /></IconButton>
+      <IconButton size="l"><RiStarFill /></IconButton>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Color Tones
+
+Like Button, IconButton supports `tone` for feedback and decorative colors:
+
+<CodeGroup>
+```tsx Tones
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiCheckFill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <>
+      <IconButton tone="success"><RiCheckFill /></IconButton>
+      <IconButton tone="warning"><RiCheckFill /></IconButton>
+      <IconButton tone="info"><RiCheckFill /></IconButton>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## API Reference
+
+For complete prop documentation, see the [IconButton API reference](/api/icon-button).

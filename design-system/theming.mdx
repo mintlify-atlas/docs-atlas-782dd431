@@ -1,0 +1,406 @@
+---
+title: Theming System
+description: How to customize colors and switch themes in Soft UI using data attributes.
+---
+
+Soft UI's theming system is built on CSS variables and data attributes, allowing live theme switching without page reload.
+
+## Theme Attributes
+
+Themes are controlled by four HTML data attributes:
+
+```html
+<html 
+  data-mode="light" 
+  data-scheme="mono" 
+  data-theme-color="blue" 
+  data-base-color="neutral"
+>
+```
+
+### `data-mode`
+
+Controls light/dark mode:
+
+- `light`: Light mode
+- `dark`: Dark mode
+
+```tsx
+document.documentElement.dataset.mode = 'dark';
+```
+
+<Note>
+Mode affects semantic tokens like `--color-surface-page` and `--color-content-strong`, adapting them for optimal contrast.
+</Note>
+
+### `data-scheme`
+
+Controls whether primary actions use neutral or theme colors:
+
+- `mono`: Primary actions use neutral colors (grayscale)
+- `color`: Primary actions use theme colors
+
+```tsx
+document.documentElement.dataset.scheme = 'color';
+```
+
+**Mono scheme:**
+```css
+/* Primary button uses base colors */
+--actions-primary-default: var(--base-800);
+--actions-primary-hover: var(--base-900);
+```
+
+**Color scheme:**
+```css
+/* Primary button uses theme colors */
+--actions-primary-default: var(--theme-600);
+--actions-primary-hover: var(--theme-700);
+```
+
+<Tip>
+Use `mono` for professional/enterprise interfaces, `color` for consumer/creative products.
+</Tip>
+
+### `data-theme-color`
+
+Sets the accent color palette:
+
+**Available colors:** red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue (default), indigo, violet, purple, fuchsia, pink, rose, mauve, mist, olive, taupe
+
+```tsx
+document.documentElement.dataset.themeColor = 'violet';
+```
+
+This remaps all `--theme-*` variables to the selected palette:
+
+```css
+html[data-theme-color="violet"] {
+  --theme-50: var(--violet-50);
+  --theme-100: var(--violet-100);
+  --theme-200: var(--violet-200);
+  /* ... through --theme-950 */
+}
+```
+
+### `data-base-color`
+
+Sets the neutral/grayscale palette:
+
+**Available colors:** neutral (default), slate, gray, zinc, stone, mauve, mist, olive, taupe
+
+```tsx
+document.documentElement.dataset.baseColor = 'slate';
+```
+
+This remaps all `--base-*` variables:
+
+```css
+html[data-base-color="slate"] {
+  --base-50: var(--slate-50);
+  --base-100: var(--slate-100);
+  /* ... through --base-950 */
+}
+```
+
+<Info>
+Neutral grays (mauve, mist, olive, taupe) are custom palettes designed for Soft UI with subtle tints.
+</Info>
+
+## Theme Initialization
+
+Use `createThemeInitScript` from `@soft-ui/tokens` to prevent flash of unstyled content:
+
+```tsx
+import { createThemeInitScript } from '@soft-ui/tokens';
+
+export default function RootLayout({ children }) {
+  return (
+    <html suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: createThemeInitScript({
+              defaults: {
+                defaultMode: 'light',
+                defaultScheme: 'mono',
+                defaultThemeColor: 'blue',
+                defaultBaseColor: 'neutral',
+              },
+              storageKeys: {
+                mode: 'ds-mode',
+                scheme: 'ds-scheme',
+                theme: 'ds-theme-color',
+                base: 'ds-base-color',
+              },
+            }),
+          }}
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+<Note>
+The init script runs before React hydration, reading values from `localStorage` and applying them immediately.
+</Note>
+
+## Persisting Theme State
+
+Theme preferences are stored in `localStorage` with configurable keys:
+
+```ts
+const storageKeys = {
+  mode: 'ds-mode',           // light | dark
+  scheme: 'ds-scheme',       // mono | color
+  theme: 'ds-theme-color',   // blue | violet | etc.
+  base: 'ds-base-color',     // neutral | slate | etc.
+};
+```
+
+The init script:
+1. Reads stored values from `localStorage`
+2. Falls back to defaults if not found
+3. Respects system preference for mode (if no override)
+4. Applies values to `data-*` attributes
+
+## System Preference Detection
+
+The init script detects system dark mode preference:
+
+```js
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+```
+
+If no mode override is stored, it follows system preference and updates automatically when system preference changes.
+
+## Theme Switching
+
+### Manual Switching
+
+```tsx
+function toggleMode() {
+  const html = document.documentElement;
+  const newMode = html.dataset.mode === 'light' ? 'dark' : 'light';
+  html.dataset.mode = newMode;
+  localStorage.setItem('ds-mode', newMode);
+}
+
+function toggleScheme() {
+  const html = document.documentElement;
+  const newScheme = html.dataset.scheme === 'mono' ? 'color' : 'mono';
+  html.dataset.scheme = newScheme;
+  localStorage.setItem('ds-scheme', newScheme);
+}
+
+function setThemeColor(color: string) {
+  document.documentElement.dataset.themeColor = color;
+  localStorage.setItem('ds-theme-color', color);
+}
+
+function setBaseColor(color: string) {
+  document.documentElement.dataset.baseColor = color;
+  localStorage.setItem('ds-base-color', color);
+}
+```
+
+### React Hook Example
+
+```tsx
+import { useEffect, useState } from 'react';
+
+type Mode = 'light' | 'dark';
+type Scheme = 'mono' | 'color';
+
+export function useTheme() {
+  const [mode, setModeState] = useState<Mode>('light');
+  const [scheme, setSchemeState] = useState<Scheme>('mono');
+
+  useEffect(() => {
+    const html = document.documentElement;
+    setModeState(html.dataset.mode as Mode);
+    setSchemeState(html.dataset.scheme as Scheme);
+  }, []);
+
+  const setMode = (newMode: Mode) => {
+    document.documentElement.dataset.mode = newMode;
+    localStorage.setItem('ds-mode', newMode);
+    setModeState(newMode);
+  };
+
+  const setScheme = (newScheme: Scheme) => {
+    document.documentElement.dataset.scheme = newScheme;
+    localStorage.setItem('ds-scheme', newScheme);
+    setSchemeState(newScheme);
+  };
+
+  return { mode, setMode, scheme, setScheme };
+}
+```
+
+## Theme Combinations
+
+### Common Configurations
+
+**Professional/Enterprise:**
+```tsx
+data-mode="light"
+data-scheme="mono"
+data-theme-color="blue"
+data-base-color="neutral"
+```
+
+**Creative/Consumer:**
+```tsx
+data-mode="light"
+data-scheme="color"
+data-theme-color="violet"
+data-base-color="mauve"
+```
+
+**Developer Tools:**
+```tsx
+data-mode="dark"
+data-scheme="color"
+data-theme-color="cyan"
+data-base-color="slate"
+```
+
+**Warm & Friendly:**
+```tsx
+data-mode="light"
+data-scheme="color"
+data-theme-color="amber"
+data-base-color="taupe"
+```
+
+## How Tokens Adapt
+
+### Surface Colors
+
+**Light mode:**
+```css
+--surface-page: var(--pure-white);
+--surface-canvas: var(--base-50);
+--surface-overlay: var(--pure-white);
+```
+
+**Dark mode:**
+```css
+--surface-page: var(--base-900);
+--surface-canvas: var(--darken-16);
+--surface-overlay: var(--base-800);
+```
+
+### Content Colors
+
+**Light mode:**
+```css
+--content-strong: var(--base-800);
+--content-subtle: var(--base-500);
+--content-muted: var(--base-400);
+```
+
+**Dark mode:**
+```css
+--content-strong: var(--base-200);
+--content-subtle: var(--base-400);
+--content-muted: var(--base-500);
+```
+
+### Action Colors (Scheme-Dependent)
+
+**Mono scheme (light):**
+```css
+--actions-primary-default: var(--base-800);
+--actions-primary-hover: var(--base-900);
+```
+
+**Color scheme (light):**
+```css
+--actions-primary-default: var(--theme-600);
+--actions-primary-hover: var(--theme-700);
+```
+
+**Mono scheme (dark):**
+```css
+--actions-primary-default: var(--base-200);
+--actions-primary-hover: var(--base-100);
+```
+
+**Color scheme (dark):**
+```css
+--actions-primary-default: var(--theme-500);
+--actions-primary-hover: var(--theme-400);
+```
+
+## Danger Color Handling
+
+When theme color is set to `rose`, danger actions switch to `red` to maintain distinction:
+
+```css
+html[data-theme-color="rose"] {
+  --danger-50: var(--red-50);
+  --danger-100: var(--red-100);
+  /* ... through --danger-950 */
+}
+```
+
+Otherwise, danger uses rose:
+
+```css
+--danger-50: var(--rose-50);
+--danger-100: var(--rose-100);
+/* ... */
+```
+
+## Best Practices
+
+<Tip>
+**Do:**
+- Use semantic tokens (`--color-surface-page`) instead of raw palette tokens (`--blue-500`)
+- Test both light and dark modes
+- Test both mono and color schemes
+- Provide theme controls in settings/preferences
+</Tip>
+
+<Info>
+**Don't:**
+- Hardcode colors (use tokens)
+- Assume a specific theme color is set
+- Forget to persist theme state to localStorage
+- Skip the init script (causes flash of unstyled content)
+</Info>
+
+## Extending the Theme
+
+To add a custom theme color:
+
+1. Define the palette in `tokens.css`:
+
+```css
+--custom-50: 250 245 255;
+--custom-100: 243 232 255;
+/* ... through --custom-950 */
+```
+
+2. Add a theme mapping:
+
+```css
+html[data-theme-color="custom"] {
+  --theme-50: var(--custom-50);
+  --theme-100: var(--custom-100);
+  /* ... through --theme-950 */
+}
+```
+
+3. Update TypeScript types in `theme.ts`:
+
+```ts
+export const themeColors = [
+  // existing colors...
+  "custom",
+] as const;
+```

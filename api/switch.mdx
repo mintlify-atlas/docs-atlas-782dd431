@@ -1,0 +1,160 @@
+---
+title: Switch
+description: API reference for the Switch component
+---
+
+# Switch
+
+A toggle switch control with optional label and description, built on Base UI's Field primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/field`](https://base-ui.com/react/components/field) wrapping a switch control
+
+## Import
+
+```tsx
+import { Switch } from "@soft-ui/react/switch"
+```
+
+## Usage
+
+```tsx
+import { Switch } from "@soft-ui/react/switch"
+
+export default function Example() {
+  return (
+    <Switch 
+      label="Enable notifications"
+      description="Receive email notifications about updates"
+    />
+  )
+}
+```
+
+## Props
+
+<ParamField path="label" type="React.ReactNode">
+  Label text displayed next to the switch.
+</ParamField>
+
+<ParamField path="description" type="React.ReactNode">
+  Description text displayed below the label.
+</ParamField>
+
+<ParamField path="position" type="'left' | 'right'" default="'right'">
+  Position of the label relative to the switch.
+  - `left`: Label on the left, switch on the right
+  - `right`: Switch on the left, label on the right
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the switch and applies disabled styles.
+</ParamField>
+
+<ParamField path="checked" type="boolean">
+  Controlled checked state.
+</ParamField>
+
+<ParamField path="defaultChecked" type="boolean">
+  Uncontrolled default checked state.
+</ParamField>
+
+<ParamField path="onCheckedChange" type="(checked: boolean) => void">
+  Callback fired when checked state changes.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="value" type="string">
+  Value attribute for form submission.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the control.
+</ParamField>
+
+<ParamField path="containerClassName" type="string">
+  Additional CSS classes for the container (when label/description is present).
+</ParamField>
+
+## Examples
+
+### Basic
+
+```tsx
+import { Switch } from "@soft-ui/react/switch"
+
+export default function Basic() {
+  return <Switch label="Enable notifications" />
+}
+```
+
+### With Description
+
+```tsx
+import { Switch } from "@soft-ui/react/switch"
+
+export default function WithDescription() {
+  return (
+    <Switch 
+      label="Marketing emails"
+      description="Receive updates about new features and promotions"
+    />
+  )
+}
+```
+
+### Label Position
+
+```tsx
+import { Switch } from "@soft-ui/react/switch"
+
+export default function LabelPosition() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Switch label="Label on right (default)" position="right" />
+      <Switch label="Label on left" position="left" />
+    </div>
+  )
+}
+```
+
+### Controlled
+
+```tsx
+import { Switch } from "@soft-ui/react/switch"
+import { useState } from "react"
+
+export default function Controlled() {
+  const [enabled, setEnabled] = useState(false)
+  
+  return (
+    <div className="flex flex-col gap-4">
+      <Switch 
+        label="Controlled switch"
+        checked={enabled}
+        onCheckedChange={setEnabled}
+      />
+      <p>Status: {enabled ? "On" : "Off"}</p>
+    </div>
+  )
+}
+```
+
+### Disabled
+
+```tsx
+import { Switch } from "@soft-ui/react/switch"
+
+export default function Disabled() {
+  return (
+    <Switch 
+      label="Disabled switch"
+      disabled
+    />
+  )
+}
+```

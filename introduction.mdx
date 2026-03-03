@@ -1,0 +1,121 @@
+---
+title: Introduction
+description: A package-first design system for React/Next.js prototyping built on Base UI primitives
+---
+
+# Welcome to Soft UI
+
+Soft UI is a comprehensive design system for React and Next.js applications, providing 70+ production-ready components built on Base UI primitives with Tailwind v4.
+
+<CardGroup cols={2}>
+  <Card title="70+ Components" icon="grid-2">
+    From buttons to complex data tables, dialogs, menus, forms, and navigation components
+  </Card>
+  <Card title="Base UI Primitives" icon="cube">
+    Built on top of Base UI for accessibility and behavior
+  </Card>
+  <Card title="Design Tokens" icon="palette">
+    Theme-aware color system with live theme and base color switching
+  </Card>
+  <Card title="TypeScript First" icon="code">
+    Fully typed components with IntelliSense support
+  </Card>
+  <Card title="Tailwind v4" icon="sparkles">
+    Powered by the latest Tailwind CSS for modern styling
+  </Card>
+  <Card title="Subpath Imports" icon="package">
+    Import only what you need with component-level subpaths
+  </Card>
+</CardGroup>
+
+## Architecture
+
+Soft UI is a monorepo with three core packages:
+
+- **@soft-ui/tokens** - Design tokens, CSS entrypoints, and theme initialization
+- **@soft-ui/icons** - Swappable icon adapter with Remix Icons as default implementation
+- **@soft-ui/react** - 70+ UI components with subpath imports
+
+### Design System Features
+
+<Steps>
+  <Step title="Token-Driven Design">
+    Colors, spacing, typography, and border radii are all controlled by design tokens that map to Tailwind scales
+  </Step>
+  <Step title="Live Theme Switching">
+    Switch between 21 theme colors and 9 base colors using `data-theme-color` and `data-base-color` attributes
+  </Step>
+  <Step title="Color Schemes">
+    Toggle between `mono` (neutral primary actions) and `color` (themed primary actions) schemes
+  </Step>
+  <Step title="Light & Dark Modes">
+    Built-in support for light and dark modes with automatic system preference detection
+  </Step>
+</Steps>
+
+## Typography
+
+Soft UI uses **Inter Variable** font with carefully chosen type scales:
+
+| Size | Font Size | Line Height |
+|------|-----------|-------------|
+| xs   | 10px      | 10px        |
+| s    | 12px      | 16px        |
+| m    | 14px      | 20px        |
+| l    | 16px      | 22px        |
+| xl   | 18px      | 24px        |
+| 2xl  | 20px      | 28px        |
+| 3xl  | 24px      | 32px        |
+
+**Font weights**: default (400), medium (480), semibold (550)
+
+## Component Highlights
+
+Soft UI includes components for every use case:
+
+<CardGroup cols={3}>
+  <Card title="Buttons">
+    Button, IconButton, ToggleButton, ButtonGroup
+  </Card>
+  <Card title="Forms">
+    Input, Textarea, Select, Checkbox, Radio, Switch, Slider, NumberField, FileUpload
+  </Card>
+  <Card title="Navigation">
+    Menu, Tabs, Breadcrumbs, Pagination, CommandPalette
+  </Card>
+  <Card title="Overlays">
+    Dialog, Popover, Tooltip, ContextMenu, AlertDialog
+  </Card>
+  <Card title="Data Display">
+    Table, Avatar, AvatarGroup, Badge, Chip, Meter, Progress
+  </Card>
+  <Card title="Feedback">
+    Toast, Banner, InlineNotification, EmptyState
+  </Card>
+</CardGroup>
+
+## Why Soft UI?
+
+<Info>
+Soft UI takes the best parts of shadcn/ui's component philosophy and combines it with Base UI's accessible primitives, creating a cohesive design system that's both beautiful and functional.
+</Info>
+
+**Key advantages:**
+
+- **Package-first approach** - Install via npm, not copy-paste
+- **Base UI primitives** - Accessibility and behavior handled for you
+- **Design tokens** - Consistent theming across your entire application
+- **Subpath imports** - Tree-shakeable imports for optimal bundle size
+- **TypeScript** - Full type safety out of the box
+- **Tailwind v4** - Modern CSS with future-proof tooling
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Set up Soft UI in your React or Next.js project
+  </Card>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Build your first component in minutes
+  </Card>
+</CardGroup>

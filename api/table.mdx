@@ -1,0 +1,373 @@
+---
+title: Table
+description: Display structured data in rows and columns with sorting, selection, and specialized cell types
+---
+
+<ComponentPreview name="table-preview" />
+
+## Installation
+
+<Tabs items={['CLI', 'Manual']}>
+  <Tab value="CLI">
+    ```bash
+    npx @soft-ui/cli add table
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step title="Install dependencies">
+        ```bash
+        npm install @soft-ui/icons
+        ```
+      </Step>
+      <Step title="Copy component source">
+        Copy the table component from `packages/react/src/components/table.tsx` and related dependencies.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Table } from '@soft-ui/react/table'
+
+export default function Example() {
+  return (
+    <Table.Root size="m">
+      <Table.Header>
+        <Table.Row isHeader>
+          <Table.Head>Name</Table.Head>
+          <Table.Head>Status</Table.Head>
+          <Table.Head>Role</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>John Doe</Table.Cell>
+          <Table.Cell>Active</Table.Cell>
+          <Table.Cell>Admin</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table.Root>
+  )
+}
+```
+
+## Examples
+
+### Sizes
+
+Four sizes available: `s`, `m` (default), `l`, `xl`.
+
+<ComponentPreview name="table-sizes" />
+
+```tsx
+<Table.Root size="s">...</Table.Root>
+<Table.Root size="m">...</Table.Root>
+<Table.Root size="l">...</Table.Root>
+<Table.Root size="xl">...</Table.Root>
+```
+
+### Sortable Columns
+
+Add sorting with `sortDirection` and `onSort` props.
+
+<ComponentPreview name="table-sorting" />
+
+```tsx
+const [sortColumn, setSortColumn] = useState<string | null>(null)
+const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | null>(null)
+
+const handleSort = (column: string) => {
+  if (sortColumn === column) {
+    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+  } else {
+    setSortColumn(column)
+    setSortDirection('asc')
+  }
+}
+
+<Table.Head 
+  sortDirection={sortColumn === 'name' ? sortDirection : null}
+  onSort={() => handleSort('name')}
+>
+  Name
+</Table.Head>
+```
+
+### Row Selection
+
+Use `TableCheckboxCell` for selectable rows.
+
+<ComponentPreview name="table-selection" />
+
+```tsx
+const [selected, setSelected] = useState<string[]>([])
+
+<Table.Row selected={selected.includes(row.id)}>
+  <Table.CheckboxCell
+    checked={selected.includes(row.id)}
+    onCheckedChange={(checked) => {
+      setSelected(checked 
+        ? [...selected, row.id] 
+        : selected.filter(id => id !== row.id)
+      )
+    }}
+  />
+  <Table.Cell>...</Table.Cell>
+</Table.Row>
+```
+
+### Specialized Cells
+
+#### Text Cell
+
+Display text with optional prefix, suffix, and additional info.
+
+<ComponentPreview name="table-text-cell" />
+
+```tsx
+<Table.TextCell 
+  prefix={<Table.Icon><RiUserLine /></Table.Icon>}
+  additionalInfo="user@example.com"
+  emphasized
+>
+  John Doe
+</Table.TextCell>
+```
+
+#### Number Cell
+
+Right-aligned cell for numeric data with tabular nums.
+
+```tsx
+<Table.NumberCell>1,234.56</Table.NumberCell>
+```
+
+#### Badge Cell
+
+Display status badges with consistent width.
+
+```tsx
+<Table.BadgeCell variant="success" width="100px">
+  Active
+</Table.BadgeCell>
+```
+
+#### Avatar Group Cell
+
+Show multiple user avatars.
+
+```tsx
+<Table.AvatarGroupCell 
+  avatars={[
+    { src: '/avatar1.jpg', initials: 'JD' },
+    { src: '/avatar2.jpg', initials: 'AS' },
+  ]}
+  max={3}
+/>
+```
+
+#### Progress Cell
+
+Display progress indicators.
+
+```tsx
+<Table.ProgressCell value={75} tone="success" />
+```
+
+#### Actions Cell
+
+Right-aligned actions with buttons.
+
+```tsx
+<Table.ActionsCell>
+  <Button variant="link-neutral" size="xs">Edit</Button>
+  <IconButton variant="ghost" size="2xs">
+    <RiMoreLine />
+  </IconButton>
+</Table.ActionsCell>
+```
+
+### Fixed Layout
+
+Use `fixedLayout` for tables with explicit column widths.
+
+```tsx
+<Table.Root fixedLayout>
+  <Table.Header>
+    <Table.Row isHeader>
+      <Table.Head style={{ width: '40%' }}>Name</Table.Head>
+      <Table.Head style={{ width: '30%' }}>Status</Table.Head>
+      <Table.Head style={{ width: '30%' }}>Role</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  ...
+</Table.Root>
+```
+
+## API Reference
+
+### Table.Root
+
+<ParamField path="size" type="string" default="m">
+  Size of the table: `s`, `m`, `l`, `xl`. Affects row height and cell padding.
+</ParamField>
+
+<ParamField path="fixedLayout" type="boolean" default={false}>
+  Use CSS `table-layout: fixed`. Columns with explicit widths stay fixed.
+</ParamField>
+
+### Table.Header
+
+Standard `<thead>` element with consistent border styling.
+
+### Table.Body
+
+Standard `<tbody>` element.
+
+### Table.Footer
+
+Standard `<tfoot>` element with background and border.
+
+### Table.Row
+
+<ParamField path="selected" type="boolean" default={false}>
+  Highlights row with background and left border indicator.
+</ParamField>
+
+<ParamField path="isHeader" type="boolean" default={false}>
+  When `true`, disables hover effects for header rows.
+</ParamField>
+
+### Table.Head
+
+<ParamField path="sortDirection" type="'asc' | 'desc' | null">
+  Current sort direction. Shows sort icon when provided.
+</ParamField>
+
+<ParamField path="onSort" type="() => void">
+  Click handler for sorting. Makes column sortable with interactive button.
+</ParamField>
+
+<ParamField path="align" type="string" default="left">
+  Text alignment: `left`, `right`.
+</ParamField>
+
+### Table.Cell
+
+Basic table cell. Use specialized cell components for common patterns.
+
+### Table.CheckboxCell
+
+<ParamField path="checked" type="boolean">
+  Checkbox state.
+</ParamField>
+
+<ParamField path="onCheckedChange" type="(checked: boolean) => void">
+  Callback when checkbox changes.
+</ParamField>
+
+<ParamField path="indeterminate" type="boolean">
+  Show indeterminate state (for "select all" checkboxes).
+</ParamField>
+
+### Table.TextCell
+
+<ParamField path="children" type="ReactNode">
+  Primary text content.
+</ParamField>
+
+<ParamField path="additionalInfo" type="string">
+  Secondary text. Stacks below on large sizes, inline with dot separator on small.
+</ParamField>
+
+<ParamField path="prefix" type="ReactNode">
+  Icon or element before text.
+</ParamField>
+
+<ParamField path="suffix" type="ReactNode">
+  Icon or element after text.
+</ParamField>
+
+<ParamField path="emphasized" type="boolean">
+  Use medium font weight for primary text.
+</ParamField>
+
+### Table.NumberCell
+
+<ParamField path="children" type="ReactNode">
+  Numeric content. Automatically right-aligned with tabular nums.
+</ParamField>
+
+### Table.BadgeCell
+
+<ParamField path="variant" type="string" default="neutral">
+  Badge variant.
+</ParamField>
+
+<ParamField path="isEmphasized" type="boolean" default={true}>
+  Badge emphasis.
+</ParamField>
+
+<ParamField path="align" type="string" default="left">
+  Alignment: `left`, `right`.
+</ParamField>
+
+<ParamField path="width" type="string">
+  Fixed width to prevent column resizing.
+</ParamField>
+
+### Table.AvatarGroupCell
+
+<ParamField path="avatars" type="Array<{ src?: string; initials?: string }>">
+  Array of avatar data.
+</ParamField>
+
+<ParamField path="max" type="number" default={3}>
+  Maximum avatars to show before overflow.
+</ParamField>
+
+### Table.ProgressCell
+
+<ParamField path="value" type="number">
+  Progress value (0-100).
+</ParamField>
+
+<ParamField path="tone" type="string" default="default">
+  Progress tone: `default`, `success`, `warning`, `danger`.
+</ParamField>
+
+### Table.ActionsCell
+
+<ParamField path="children" type="ReactNode">
+  Action buttons or custom content. Defaults to "View" link and more menu.
+</ParamField>
+
+### Table.Icon
+
+<ParamField path="tone" type="string" default="default">
+  Icon color tone: `default`, `success`, `warning`, `danger`, `info`.
+</ParamField>
+
+### Table.Prefix
+
+Context-aware prefix component (checkbox, icon, avatar) that adapts to table size.
+
+## Accessibility
+
+- Uses semantic HTML table elements
+- Sortable columns have proper `aria-sort` attributes
+- Checkbox cells are clickable with keyboard support
+- Row selection indicated with `data-selected` attribute
+- Focus management for interactive elements
+
+## Design Tokens
+
+Table uses design tokens for consistent styling:
+
+- Spacing: `--space-*` for row heights, cell padding, gaps
+- Border radius: `--radius-4`, `--radius-8`, `--radius-max`
+- Colors: `--color-border-*`, `--color-surface-*`, `--color-content-*`, `--color-actions-primary-default` (selection indicator)
+- Typography: `--font-size-*`, `--line-height-*`, `--font-weight-medium`

@@ -1,0 +1,234 @@
+---
+title: Combobox
+description: API reference for the Combobox component
+---
+
+# Combobox
+
+A searchable dropdown with filtering, built on Base UI's Combobox primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/combobox`](https://base-ui.com/react/components/combobox)
+
+## Import
+
+```tsx
+import { Combobox } from "@soft-ui/react/combobox"
+```
+
+## Usage
+
+```tsx
+import { Combobox } from "@soft-ui/react/combobox"
+import { RiArrowDownSLine } from "@soft-ui/icons"
+
+export default function Example() {
+  return (
+    <Combobox.Root>
+      <Combobox.Input placeholder="Search..." />
+      <Combobox.Trigger>
+        <RiArrowDownSLine />
+      </Combobox.Trigger>
+      <Combobox.Portal>
+        <Combobox.Positioner>
+          <Combobox.Popup>
+            <Combobox.List>
+              <Combobox.Item value="apple">
+                Apple
+              </Combobox.Item>
+              <Combobox.Item value="banana">
+                Banana
+              </Combobox.Item>
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
+  )
+}
+```
+
+## Components
+
+### Combobox.Root
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Control size.
+  - `s`: 32px min height
+  - `m`: 36px min height
+  - `l`: 40px min height
+</ParamField>
+
+<ParamField path="variant" type="'secondary' | 'tertiary'" default="'secondary'">
+  Visual style variant.
+  - `secondary`: Solid background
+  - `tertiary`: Glass-morphic with backdrop blur
+</ParamField>
+
+<ParamField path="items" type="readonly ItemValue[]">
+  Array of items for the combobox.
+</ParamField>
+
+<ParamField path="value" type="Value">
+  Controlled value.
+</ParamField>
+
+<ParamField path="defaultValue" type="Value">
+  Uncontrolled default value.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: Value) => void">
+  Callback fired when value changes.
+</ParamField>
+
+<ParamField path="multiple" type="boolean">
+  Enable multiple selection with chips.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the combobox.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the container.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Combobox.Input
+
+<ParamField path="placeholder" type="string">
+  Placeholder text.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Combobox.Trigger
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Combobox.Clear
+
+Button to clear the current selection.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Combobox.Chips / Combobox.Chip / Combobox.ChipRemove
+
+For multiple selection mode.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Combobox.Positioner
+
+<ParamField path="sideOffset" type="number" default="4">
+  Distance from trigger.
+</ParamField>
+
+<ParamField path="collisionPadding" type="number" default="8">
+  Padding from viewport edge.
+</ParamField>
+
+### Combobox.Item
+
+<ParamField path="value" type="string">
+  Value of the item.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the item.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Combobox.Empty
+
+Displayed when no items match the filter.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+## Examples
+
+### Basic
+
+```tsx
+import { Combobox } from "@soft-ui/react/combobox"
+import { RiArrowDownSLine } from "@soft-ui/icons"
+
+export default function Basic() {
+  return (
+    <Combobox.Root>
+      <Combobox.Input placeholder="Search fruits..." />
+      <Combobox.Trigger>
+        <RiArrowDownSLine />
+      </Combobox.Trigger>
+      <Combobox.Portal>
+        <Combobox.Positioner>
+          <Combobox.Popup>
+            <Combobox.List>
+              <Combobox.Item value="apple">Apple</Combobox.Item>
+              <Combobox.Item value="banana">Banana</Combobox.Item>
+              <Combobox.Item value="cherry">Cherry</Combobox.Item>
+            </Combobox.List>
+            <Combobox.Empty>No results found</Combobox.Empty>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
+  )
+}
+```
+
+### Multiple Selection
+
+```tsx
+import { Combobox } from "@soft-ui/react/combobox"
+import { RiCloseLine } from "@soft-ui/icons"
+
+export default function Multiple() {
+  return (
+    <Combobox.Root multiple>
+      <Combobox.Chips>
+        {(value) => (
+          <Combobox.Chip key={value}>
+            {value}
+            <Combobox.ChipRemove>
+              <RiCloseLine />
+            </Combobox.ChipRemove>
+          </Combobox.Chip>
+        )}
+      </Combobox.Chips>
+      <Combobox.Input placeholder="Search..." />
+      <Combobox.Portal>
+        <Combobox.Positioner>
+          <Combobox.Popup>
+            <Combobox.List>
+              <Combobox.Item value="apple">Apple</Combobox.Item>
+              <Combobox.Item value="banana">Banana</Combobox.Item>
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
+  )
+}
+```

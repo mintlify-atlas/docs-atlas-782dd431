@@ -1,0 +1,191 @@
+---
+title: Segmented Control
+description: API reference for the Segmented Control component
+---
+
+# Segmented Control
+
+A compact control for switching between mutually exclusive views or options.
+
+## Import
+
+```jsx
+import { SegmentedControl } from "@soft-ui/react/segmented-control"
+```
+
+## Anatomy
+
+```jsx
+<SegmentedControl.Root size="m" variant="default">
+  <SegmentedControl.List>
+    <SegmentedControl.Item value="option1" leadingIcon={<Icon />}>
+      Option 1
+    </SegmentedControl.Item>
+    <SegmentedControl.Item value="option2">Option 2</SegmentedControl.Item>
+    <SegmentedControl.Indicator />
+  </SegmentedControl.List>
+  <SegmentedControl.Content value="option1">Content 1</SegmentedControl.Content>
+  <SegmentedControl.Content value="option2">Content 2</SegmentedControl.Content>
+</SegmentedControl.Root>
+```
+
+## SegmentedControl.Root
+
+The root container for the segmented control.
+
+<ParamField path="size" type="'xs' | 's' | 'm'" default="'m'">
+  Size of the segmented control
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'filled' | 'outline'" default="'default'">
+  Visual style variant
+  - `default`: Standard background with shadow
+  - `filled`: Semi-transparent filled background with backdrop blur
+  - `outline`: Border outline with transparent background
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  The value of the item that should be active by default
+</ParamField>
+
+<ParamField path="value" type="string">
+  The controlled value of the active item
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: string) => void">
+  Callback fired when the active item changes
+</ParamField>
+
+<ParamField path="orientation" type="'horizontal' | 'vertical'" default="'horizontal'">
+  The orientation of the control
+</ParamField>
+
+<ParamField path="activationMode" type="'automatic' | 'manual'" default="'automatic'">
+  Whether items are activated automatically on focus or require explicit activation
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="segmented-control"`
+- `data-size`: Current size (`xs`, `s`, `m`)
+- `data-variant`: Current variant (`default`, `filled`, `outline`)
+
+## SegmentedControl.List
+
+Container for the segmented control items and indicator.
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="segmented-control-list"`
+
+## SegmentedControl.Item
+
+An individual option within the segmented control.
+
+<ParamField path="value" type="string" required>
+  Unique identifier for this item
+</ParamField>
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Icon displayed before the item label
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the item is disabled
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="segmented-control-item"`
+- `data-active`: Present when the item is active
+- `data-disabled`: Present when the item is disabled
+
+## SegmentedControl.Indicator
+
+Visual indicator showing the active item.
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="segmented-control-indicator"`
+
+## SegmentedControl.Content
+
+Container for the content of a segmented control panel.
+
+<ParamField path="value" type="string" required>
+  The value of the item that this content is associated with
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="segmented-control-content"`
+
+## Examples
+
+### Basic Segmented Control
+
+```jsx
+<SegmentedControl.Root defaultValue="list">
+  <SegmentedControl.List>
+    <SegmentedControl.Item value="list">List</SegmentedControl.Item>
+    <SegmentedControl.Item value="grid">Grid</SegmentedControl.Item>
+    <SegmentedControl.Item value="table">Table</SegmentedControl.Item>
+    <SegmentedControl.Indicator />
+  </SegmentedControl.List>
+</SegmentedControl.Root>
+```
+
+### With Icons
+
+```jsx
+<SegmentedControl.Root variant="filled" size="s" defaultValue="month">
+  <SegmentedControl.List>
+    <SegmentedControl.Item value="day" leadingIcon={<CalendarIcon />}>
+      Day
+    </SegmentedControl.Item>
+    <SegmentedControl.Item value="week" leadingIcon={<CalendarIcon />}>
+      Week
+    </SegmentedControl.Item>
+    <SegmentedControl.Item value="month" leadingIcon={<CalendarIcon />}>
+      Month
+    </SegmentedControl.Item>
+    <SegmentedControl.Indicator />
+  </SegmentedControl.List>
+</SegmentedControl.Root>
+```
+
+### Controlled
+
+```jsx
+const [view, setView] = React.useState("preview")
+
+return (
+  <SegmentedControl.Root value={view} onValueChange={setView}>
+    <SegmentedControl.List>
+      <SegmentedControl.Item value="edit">Edit</SegmentedControl.Item>
+      <SegmentedControl.Item value="preview">Preview</SegmentedControl.Item>
+      <SegmentedControl.Indicator />
+    </SegmentedControl.List>
+  </SegmentedControl.Root>
+)
+```

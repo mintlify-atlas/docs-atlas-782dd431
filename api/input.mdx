@@ -1,0 +1,143 @@
+---
+title: Input
+description: API reference for the Input component
+---
+
+# Input
+
+A single-line text input field built on Base UI's Input primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/input`](https://base-ui.com/react/components/input)
+
+## Import
+
+```tsx
+import { Input } from "@soft-ui/react/input"
+```
+
+## Usage
+
+```tsx
+import { Input } from "@soft-ui/react/input"
+import { RiSearchLine } from "@soft-ui/icons"
+
+export default function Example() {
+  return (
+    <Input 
+      placeholder="Search..."
+      leadingIcon={<RiSearchLine />}
+    />
+  )
+}
+```
+
+## Props
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Control size. Affects height and padding.
+  - `s`: 32px height
+  - `m`: 36px height
+  - `l`: 40px height
+</ParamField>
+
+<ParamField path="variant" type="'secondary' | 'tertiary'" default="'secondary'">
+  Visual style variant.
+  - `secondary`: Solid background
+  - `tertiary`: Glass-morphic with backdrop blur
+</ParamField>
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Icon or element displayed at the start of the input.
+</ParamField>
+
+<ParamField path="trailingIcon" type="React.ReactNode">
+  Icon or element displayed at the end of the input.
+</ParamField>
+
+<ParamField path="focusVisibleOnly" type="boolean" default="true">
+  Only show focus ring on keyboard navigation (not mouse clicks).
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the input and applies disabled styles.
+</ParamField>
+
+<ParamField path="placeholder" type="string">
+  Placeholder text shown when input is empty.
+</ParamField>
+
+<ParamField path="type" type="string" default="'text'">
+  HTML input type (text, email, password, etc.).
+</ParamField>
+
+<ParamField path="value" type="string">
+  Controlled value.
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  Uncontrolled default value.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLInputElement>) => void">
+  Callback fired when value changes.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the container.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+## Examples
+
+### With Icons
+
+```tsx
+import { Input } from "@soft-ui/react/input"
+import { RiSearchLine, RiCloseLine } from "@soft-ui/icons"
+
+export default function WithIcons() {
+  return (
+    <Input 
+      placeholder="Search..."
+      leadingIcon={<RiSearchLine />}
+      trailingIcon={<RiCloseLine />}
+    />
+  )
+}
+```
+
+### Sizes
+
+```tsx
+import { Input } from "@soft-ui/react/input"
+
+export default function Sizes() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Input size="s" placeholder="Small" />
+      <Input size="m" placeholder="Medium" />
+      <Input size="l" placeholder="Large" />
+    </div>
+  )
+}
+```
+
+### Variants
+
+```tsx
+import { Input } from "@soft-ui/react/input"
+
+export default function Variants() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Input variant="secondary" placeholder="Secondary" />
+      <Input variant="tertiary" placeholder="Tertiary" />
+    </div>
+  )
+}
+```

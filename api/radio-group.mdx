@@ -1,0 +1,175 @@
+---
+title: RadioGroup
+description: API reference for the RadioGroup component
+---
+
+# RadioGroup
+
+A group of radio buttons with multiple style variants, built on Base UI's RadioGroup primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/radio-group`](https://base-ui.com/react/components/radio-group)
+
+## Import
+
+```tsx
+import { RadioGroup } from "@soft-ui/react/radio-group"
+```
+
+## Usage
+
+```tsx
+import { RadioGroup } from "@soft-ui/react/radio-group"
+
+export default function Example() {
+  return (
+    <RadioGroup defaultValue="option1">
+      <RadioGroup.Item value="option1" label="Option 1" />
+      <RadioGroup.Item value="option2" label="Option 2" />
+      <RadioGroup.Item value="option3" label="Option 3" />
+    </RadioGroup>
+  )
+}
+```
+
+## Props
+
+### RadioGroup (Root)
+
+<ParamField path="style" type="'simple' | 'list' | 'card-small' | 'card-big'" default="'simple'">
+  Visual style variant.
+  - `simple`: Basic radio buttons
+  - `list`: List items with borders
+  - `card-small`: Compact cards
+  - `card-big`: Larger cards with more content
+</ParamField>
+
+<ParamField path="stack" type="'vertical' | 'horizontal'" default="'vertical'">
+  Layout direction.
+  - `vertical`: Items stacked vertically
+  - `horizontal`: Items arranged horizontally (grid for some styles)
+</ParamField>
+
+<ParamField path="value" type="string">
+  Controlled value.
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  Uncontrolled default value.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: string) => void">
+  Callback fired when value changes.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables all radio items.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="required" type="boolean">
+  Makes selection required.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### RadioGroup.Item
+
+<ParamField path="value" type="string" required>
+  Value of the radio item.
+</ParamField>
+
+<ParamField path="label" type="React.ReactNode">
+  Label text.
+</ParamField>
+
+<ParamField path="description" type="React.ReactNode">
+  Description text (for card styles).
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the radio item.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+## Examples
+
+### Simple Style
+
+```tsx
+import { RadioGroup } from "@soft-ui/react/radio-group"
+
+export default function Simple() {
+  return (
+    <RadioGroup style="simple" defaultValue="1">
+      <RadioGroup.Item value="1" label="Option 1" />
+      <RadioGroup.Item value="2" label="Option 2" />
+      <RadioGroup.Item value="3" label="Option 3" />
+    </RadioGroup>
+  )
+}
+```
+
+### List Style
+
+```tsx
+import { RadioGroup } from "@soft-ui/react/radio-group"
+
+export default function List() {
+  return (
+    <RadioGroup style="list" defaultValue="1">
+      <RadioGroup.Item value="1" label="Option 1" />
+      <RadioGroup.Item value="2" label="Option 2" />
+      <RadioGroup.Item value="3" label="Option 3" />
+    </RadioGroup>
+  )
+}
+```
+
+### Card Style
+
+```tsx
+import { RadioGroup } from "@soft-ui/react/radio-group"
+
+export default function Cards() {
+  return (
+    <RadioGroup style="card-big" defaultValue="1">
+      <RadioGroup.Item 
+        value="1" 
+        label="Basic Plan"
+        description="Perfect for individuals"
+      />
+      <RadioGroup.Item 
+        value="2" 
+        label="Pro Plan"
+        description="For growing teams"
+      />
+    </RadioGroup>
+  )
+}
+```
+
+### Horizontal Layout
+
+```tsx
+import { RadioGroup } from "@soft-ui/react/radio-group"
+
+export default function Horizontal() {
+  return (
+    <RadioGroup stack="horizontal" defaultValue="1">
+      <RadioGroup.Item value="1" label="Option 1" />
+      <RadioGroup.Item value="2" label="Option 2" />
+      <RadioGroup.Item value="3" label="Option 3" />
+    </RadioGroup>
+  )
+}
+```

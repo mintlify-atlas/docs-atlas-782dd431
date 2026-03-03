@@ -1,0 +1,398 @@
+---
+title: Animations
+description: Animation best practices, easing functions, spring configurations, and performance guidelines for Soft UI.
+---
+
+# Animations
+
+Soft UI uses motion to enhance usability and delight. Follow these guidelines to create animations that feel fast, natural, and accessible.
+
+## Core Principles
+
+- **UI animations must not exceed 300ms** - Keep the interface feeling fast and responsive
+- **Prefer spring animations** - More natural feel than easing curves
+- **Avoid bouncy springs** - Unless working with drag gestures
+- **Animate from the trigger** - Set `transform-origin` to animate from the source element
+
+## Duration & Timing
+
+| Context | Recommendation | Duration |
+|---------|----------------|----------|
+| Hover transitions | `transition: property 200ms ease` | 200ms |
+| Micro-interactions | Fast, snappy feedback | 150ms or less |
+| Standard UI elements | Buttons, toggles, small state changes | 200-250ms |
+| Modals/drawers | Enter/exit animations | 250-300ms max |
+
+**Never exceed 300ms** for UI animations. Longer durations are only acceptable for illustrative/decorative animations.
+
+## Easing Functions
+
+Use custom easing functions over built-in CSS easings for more natural motion.
+
+### ease-out (Elements entering/exiting, user interactions)
+
+Best for elements appearing or responding to user input:
+
+```css
+--ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+--ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+--ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+--ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+--ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+--ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+```
+
+### ease-in-out (Elements moving within the screen)
+
+Best for elements transitioning between states:
+
+```css
+--ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+--ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+--ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+--ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+--ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
+--ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+```
+
+### ease-in (Avoid - makes UI feel slow)
+
+Generally avoided as it makes UI feel sluggish:
+
+```css
+--ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+--ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+--ease-in-quart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+```
+
+### Usage Example
+
+```tsx
+import { Button } from "@soft-ui/react/button"
+
+<Button
+  style={{
+    transition: "background-color 200ms cubic-bezier(0.23, 1, 0.32, 1)"
+  }}
+>
+  Smooth Hover
+</Button>
+```
+
+## Spring Animations
+
+Spring animations using Framer Motion or Motion library provide more natural movement.
+
+### Configuration
+
+**Always use `bounce` and `duration`** instead of `stiffness`, `mass`, `damping`. This is more intuitive and easier to adjust.
+
+```tsx
+import { motion } from "framer-motion"
+
+// Preferred - intuitive and easy to adjust
+const transition = {
+  type: "spring",
+  bounce: 0.4,    // 0 = no bounce, 1 = very bouncy
+  duration: 0.5   // total duration in seconds
+}
+
+<motion.div animate={{ scale: 1 }} transition={transition} />
+```
+
+```tsx
+// Avoid - harder to reason about
+const transition = {
+  type: "spring",
+  stiffness: 300,
+  mass: 1,
+  damping: 20
+}
+```
+
+### Standard Presets
+
+| Name | Config | Use Cases |
+|------|--------|----------|
+| Instant/Snappy | `bounce: 0, duration: 0.15` | Micro-interactions, icon swaps, tooltips |
+| Fast/Responsive | `bounce: 0, duration: 0.2` | Buttons, toggles, small state changes |
+| Smooth/Subtle | `bounce: 0.1, duration: 0.25` | Modals, dropdowns, panels |
+| Expressive | `bounce: 0.2, duration: 0.3` | Onboarding, celebrations, attention-grabbing |
+
+### Real-World Examples
+
+```tsx
+import { motion } from "framer-motion"
+
+// Tooltip (instant)
+<motion.div
+  initial={{ opacity: 0, y: -4 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ type: "spring", bounce: 0, duration: 0.15 }}
+>
+  Tooltip content
+</motion.div>
+
+// Modal (smooth)
+<motion.div
+  initial={{ opacity: 0, scale: 0.95 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ type: "spring", bounce: 0.1, duration: 0.25 }}
+>
+  Modal content
+</motion.div>
+
+// Celebration (expressive)
+<motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ type: "spring", bounce: 0.2, duration: 0.3 }}
+>
+  🎉 Success!
+</motion.div>
+```
+
+## Base UI Integration
+
+Soft UI components use Base UI primitives. Animate them using the `asChild` pattern.
+
+### Adding Animations to Components
+
+```tsx
+import { Dialog } from "@base-ui/react/dialog"
+import { motion } from "framer-motion"
+
+<Dialog.Content asChild>
+  <motion.div
+    initial={{ opacity: 0, scale: 0.95 }}
+    animate={{ opacity: 1, scale: 1 }}
+    exit={{ opacity: 0, scale: 0.95 }}
+    transition={{ type: "spring", bounce: 0.1, duration: 0.25 }}
+  >
+    {children}
+  </motion.div>
+</Dialog.Content>
+```
+
+### Exit & Layout Animations
+
+For exit animations, hoist state and use `AnimatePresence` with `forceMount`:
+
+```tsx
+import { Dialog } from "@base-ui/react/dialog"
+import { motion, AnimatePresence } from "framer-motion"
+import { useState } from "react"
+
+function AnimatedDialog() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger>Open</Dialog.Trigger>
+      <AnimatePresence>
+        {open && (
+          <Dialog.Content forceMount asChild>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.2 }}
+            >
+              {children}
+            </motion.div>
+          </Dialog.Content>
+        )}
+      </AnimatePresence>
+    </Dialog.Root>
+  )
+}
+```
+
+### Backdrop Animations
+
+```tsx
+<Dialog.Backdrop asChild>
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.2 }}
+  />
+</Dialog.Backdrop>
+```
+
+## Performance Best Practices
+
+### Do
+
+- **Animate `opacity` and `transform` properties** - GPU accelerated
+- **Use `transform` instead of `x`/`y`** for hardware acceleration
+- **Keep blur values ≤ 20px** - Larger values hurt performance
+- **Use `will-change` sparingly** - Only for `transform`, `opacity`, `clipPath`, `filter`
+
+```tsx
+// Preferred - hardware accelerated
+<motion.div style={{ transform: "translateX(100px)" }} />
+
+// Also good with transform shorthand
+<motion.div animate={{ opacity: 1, scale: 1.1 }} />
+```
+
+### Don't
+
+- **Animate `top`, `left`, `width`, `height`** - Use `transform` instead
+- **Animate drag gestures with CSS variables** - Use transform
+- **Overuse `will-change`** - Adds memory overhead
+
+```tsx
+// Avoid - not hardware accelerated
+<motion.div animate={{ x: 100 }} />
+
+// Use this instead
+<motion.div animate={{ translateX: 100 }} />
+// Or style prop
+<motion.div style={{ transform: "translateX(100px)" }} />
+```
+
+### Transform Origin
+
+Animate from the trigger element for better UX:
+
+```tsx
+// Menu opening from top-left
+<motion.div
+  style={{ transformOrigin: "top left" }}
+  initial={{ opacity: 0, scale: 0.95 }}
+  animate={{ opacity: 1, scale: 1 }}
+/>
+
+// Dropdown from center top
+<motion.div
+  style={{ transformOrigin: "center top" }}
+  initial={{ opacity: 0, scaleY: 0.95 }}
+  animate={{ opacity: 1, scaleY: 1 }}
+/>
+```
+
+## Quick Reference
+
+| Animation Type | Duration | Easing/Spring |
+|---------------|----------|---------------|
+| Hover states | 200ms | `ease` or `ease-out` |
+| Button press | 150ms | `bounce: 0, duration: 0.15` |
+| Modal enter | 250ms | `bounce: 0.1, duration: 0.25` |
+| Modal exit | 200ms | `bounce: 0, duration: 0.2` |
+| Dropdown | 200ms | `bounce: 0, duration: 0.2` |
+| Toast enter | 250ms | `bounce: 0.1, duration: 0.25` |
+| Tooltip | 150ms | `bounce: 0, duration: 0.15` |
+
+## Accessibility Considerations
+
+### Respect Reduced Motion
+
+Always respect user preferences for reduced motion:
+
+```tsx
+import { motion, useReducedMotion } from "framer-motion"
+
+function AnimatedComponent() {
+  const shouldReduceMotion = useReducedMotion()
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: shouldReduceMotion ? 0.01 : 0.25,
+        type: shouldReduceMotion ? "tween" : "spring",
+        bounce: shouldReduceMotion ? 0 : 0.1,
+      }}
+    >
+      Content
+    </motion.div>
+  )
+}
+```
+
+### CSS Media Query
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+## Common Patterns
+
+### Staggered List Animation
+
+```tsx
+import { motion } from "framer-motion"
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+}
+
+<motion.ul variants={container} initial="hidden" animate="show">
+  {items.map((item) => (
+    <motion.li key={item.id} variants={item}>
+      {item.name}
+    </motion.li>
+  ))}
+</motion.ul>
+```
+
+### Slide & Fade
+
+```tsx
+// Slide up
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ type: "spring", bounce: 0, duration: 0.25 }}
+/>
+
+// Slide down
+<motion.div
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+/>
+
+// Slide from left
+<motion.div
+  initial={{ opacity: 0, x: -20 }}
+  animate={{ opacity: 1, x: 0 }}
+/>
+```
+
+### Scale & Fade
+
+```tsx
+<motion.div
+  initial={{ opacity: 0, scale: 0.9 }}
+  animate={{ opacity: 1, scale: 1 }}
+  exit={{ opacity: 0, scale: 0.9 }}
+  transition={{ type: "spring", bounce: 0.1, duration: 0.25 }}
+/>
+```
+
+## Related Resources
+
+- [Customization](/advanced/customization)
+- [Accessibility](/advanced/accessibility)
+- [Framer Motion Documentation](https://www.framer.com/motion/)

@@ -1,0 +1,127 @@
+---
+title: Banner
+description: API reference for the Banner component
+---
+
+# Banner
+
+A prominent message displayed at the top of a page or section.
+
+## Anatomy
+
+```tsx
+<Banner.Root tone="info">
+  <Banner.Icon />
+  <Banner.Content>
+    <Banner.Title>Title</Banner.Title>
+    <Banner.Actions>
+      <Banner.Action>Action</Banner.Action>
+      <Banner.Close />
+    </Banner.Actions>
+  </Banner.Content>
+</Banner.Root>
+```
+
+## Components
+
+### Banner.Root
+
+The root container for the banner.
+
+<ParamField path="tone" type="string" default="neutral">
+  Visual tone that determines the background and border color. Options: `neutral`, `info`, `success`, `warning`, `danger`
+</ParamField>
+
+<ParamField path="icon" type="ReactNode">
+  Custom icon element. If not provided, displays a tone-appropriate icon.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Banner.Icon
+
+Icon that indicates the tone of the banner.
+
+<ParamField path="tone" type="string">
+  Override the tone from context. Options: `neutral`, `info`, `success`, `warning`, `danger`
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Banner.Content
+
+Container that groups the title and actions.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Banner.Title
+
+The main message text of the banner.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Banner.Actions
+
+Container for action buttons and close button.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Banner.Action
+
+Action button (tertiary variant, xs size).
+
+<ParamField path="variant" type="string" default="tertiary">
+  Button variant (inherited from Button component)
+</ParamField>
+
+<ParamField path="size" type="string" default="xs">
+  Button size (inherited from Button component)
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Banner.Close
+
+Button to dismiss the banner.
+
+<ParamField path="onClose" type="() => void">
+  Callback when close button is clicked
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+## Tones
+
+### neutral
+
+Default informational tone with neutral colors.
+
+### info
+
+Informational feedback (blue background and border).
+
+### success
+
+Success feedback (green background and border).
+
+### warning
+
+Warning feedback (yellow/orange background and border).
+
+### danger
+
+Error or critical feedback (red background and border).

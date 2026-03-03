@@ -1,0 +1,229 @@
+---
+title: Alert Dialog
+description: API reference for the AlertDialog component - a modal dialog for important confirmations and alerts.
+---
+
+# Alert Dialog
+
+A modal dialog for critical confirmations that requires user action. Built on Base UI AlertDialog primitive with accessibility features like focus trapping and Escape key handling disabled by default.
+
+## Compound Components
+
+### AlertDialog.Root
+
+The root container that manages alert dialog state.
+
+<ParamField path="open" type="boolean">
+  Controlled open state. When provided, the dialog becomes controlled.
+</ParamField>
+
+<ParamField path="defaultOpen" type="boolean" default="false">
+  Uncontrolled default open state.
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean, eventDetails: object) => void">
+  Callback fired when the open state changes.
+</ParamField>
+
+<ParamField path="modal" type="boolean" default="true">
+  Whether the dialog is modal (blocks interaction with the rest of the page).
+</ParamField>
+
+### AlertDialog.Trigger
+
+The trigger element that opens the alert dialog.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+<ParamField path="asChild" type="boolean" default="false">
+  Merge props onto the child element instead of rendering a button.
+</ParamField>
+
+### AlertDialog.Portal
+
+Portals the alert dialog content to the end of the document body.
+
+<ParamField path="keepMounted" type="boolean" default="false">
+  Whether to keep the dialog mounted in the DOM when closed. When `false`, uses AnimatePresence for mount/unmount animations.
+</ParamField>
+
+<ParamField path="container" type="HTMLElement | null">
+  The container element to portal into. Defaults to `document.body`.
+</ParamField>
+
+### AlertDialog.Backdrop
+
+The backdrop overlay behind the alert dialog.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: `"fixed inset-0 z-50 bg-utility-backdrop"`
+</ParamField>
+
+**Animation**: Fades in/out with spring transition (bounce: 0, duration: 0.15s). Respects reduced motion preferences.
+
+### AlertDialog.Popup
+
+The alert dialog popup container with positioning and animation.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Responsive Behavior**:
+- Mobile (< 640px): Bottom sheet with 8px padding
+- Desktop: Centered modal, max-width 400px
+
+**Animation**: 
+- Mobile: Slides up from bottom
+- Desktop: Scale from 0.95 to 1 with fade
+- Respects reduced motion preferences
+
+### AlertDialog.Content
+
+Inner content area with optional icon, title, and description.
+
+<ParamField path="icon" type="React.ReactNode">
+  Optional icon to display above the title.
+</ParamField>
+
+<ParamField path="iconTone" type="'default' | 'danger' | 'warning' | 'info' | 'success'" default="'default'">
+  Color tone for the icon:
+  - `default`: Content strong color
+  - `danger`: Danger feedback color
+  - `warning`: Warning feedback color
+  - `info`: Info feedback color
+  - `success`: Success feedback color
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Layout**: Centered content with 24px padding and 24px gap between elements.
+
+### AlertDialog.Title
+
+Accessible alert dialog title.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Large semibold text with strong content color.
+</ParamField>
+
+### AlertDialog.Description
+
+Accessible alert dialog description.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Medium text with subtle content color.
+</ParamField>
+
+### AlertDialog.Close
+
+Close button wrapper. Must wrap a Button component.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: `"outline-none flex-1"`
+</ParamField>
+
+<ParamField path="asChild" type="boolean" default="false">
+  Merge props onto the child element.
+</ParamField>
+
+### AlertDialog.Footer
+
+Footer section for action buttons.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Layout**: 
+- All buttons fill available width equally
+- 12px gap between buttons
+- Padding: 16px vertical, 24px horizontal
+
+## Usage
+
+```tsx
+import { AlertDialog } from '@soft-ui/react/alert-dialog'
+import { Button } from '@soft-ui/react/button'
+import { RiAlertFill } from '@soft-ui/icons'
+
+function DeleteConfirmation() {
+  return (
+    <AlertDialog.Root>
+      <AlertDialog.Trigger asChild>
+        <Button variant="danger">Delete Account</Button>
+      </AlertDialog.Trigger>
+      <AlertDialog.Portal>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Popup>
+          <AlertDialog.Content icon={<RiAlertFill />} iconTone="danger">
+            <AlertDialog.Title>Delete Account</AlertDialog.Title>
+            <AlertDialog.Description>
+              Are you sure you want to delete your account? This action cannot be undone.
+            </AlertDialog.Description>
+          </AlertDialog.Content>
+          <AlertDialog.Footer>
+            <AlertDialog.Close asChild>
+              <Button variant="secondary">Cancel</Button>
+            </AlertDialog.Close>
+            <Button variant="danger">Delete</Button>
+          </AlertDialog.Footer>
+        </AlertDialog.Popup>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
+  )
+}
+```
+
+## Icon Tones
+
+```tsx
+// Danger alert
+<AlertDialog.Content icon={<RiErrorWarningFill />} iconTone="danger">
+  <AlertDialog.Title>Error</AlertDialog.Title>
+  <AlertDialog.Description>Something went wrong.</AlertDialog.Description>
+</AlertDialog.Content>
+
+// Warning alert
+<AlertDialog.Content icon={<RiAlertFill />} iconTone="warning">
+  <AlertDialog.Title>Warning</AlertDialog.Title>
+  <AlertDialog.Description>Proceed with caution.</AlertDialog.Description>
+</AlertDialog.Content>
+
+// Success alert
+<AlertDialog.Content icon={<RiCheckboxCircleFill />} iconTone="success">
+  <AlertDialog.Title>Success</AlertDialog.Title>
+  <AlertDialog.Description>Operation completed.</AlertDialog.Description>
+</AlertDialog.Content>
+```
+
+## Types
+
+```tsx
+export type AlertDialogRootProps = {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean, eventDetails: object) => void
+  modal?: boolean
+  children?: React.ReactNode
+}
+
+export type AlertDialogContentProps = {
+  icon?: React.ReactNode
+  iconTone?: 'default' | 'danger' | 'warning' | 'info' | 'success'
+  className?: string
+  children?: React.ReactNode
+}
+```
+
+## Accessibility
+
+- Focus is trapped within the dialog when open
+- Escape key is disabled by default (use explicit Close buttons)
+- Backdrop click is disabled by default
+- Title and description are linked via `aria-labelledby` and `aria-describedby`
+- First focusable element receives focus on open

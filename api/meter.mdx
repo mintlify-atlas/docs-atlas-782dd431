@@ -1,0 +1,276 @@
+---
+title: Meter
+description: Visual gauge for displaying scalar measurements within a known range
+---
+
+<ComponentPreview name="meter-preview" />
+
+## Installation
+
+<Tabs items={['CLI', 'Manual']}>
+  <Tab value="CLI">
+    ```bash
+    npx @soft-ui/cli add meter
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step title="Install dependencies">
+        ```bash
+        npm install @base-ui/react
+        ```
+      </Step>
+      <Step title="Copy component source">
+        Copy the meter component from `packages/react/src/components/meter.tsx`
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Meter } from '@soft-ui/react/meter'
+
+export default function Example() {
+  return (
+    <Meter.Root value={65} min={0} max={100}>
+      <Meter.Track>
+        <Meter.Indicator />
+      </Meter.Track>
+    </Meter.Root>
+  )
+}
+```
+
+## Meter vs Progress
+
+**Meter** displays a scalar measurement within a known range (e.g., disk usage, battery level, temperature).
+
+**Progress** shows task completion status that changes over time (e.g., file upload, installation).
+
+Use Meter when:
+- Showing a fixed measurement at a point in time
+- Value represents a gauge or level
+- Min/max range is meaningful (not just 0-100%)
+
+Use Progress when:
+- Indicating task completion
+- Value will increase to 100%
+- Showing loading or processing state
+
+## Examples
+
+### Sizes
+
+Two sizes available: `s` (default) and `m`.
+
+<ComponentPreview name="meter-sizes" />
+
+```tsx
+<Meter.Root size="s" value={65}>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+
+<Meter.Root size="m" value={65}>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+```
+
+### Tones
+
+Four semantic tones for different measurement states.
+
+<ComponentPreview name="meter-tones" />
+
+```tsx
+// Normal level
+<Meter.Root tone="default" value={45}>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+
+// Optimal level
+<Meter.Root tone="success" value={80}>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+
+// Warning level
+<Meter.Root tone="warning" value={85}>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+
+// Critical level
+<Meter.Root tone="danger" value={95}>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+```
+
+### With Label
+
+Add a descriptive label for the measurement.
+
+<ComponentPreview name="meter-label" />
+
+```tsx
+<Meter.Root value={85}>
+  <Meter.Label>Disk Usage</Meter.Label>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+```
+
+### With Value Display
+
+Show the current value alongside the meter.
+
+<ComponentPreview name="meter-value" />
+
+```tsx
+<Meter.Root value={65} min={0} max={100}>
+  <div className="flex items-center justify-between">
+    <Meter.Label>Battery Level</Meter.Label>
+    <Meter.Value />
+  </div>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+```
+
+### Custom Range
+
+Meter supports any numeric range, not just 0-100.
+
+<ComponentPreview name="meter-custom-range" />
+
+```tsx
+<Meter.Root value={72} min={32} max={212}>
+  <div className="flex items-center justify-between">
+    <Meter.Label>Temperature (°F)</Meter.Label>
+    <Meter.Value>
+      {(value) => `${value}°F`}
+    </Meter.Value>
+  </div>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+```
+
+### Dynamic Tone
+
+Change tone based on value thresholds.
+
+<ComponentPreview name="meter-dynamic-tone" />
+
+```tsx
+const getDiskTone = (usage: number) => {
+  if (usage >= 90) return 'danger'
+  if (usage >= 75) return 'warning'
+  return 'default'
+}
+
+const usage = 85
+
+<Meter.Root value={usage} tone={getDiskTone(usage)}>
+  <div className="flex items-center justify-between">
+    <Meter.Label>Storage</Meter.Label>
+    <Meter.Value>{(value) => `${value}GB / 100GB`}</Meter.Value>
+  </div>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+```
+
+## API Reference
+
+### Meter.Root
+
+<ParamField path="value" type="number" required>
+  Current meter value within the min/max range.
+</ParamField>
+
+<ParamField path="min" type="number" default={0}>
+  Minimum value of the range.
+</ParamField>
+
+<ParamField path="max" type="number" default={100}>
+  Maximum value of the range.
+</ParamField>
+
+<ParamField path="optimum" type="number">
+  Optimal value within the range. Used by assistive technology.
+</ParamField>
+
+<ParamField path="low" type="number">
+  Lower boundary of the low range.
+</ParamField>
+
+<ParamField path="high" type="number">
+  Lower boundary of the high range.
+</ParamField>
+
+<ParamField path="tone" type="string" default="default">
+  Semantic color tone: `default`, `success`, `warning`, `danger`.
+</ParamField>
+
+<ParamField path="size" type="string" default="s">
+  Size of the meter: `s`, `m`.
+</ParamField>
+
+### Meter.Label
+
+Accessible label for the meter. Automatically associated with the meter element.
+
+<ParamField path="children" type="ReactNode">
+  Label text.
+</ParamField>
+
+### Meter.Track
+
+Background track for the meter indicator.
+
+### Meter.Indicator
+
+Filled portion showing the current value. Width reflects value position within min/max range.
+
+### Meter.Value
+
+Displays the current value as text.
+
+<ParamField path="children" type="(value: number, min: number, max: number) => ReactNode">
+  Optional render function to customize value display. Defaults to "{value}".
+</ParamField>
+
+## Accessibility
+
+- Uses Base UI `Meter` primitive with proper ARIA attributes
+- Semantic `<meter>` element with `role="meter"`
+- `Meter.Label` automatically associates via `aria-labelledby`
+- `aria-valuenow`, `aria-valuemin`, `aria-valuemax` automatically managed
+- `optimum`, `low`, and `high` values exposed to assistive technology
+- Screen readers announce value and range context
+
+## Design Tokens
+
+Meter uses design tokens for consistent styling:
+
+- Spacing: `--space-4`, `--space-6`, `--space-8`
+- Border radius: `--radius-max` for rounded ends
+- Colors: `--color-surface-interactive-default` (track), `--color-content-*` (indicator)
+- Typography: `--font-size-s`, `--line-height-s`, `--font-weight-medium`
+- Animation: 300ms ease-out transition

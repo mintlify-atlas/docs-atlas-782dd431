@@ -1,0 +1,170 @@
+---
+title: Inline Notification
+description: API reference for the Inline Notification component
+---
+
+# Inline Notification
+
+A contextual notification that appears inline with content.
+
+## Anatomy
+
+```tsx
+<InlineNotification.Root tone="info" variant="default">
+  <InlineNotification.Icon />
+  <InlineNotification.Content>
+    <InlineNotification.TextWrapper>
+      <InlineNotification.Title>Title</InlineNotification.Title>
+      <InlineNotification.Description>Description</InlineNotification.Description>
+    </InlineNotification.TextWrapper>
+    <InlineNotification.Actions>
+      <InlineNotification.Action>Action</InlineNotification.Action>
+    </InlineNotification.Actions>
+  </InlineNotification.Content>
+  <InlineNotification.Close />
+</InlineNotification.Root>
+```
+
+## Components
+
+### InlineNotification.Root
+
+The root container for the inline notification.
+
+<ParamField path="tone" type="string" default="neutral">
+  Visual tone that determines the icon and colors. Options: `neutral`, `info`, `success`, `warning`, `danger`
+</ParamField>
+
+<ParamField path="variant" type="string" default="default">
+  Visual variant. Options: `default`, `filled`
+</ParamField>
+
+<ParamField path="icon" type="ReactNode">
+  Custom icon element. If not provided, displays a tone-appropriate icon.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.Icon
+
+Icon that indicates the tone of the notification.
+
+<ParamField path="tone" type="string" default="neutral">
+  Visual tone. Options: `neutral`, `info`, `success`, `warning`, `danger`
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.Content
+
+Container that groups text and actions.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.TextWrapper
+
+Groups title and description.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.Title
+
+The title text of the notification.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.Description
+
+The description text of the notification.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.Actions
+
+Container for action buttons.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.Action
+
+Action button. Uses tertiary variant for notifications with descriptions, link-neutral for compact notifications.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### InlineNotification.Close
+
+Button to dismiss the notification.
+
+<ParamField path="onClose" type="() => void">
+  Callback when close button is clicked
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+## Variants
+
+### default
+
+Neutral background with tone-colored icon and text.
+
+### filled
+
+Tone-colored background for higher emphasis.
+
+## Tones
+
+### neutral
+
+Neutral informational tone.
+
+### info
+
+Informational feedback (blue).
+
+### success
+
+Success feedback (green).
+
+### warning
+
+Warning feedback (yellow/orange).
+
+### danger
+
+Error or critical feedback (red).
+
+## Layout Modes
+
+The component automatically adapts between two layout modes based on whether a description is present:
+
+### Compact (no description)
+
+- Horizontal layout with centered items
+- Smaller height (36px minimum)
+- Link-style actions
+- Separator before actions
+
+### Card (with description)
+
+- Vertical/stacked layout
+- Larger padding
+- Tertiary button-style actions
+- No separator

@@ -1,0 +1,127 @@
+---
+title: Button
+description: Trigger actions and submit forms with customizable button variants.
+---
+
+Buttons allow users to trigger actions with a single click. Use them for primary actions, form submissions, and navigation.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Button
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return <Button>Click me</Button>
+}
+```
+
+```tsx With Icons
+import { Button } from "@soft-ui/react/button"
+import { RiSendPlaneFill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <>
+      <Button leadingIcon={<RiSendPlaneFill />}>Send</Button>
+      <Button trailingIcon={<RiSendPlaneFill />}>Send</Button>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Variants
+
+Button supports multiple variants to convey different levels of emphasis:
+
+- **primary** - High emphasis actions (default)
+- **secondary** - Medium emphasis actions
+- **tertiary** - Low emphasis with subtle shadow
+- **ghost** - Minimal style for less prominent actions
+- **link** - Styled as a link with accent color
+- **link-neutral** - Link style with neutral color
+- **danger** - Destructive or critical actions
+
+<CodeGroup>
+```tsx Variants
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <>
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="tertiary">Tertiary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="link">Link</Button>
+      <Button variant="danger">Danger</Button>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Sizes
+
+Four sizes are available: `xs`, `s`, `m` (default), and `l`.
+
+<CodeGroup>
+```tsx Sizes
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <>
+      <Button size="xs">Extra Small</Button>
+      <Button size="s">Small</Button>
+      <Button size="m">Medium</Button>
+      <Button size="l">Large</Button>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Color Tones
+
+Use the `tone` prop to apply feedback or decorative colors:
+
+<CodeGroup>
+```tsx Feedback Tones
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <>
+      <Button tone="info">Info</Button>
+      <Button tone="warning">Warning</Button>
+      <Button tone="danger">Danger</Button>
+      <Button tone="success">Success</Button>
+    </>
+  )
+}
+```
+
+```tsx Decorative Tones
+import { Button } from "@soft-ui/react/button"
+
+function Example() {
+  return (
+    <>
+      <Button tone="blue">Blue</Button>
+      <Button tone="purple">Purple</Button>
+      <Button tone="pink">Pink</Button>
+    </>
+  )
+}
+```
+</CodeGroup>
+
+<Note>
+The `tone` prop applies color to the text while maintaining the button's variant background.
+</Note>
+
+## API Reference
+
+For complete prop documentation, see the [Button API reference](/api/button).

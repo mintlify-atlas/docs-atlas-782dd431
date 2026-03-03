@@ -1,0 +1,243 @@
+---
+title: Dialog
+description: API reference for the Dialog component - a modal overlay for focused interactions.
+---
+
+# Dialog
+
+A modal dialog component built on Base UI primitives with support for multiple positions, drag-to-dismiss, and nested dialogs.
+
+## Compound Components
+
+### Dialog.Root
+
+The root container that manages dialog state.
+
+<ParamField path="open" type="boolean">
+  Controlled open state. When provided, the dialog becomes controlled.
+</ParamField>
+
+<ParamField path="defaultOpen" type="boolean" default="false">
+  Uncontrolled default open state.
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean, eventDetails?: object) => void">
+  Callback fired when the open state changes.
+</ParamField>
+
+<ParamField path="modal" type="boolean" default="true">
+  Whether the dialog is modal (blocks interaction with the rest of the page).
+</ParamField>
+
+### Dialog.Trigger
+
+The trigger element that opens the dialog.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+<ParamField path="asChild" type="boolean" default="false">
+  Merge props onto the child element instead of rendering a button.
+</ParamField>
+
+### Dialog.Portal
+
+Portals the dialog content to the end of the document body.
+
+<ParamField path="keepMounted" type="boolean" default="false">
+  Whether to keep the dialog mounted in the DOM when closed. When `false`, uses AnimatePresence for mount/unmount animations.
+</ParamField>
+
+<ParamField path="container" type="HTMLElement | null">
+  The container element to portal into. Defaults to `document.body`.
+</ParamField>
+
+### Dialog.Backdrop
+
+The backdrop overlay behind the dialog.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: `"fixed inset-0 z-50 bg-utility-backdrop"`
+</ParamField>
+
+**Animation**: Fades in/out with spring transition (bounce: 0, duration: 0.15s).
+
+### Dialog.Popup
+
+The dialog popup container with positioning and animation.
+
+<ParamField path="position" type="'center' | 'right' | 'sheet'" default="'center'">
+  - `center`: Centered modal (scales on desktop, bottom sheet on mobile)
+  - `right`: Right-side panel (full height on desktop, bottom sheet on mobile)
+  - `sheet`: Bottom sheet on all screen sizes
+</ParamField>
+
+<ParamField path="swipeable" type="boolean" default="false">
+  Enable drag-to-dismiss for sheet mode. Only works when `position="sheet"` or on mobile.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Responsive Behavior**:
+- Mobile (< 640px): All positions become bottom sheets with 8px padding
+- Desktop: Each position has specific behavior (center, right panel, or bottom sheet)
+
+**Animation**:
+- Center: Scale from 0.95 to 1 with fade
+- Right: Slide in from right
+- Sheet: Slide up from bottom
+- Nested dialogs scale down to 0.94 and dim to 60% brightness
+
+### Dialog.Content
+
+Inner content wrapper with shadow and rounded corners.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### Dialog.DragIndicator
+
+Visual drag handle (horizontal pill). Only shown when `swipeable` is enabled and in sheet mode.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### Dialog.Header
+
+Header section with title and close button. Automatically includes drag indicator when `swipeable` is enabled.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Layout**: 52px height with 12px top/bottom padding, 24px left padding, 16px right padding.
+
+### Dialog.Title
+
+Accessible dialog title.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Large semibold text with strong content color.
+</ParamField>
+
+### Dialog.Description
+
+Accessible dialog description.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Small text with subtle content color.
+</ParamField>
+
+### Dialog.Close
+
+Close button (renders X icon by default, or custom children).
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+<ParamField path="render" type="(props: object, state: object) => React.ReactNode">
+  Custom render function for advanced use cases.
+</ParamField>
+
+**Default Appearance**: 24px circular button with close icon.
+
+### Dialog.Body
+
+Scrollable content area.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: 24px padding with vertical scroll.
+</ParamField>
+
+### Dialog.Footer
+
+Footer section for action buttons.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Layout**: 
+- Desktop: Right-aligned buttons with 8px gap
+- Mobile: Full-width buttons side by side
+- Padding: 16px vertical, 24px horizontal
+
+## Usage
+
+```tsx
+import { Dialog } from '@soft-ui/react/dialog'
+import { Button } from '@soft-ui/react/button'
+
+function Example() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <Button>Open Dialog</Button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Popup position="center">
+          <Dialog.Content>
+            <Dialog.Header>
+              <Dialog.Title>Dialog Title</Dialog.Title>
+              <Dialog.Close />
+            </Dialog.Header>
+            <Dialog.Body>
+              <p>Dialog content goes here.</p>
+            </Dialog.Body>
+            <Dialog.Footer>
+              <Dialog.Close asChild>
+                <Button variant="secondary">Cancel</Button>
+              </Dialog.Close>
+              <Button>Confirm</Button>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+## Drag-to-Dismiss Sheet
+
+```tsx
+<Dialog.Popup position="sheet" swipeable>
+  <Dialog.Content>
+    <Dialog.Header>
+      <Dialog.Title>Swipeable Sheet</Dialog.Title>
+      <Dialog.Close />
+    </Dialog.Header>
+    <Dialog.Body>
+      <p>Drag down to dismiss.</p>
+    </Dialog.Body>
+  </Dialog.Content>
+</Dialog.Popup>
+```
+
+## Types
+
+```tsx
+export type DialogPosition = "center" | "right" | "sheet"
+
+export type DialogRootProps = {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean, eventDetails?: object) => void
+  modal?: boolean
+  children?: React.ReactNode
+}
+
+export type DialogPopupProps = {
+  position?: DialogPosition
+  swipeable?: boolean
+  className?: string
+  children?: React.ReactNode
+}
+```

@@ -1,0 +1,241 @@
+---
+title: Toast
+description: API reference for the Toast component
+---
+
+# Toast
+
+A temporary notification that appears on screen to provide feedback or information.
+
+## Anatomy
+
+```tsx
+<Toast.Provider>
+  <Toast.Portal>
+    <Toast.Viewport position="bottom-right">
+      <Toast.Root variant="card">
+        <Toast.Content>
+          <Toast.Icon tone="success" />
+          <Toast.TextWrapper>
+            <Toast.Title>Title</Toast.Title>
+            <Toast.Description>Description</Toast.Description>
+            <Toast.Actions>
+              <Toast.Action>Action</Toast.Action>
+            </Toast.Actions>
+          </Toast.TextWrapper>
+          <Toast.Close />
+        </Toast.Content>
+      </Toast.Root>
+    </Toast.Viewport>
+  </Toast.Portal>
+</Toast.Provider>
+```
+
+## Components
+
+### Toast.Provider
+
+Provides toast context and manages toast queue.
+
+<ParamField path="timeout" type="number" default="5000">
+  Duration in milliseconds before auto-dismissing toasts
+</ParamField>
+
+<ParamField path="limit" type="number" default="5">
+  Maximum number of toasts to display at once
+</ParamField>
+
+### Toast.Portal
+
+Portal that renders toasts outside the normal DOM hierarchy.
+
+<ParamField path="container" type="HTMLElement">
+  Optional container element to render toasts into
+</ParamField>
+
+### Toast.Viewport
+
+Container that positions toasts on screen.
+
+<ParamField path="position" type="string" default="bottom-right">
+  Where to position the toast viewport. Options: `top-right`, `top-left`, `bottom-right`, `bottom-left`, `top-center`, `bottom-center`
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Root
+
+The root container for a toast notification.
+
+<ParamField path="variant" type="string" default="card">
+  Visual variant. Options: `card`, `compact`
+</ParamField>
+
+<ParamField path="open" type="boolean">
+  Controlled open state
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean) => void">
+  Callback when open state changes
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Content
+
+Content container for card variant toasts.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.CompactContent
+
+Content container for compact variant toasts.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Title
+
+The title text of the toast.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Description
+
+The description text of the toast.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Icon
+
+Icon that indicates the tone of the toast.
+
+<ParamField path="tone" type="string" default="default">
+  Visual tone that determines the icon and color. Options: `default`, `info`, `success`, `warning`, `danger`
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Close
+
+Button to dismiss the toast.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Action
+
+Action button for card variant (tertiary style).
+
+<ParamField path="altText" type="string" required>
+  Accessible alternative text describing the action
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.CompactAction
+
+Action button for compact variant (link style).
+
+<ParamField path="altText" type="string" required>
+  Accessible alternative text describing the action
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.TextWrapper
+
+Groups title and description for card variant.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.CompactTextWrapper
+
+Groups title and description for compact variant.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.Actions
+
+Container for action buttons in card variant.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Toast.CompactActions
+
+Container for action buttons in compact variant.
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+## Hooks
+
+### useToastManager
+
+Hook for programmatically managing toasts.
+
+```tsx
+const { addToast, removeToast, clearToasts } = useToastManager()
+
+addToast({
+  title: 'Success',
+  description: 'Your changes have been saved',
+})
+```
+
+## Variants
+
+### card
+
+Full-width toast with stacked layout.
+
+### compact
+
+Inline toast with horizontal layout.
+
+## Tones
+
+### default
+
+Neutral informational tone.
+
+### info
+
+Informational feedback (blue).
+
+### success
+
+Success feedback (green).
+
+### warning
+
+Warning feedback (yellow/orange).
+
+### danger
+
+Error or destructive feedback (red).

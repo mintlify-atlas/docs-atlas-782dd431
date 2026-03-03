@@ -1,0 +1,495 @@
+---
+title: Color System
+description: Complete reference for Soft UI's semantic and palette color tokens.
+---
+
+Soft UI's color system is built on Tailwind palettes with semantic tokens that adapt to theme, mode, and scheme.
+
+## Color Architecture
+
+Colors are organized in three layers:
+
+1. **Palette colors**: Raw RGB values from Tailwind (`--blue-500`, `--neutral-200`, etc.)
+2. **Theme/base mappings**: `--theme-*` and `--base-*` that reference palette colors
+3. **Semantic tokens**: Purpose-driven colors (`--color-surface-page`, `--color-actions-primary-default`, etc.)
+
+<Note>
+Always use semantic tokens in components. They adapt automatically to theme changes.
+</Note>
+
+## Theme Colors (`--theme-*`)
+
+Theme colors provide the accent palette, controlled by `data-theme-color` attribute.
+
+### Available Theme Colors
+
+**Chromatic:**
+- red, orange, amber, yellow
+- lime, green, emerald, teal
+- cyan, sky, blue (default), indigo
+- violet, purple, fuchsia, pink, rose
+
+**Achromatic:**
+- mauve (purple-tinted gray)
+- mist (blue-tinted gray)
+- olive (yellow-tinted gray)
+- taupe (brown-tinted gray)
+
+### Theme Color Scale
+
+Each theme color maps to a 50-950 scale:
+
+```css
+--theme-50   /* Lightest */
+--theme-100
+--theme-200
+--theme-300
+--theme-400
+--theme-500  /* Base */
+--theme-600
+--theme-700
+--theme-800
+--theme-900
+--theme-950  /* Darkest */
+```
+
+### Example: Blue (Default)
+
+```css
+:root {
+  --theme-50: var(--blue-50);    /* 239 246 255 */
+  --theme-100: var(--blue-100);  /* 219 234 254 */
+  --theme-200: var(--blue-200);  /* 191 219 254 */
+  --theme-300: var(--blue-300);  /* 147 197 253 */
+  --theme-400: var(--blue-400);  /* 96 165 250 */
+  --theme-500: var(--blue-500);  /* 59 130 246 */
+  --theme-600: var(--blue-600);  /* 37 99 235 */
+  --theme-700: var(--blue-700);  /* 29 78 216 */
+  --theme-800: var(--blue-800);  /* 30 64 175 */
+  --theme-900: var(--blue-900);  /* 30 58 138 */
+  --theme-950: var(--blue-950);  /* 23 37 84 */
+}
+```
+
+### Switching Theme Colors
+
+```tsx
+document.documentElement.dataset.themeColor = 'violet';
+```
+
+This remaps all `--theme-*` variables:
+
+```css
+html[data-theme-color="violet"] {
+  --theme-50: var(--violet-50);   /* 245 243 255 */
+  --theme-500: var(--violet-500); /* 139 92 246 */
+  --theme-950: var(--violet-950); /* 46 16 101 */
+  /* ... */
+}
+```
+
+## Base Colors (`--base-*`)
+
+Base colors provide the neutral/grayscale palette, controlled by `data-base-color` attribute.
+
+### Available Base Colors
+
+**Standard grays:**
+- neutral (default) - Pure neutral gray
+- slate - Cool blue-gray
+- gray - Balanced gray
+- zinc - Cool neutral
+- stone - Warm gray
+
+**Custom grays:**
+- mauve - Purple-tinted gray
+- mist - Blue-tinted gray
+- olive - Yellow-tinted gray
+- taupe - Brown-tinted gray
+
+### Base Color Scale
+
+```css
+--base-50   /* Lightest */
+--base-100
+--base-200
+--base-300
+--base-400
+--base-500  /* Base */
+--base-600
+--base-700
+--base-800
+--base-900
+--base-950  /* Darkest */
+```
+
+### Example: Neutral (Default)
+
+```css
+:root {
+  --base-50: var(--neutral-50);    /* 250 250 250 */
+  --base-100: var(--neutral-100);  /* 245 245 245 */
+  --base-200: var(--neutral-200);  /* 229 229 229 */
+  --base-500: var(--neutral-500);  /* 115 115 115 */
+  --base-800: var(--neutral-800);  /* 38 38 38 */
+  --base-950: var(--neutral-950);  /* 10 10 10 */
+}
+```
+
+<Info>
+Custom grays (mauve, mist, olive, taupe) have subtle color casts that create warmer or cooler interfaces.
+</Info>
+
+## Semantic Color Tokens
+
+Semantic tokens map to theme/base colors and adapt to mode and scheme.
+
+### Surface Colors
+
+Backgrounds and layers:
+
+```css
+--color-surface-page              /* Main page background */
+--color-surface-canvas            /* Secondary background (panels, sidebars) */
+--color-surface-overlay           /* Modals, popovers, tooltips */
+--color-surface-inverse           /* Inverse backgrounds */
+--color-surface-interactive-default   /* Hover/interactive surfaces (default) */
+--color-surface-interactive-hover     /* Hover state */
+--color-surface-interactive-selected  /* Selected state */
+```
+
+**Light mode values:**
+```css
+--surface-page: var(--pure-white);              /* 255 255 255 */
+--surface-canvas: var(--base-50);               /* 250 250 250 */
+--surface-overlay: var(--pure-white);           /* 255 255 255 */
+--surface-interactive-default: var(--darken-3); /* 0 0 0 / 0.03 */
+```
+
+**Dark mode values:**
+```css
+--surface-page: var(--base-900);                /* 23 23 23 */
+--surface-canvas: var(--darken-16);             /* 0 0 0 / 0.16 */
+--surface-overlay: var(--base-800);             /* 38 38 38 */
+--surface-interactive-default: var(--lighten-6); /* 255 255 255 / 0.06 */
+```
+
+### Content Colors
+
+Text and icon colors:
+
+```css
+--color-content-strong    /* Primary text (headings, important content) */
+--color-content-subtle    /* Body text */
+--color-content-muted     /* Secondary text (captions, metadata) */
+--color-content-disabled  /* Disabled text */
+--color-content-link-default  /* Link color */
+--color-content-link-hover    /* Link hover color */
+```
+
+**Light mode values:**
+```css
+--content-strong: var(--base-800);   /* 38 38 38 */
+--content-subtle: var(--base-500);   /* 115 115 115 */
+--content-muted: var(--base-400);    /* 163 163 163 */
+--content-link-default: var(--theme-600); /* 37 99 235 (blue) */
+```
+
+**Dark mode values:**
+```css
+--content-strong: var(--base-200);   /* 229 229 229 */
+--content-subtle: var(--base-400);   /* 163 163 163 */
+--content-muted: var(--base-500);    /* 115 115 115 */
+--content-link-default: var(--theme-500); /* 59 130 246 (blue) */
+```
+
+### Action Colors
+
+Button and interactive element colors:
+
+```css
+--color-actions-primary-default
+--color-actions-primary-hover
+--color-actions-primary-disabled
+--color-actions-secondary-default
+--color-actions-secondary-hover
+--color-actions-secondary-disabled
+--color-actions-tertiary-default
+--color-actions-tertiary-hover
+--color-actions-tertiary-disabled
+--color-actions-danger-default
+--color-actions-danger-hover
+--color-actions-danger-disabled
+```
+
+**Mono scheme (grayscale primary):**
+```css
+/* Light mode */
+--actions-primary-default: var(--base-800);  /* 38 38 38 */
+--actions-primary-hover: var(--base-900);    /* 23 23 23 */
+
+/* Dark mode */
+--actions-primary-default: var(--base-200);  /* 229 229 229 */
+--actions-primary-hover: var(--base-100);    /* 245 245 245 */
+```
+
+**Color scheme (theme-colored primary):**
+```css
+/* Light mode */
+--actions-primary-default: var(--theme-600); /* 37 99 235 (blue) */
+--actions-primary-hover: var(--theme-700);   /* 29 78 216 */
+
+/* Dark mode */
+--actions-primary-default: var(--theme-500); /* 59 130 246 */
+--actions-primary-hover: var(--theme-400);   /* 96 165 250 */
+```
+
+<Tip>
+Use `mono` scheme for enterprise/professional UIs, `color` scheme for consumer/creative UIs.
+</Tip>
+
+### Border Colors
+
+```css
+--color-border-subtle              /* Default borders */
+--color-border-muted               /* Subtle dividers */
+--color-border-inverse             /* Inverse borders (on dark backgrounds) */
+--color-border-interactive-default /* Input/select borders */
+--color-border-interactive-hover   /* Hover state */
+--color-border-interactive-active  /* Focus/active state */
+```
+
+**Light mode values:**
+```css
+--border-subtle: var(--darken-6);            /* 0 0 0 / 0.06 */
+--border-muted: var(--darken-4);             /* 0 0 0 / 0.04 */
+--border-interactive-default: var(--darken-8); /* 0 0 0 / 0.08 */
+--border-interactive-active: var(--base-800);  /* 38 38 38 */
+```
+
+### Feedback Colors
+
+Status and alert colors:
+
+**Success (Lime):**
+```css
+--color-surface-feedback-success-subtle  /* Light: lime-200, Dark: lime-900 */
+--color-surface-feedback-success-muted   /* Light: lime-100, Dark: lime-950 */
+--color-content-feedback-success-strong  /* Light: lime-600, Dark: lime-400 */
+--color-content-feedback-success-subtle  /* Light: lime-700, Dark: lime-100 */
+--color-border-feedback-success-subtle   /* Light: lime-300, Dark: lime-800 */
+```
+
+**Warning (Amber):**
+```css
+--color-surface-feedback-warning-subtle  /* Light: amber-200, Dark: amber-900 */
+--color-surface-feedback-warning-muted   /* Light: amber-100, Dark: amber-950 */
+--color-content-feedback-warning-strong  /* Light: amber-600, Dark: amber-400 */
+--color-content-feedback-warning-subtle  /* Light: amber-700, Dark: amber-100 */
+--color-border-feedback-warning-subtle   /* Light: amber-200, Dark: amber-800 */
+```
+
+**Danger (Rose):**
+```css
+--color-surface-feedback-danger-subtle   /* Light: rose-200, Dark: rose-900 */
+--color-surface-feedback-danger-muted    /* Light: rose-100, Dark: rose-950 */
+--color-content-feedback-danger-strong   /* Light: rose-600, Dark: rose-500 */
+--color-content-feedback-danger-subtle   /* Light: rose-700, Dark: rose-100 */
+--color-border-feedback-danger-subtle    /* Light: rose-200, Dark: rose-800 */
+```
+
+**Info (Sky):**
+```css
+--color-surface-feedback-info-subtle     /* Light: sky-200, Dark: sky-900 */
+--color-surface-feedback-info-muted      /* Light: sky-100, Dark: sky-950 */
+--color-content-feedback-info-strong     /* Light: sky-600, Dark: sky-400 */
+--color-content-feedback-info-subtle     /* Light: sky-700, Dark: sky-100 */
+--color-border-feedback-info-subtle      /* Light: sky-200, Dark: sky-800 */
+```
+
+### Decorative Colors
+
+For badges, tags, and color-coded elements. Available for all 18 chromatic colors:
+
+```css
+--color-surface-decorative-{color}-strong  /* Vibrant background */
+--color-surface-decorative-{color}-subtle  /* Light background */
+--color-surface-decorative-{color}-muted   /* Very light background */
+--color-content-decorative-{color}-strong  /* Strong text */
+--color-content-decorative-{color}-subtle  /* Subtle text */
+--color-border-decorative-{color}-subtle   /* Border color */
+```
+
+**Example (violet):**
+```css
+/* Light mode */
+--surface-decorative-violet-strong: var(--violet-500); /* 139 92 246 */
+--surface-decorative-violet-subtle: var(--violet-200); /* 221 214 254 */
+--surface-decorative-violet-muted: var(--violet-100);  /* 237 233 254 */
+--content-decorative-violet-strong: var(--violet-600); /* 124 58 237 */
+--content-decorative-violet-subtle: var(--violet-700); /* 109 40 217 */
+--border-decorative-violet-subtle: var(--violet-200);  /* 221 214 254 */
+
+/* Dark mode */
+--surface-decorative-violet-strong: var(--violet-500); /* 139 92 246 */
+--surface-decorative-violet-subtle: var(--violet-900); /* 76 29 149 */
+--surface-decorative-violet-muted: var(--violet-950);  /* 46 16 101 */
+--content-decorative-violet-strong: var(--violet-400); /* 167 139 250 */
+--content-decorative-violet-subtle: var(--violet-100); /* 237 233 254 */
+--border-decorative-violet-subtle: var(--violet-800);  /* 91 33 182 */
+```
+
+### Utility Colors
+
+Specialized UI colors:
+
+```css
+--color-utility-kbd          /* Keyboard shortcut background */
+--color-utility-kbd-border   /* Keyboard shortcut border */
+--color-utility-focus-outer  /* Focus ring outer (3px) */
+--color-utility-focus-inner  /* Focus ring inner (1px) */
+--color-utility-shadow-l1    /* Shadow layer 1 (lightest) */
+--color-utility-shadow-l2    /* Shadow layer 2 */
+--color-utility-shadow-l3    /* Shadow layer 3 */
+--color-utility-shadow-l4    /* Shadow layer 4 (darkest) */
+--color-utility-backdrop     /* Modal/overlay backdrop */
+--color-utility-avatar       /* Avatar placeholder background */
+```
+
+## Lighten & Darken Overlays
+
+Transparent overlays for creating interactive states:
+
+```css
+--lighten-2: 255 255 255 / 0.02
+--lighten-4: 255 255 255 / 0.04
+--lighten-8: 255 255 255 / 0.08
+--lighten-16: 255 255 255 / 0.16
+/* ... through --lighten-96 */
+
+--darken-2: 0 0 0 / 0.02
+--darken-4: 0 0 0 / 0.04
+--darken-8: 0 0 0 / 0.08
+--darken-16: 0 0 0 / 0.16
+/* ... through --darken-96 */
+```
+
+**Usage:**
+```css
+/* Hover state in light mode */
+.button:hover {
+  background: rgb(var(--darken-5));
+}
+
+/* Hover state in dark mode */
+html[data-mode="dark"] .button:hover {
+  background: rgb(var(--lighten-8));
+}
+```
+
+<Note>
+Lighten/darken values are in RGB format (no `rgb()` wrapper), so you must wrap them: `rgb(var(--darken-8))`
+</Note>
+
+## Pure Colors
+
+Absolute white and black:
+
+```css
+--pure-white: 255 255 255
+--pure-black: 0 0 0
+```
+
+Use sparingly for maximum contrast or absolute values.
+
+## Color Usage Patterns
+
+### Buttons
+
+```css
+/* Primary button */
+.button-primary {
+  background: var(--color-actions-primary-default);
+  color: var(--color-content-on-accent-strong);
+}
+
+.button-primary:hover {
+  background: var(--color-actions-primary-hover);
+}
+
+/* Secondary button */
+.button-secondary {
+  background: var(--color-actions-secondary-default);
+  color: var(--color-content-strong);
+}
+```
+
+### Cards & Panels
+
+```css
+.card {
+  background: var(--color-surface-overlay);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-content-subtle);
+}
+```
+
+### Form Inputs
+
+```css
+.input {
+  background: var(--color-surface-page);
+  border: 1px solid var(--color-border-interactive-default);
+  color: var(--color-content-strong);
+}
+
+.input:hover {
+  border-color: var(--color-border-interactive-hover);
+}
+
+.input:focus {
+  border-color: var(--color-border-interactive-active);
+  box-shadow: 0 0 0 1px var(--color-utility-focus-inner),
+              0 0 0 4px var(--color-utility-focus-outer);
+}
+```
+
+### Alerts
+
+```css
+.alert-success {
+  background: var(--color-surface-feedback-success-muted);
+  border: 1px solid var(--color-border-feedback-success-subtle);
+  color: var(--color-content-feedback-success-strong);
+}
+```
+
+## Best Practices
+
+<Tip>
+**Do:**
+- Use semantic tokens (`--color-surface-page`) instead of raw palette tokens (`--blue-500`)
+- Wrap lighten/darken values with `rgb()`: `rgb(var(--darken-8))`
+- Test colors in both light and dark modes
+- Use decorative colors for badges and tags
+- Use feedback colors consistently (lime=success, amber=warning, rose=danger, sky=info)
+</Tip>
+
+<Info>
+**Don't:**
+- Hardcode color values
+- Mix theme colors with base colors for text/background (contrast issues)
+- Use pure-white/pure-black unless absolutely necessary
+- Forget to test color scheme switching (mono vs color)
+</Info>
+
+## Accessibility
+
+- All semantic tokens meet WCAG 2.1 Level AA contrast ratios (4.5:1 for text, 3:1 for UI)
+- Use `--color-content-strong` for important text to ensure readability
+- Decorative colors have sufficient contrast when paired with appropriate content tokens
+- Focus rings use high-contrast colors with double-ring design (inner + outer)
+
+<Note>
+When creating custom color combinations, verify contrast using browser DevTools or a contrast checker.
+</Note>

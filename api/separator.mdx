@@ -1,0 +1,117 @@
+---
+title: Separator
+description: Visual divider for separating content sections
+---
+
+<ComponentPreview name="separator-preview" />
+
+## Installation
+
+<Tabs items={['CLI', 'Manual']}>
+  <Tab value="CLI">
+    ```bash
+    npx @soft-ui/cli add separator
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step title="Install dependencies">
+        ```bash
+        npm install @base-ui/react class-variance-authority
+        ```
+      </Step>
+      <Step title="Copy component source">
+        Copy the separator component from `packages/react/src/components/separator.tsx`
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Separator } from '@soft-ui/react/separator'
+
+export default function Example() {
+  return (
+    <div>
+      <p>Content above</p>
+      <Separator />
+      <p>Content below</p>
+    </div>
+  )
+}
+```
+
+## Examples
+
+### Horizontal
+
+Default orientation creates a horizontal divider.
+
+<ComponentPreview name="separator-horizontal" />
+
+```tsx
+<div className="space-y-4">
+  <p>Section one</p>
+  <Separator orientation="horizontal" />
+  <p>Section two</p>
+</div>
+```
+
+### Vertical
+
+Use vertical orientation for side-by-side content.
+
+<ComponentPreview name="separator-vertical" />
+
+```tsx
+<div className="flex items-center gap-4 h-8">
+  <span>Item 1</span>
+  <Separator orientation="vertical" />
+  <span>Item 2</span>
+  <Separator orientation="vertical" />
+  <span>Item 3</span>
+</div>
+```
+
+### Decorative
+
+By default, separator has `role="separator"`. For purely decorative separators, use `decorative` prop.
+
+<ComponentPreview name="separator-decorative" />
+
+```tsx
+<Separator decorative />
+```
+
+## API Reference
+
+### Separator
+
+<ParamField path="orientation" type="string" default="horizontal">
+  Orientation of the separator: `horizontal`, `vertical`.
+</ParamField>
+
+<ParamField path="decorative" type="boolean" default={false}>
+  When `true`, removes semantic role. Use for purely visual separators.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+## Accessibility
+
+- Separator has `role="separator"` by default for semantic meaning
+- Use `decorative` prop to remove role for purely visual dividers
+- Automatically sets `aria-orientation` based on `orientation` prop
+- Does not receive keyboard focus
+
+## Design Tokens
+
+Separator uses design tokens for consistent styling:
+
+- Colors: `--color-border-muted`
+- Border radius: `--radius-max`
+- Size: `1px` thickness

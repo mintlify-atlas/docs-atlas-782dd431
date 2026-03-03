@@ -1,0 +1,263 @@
+---
+title: NumberField
+description: API reference for the NumberField component
+---
+
+# NumberField
+
+A number input with increment/decrement buttons, built on Base UI's NumberField primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/number-field`](https://base-ui.com/react/components/number-field)
+
+## Import
+
+```tsx
+import { NumberField } from "@soft-ui/react/number-field"
+```
+
+## Usage
+
+```tsx
+import { NumberField } from "@soft-ui/react/number-field"
+
+export default function Example() {
+  return (
+    <NumberField.Root defaultValue={0} min={0} max={100}>
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
+      </NumberField.Group>
+    </NumberField.Root>
+  )
+}
+```
+
+## Components
+
+### NumberField.Root
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Control size.
+  - `s`: 32px height
+  - `m`: 36px height
+  - `l`: 40px height
+</ParamField>
+
+<ParamField path="value" type="number">
+  Controlled value.
+</ParamField>
+
+<ParamField path="defaultValue" type="number">
+  Uncontrolled default value.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: number) => void">
+  Callback fired when value changes.
+</ParamField>
+
+<ParamField path="min" type="number">
+  Minimum value.
+</ParamField>
+
+<ParamField path="max" type="number">
+  Maximum value.
+</ParamField>
+
+<ParamField path="step" type="number" default="1">
+  Step increment/decrement amount.
+</ParamField>
+
+<ParamField path="largeStep" type="number">
+  Step amount for Shift+Arrow keys.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the number field.
+</ParamField>
+
+<ParamField path="required" type="boolean">
+  Makes the field required.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### NumberField.Group
+
+Container for input and buttons.
+
+<ParamField path="focusVisibleOnly" type="boolean" default="true">
+  Only show focus ring on keyboard navigation.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### NumberField.Input
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### NumberField.Increment
+
+Button to increment value.
+
+<ParamField path="children" type="React.ReactNode">
+  Custom icon. Defaults to plus icon.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### NumberField.Decrement
+
+Button to decrement value.
+
+<ParamField path="children" type="React.ReactNode">
+  Custom icon. Defaults to minus icon.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### NumberField.ScrubArea
+
+Makes an element draggable to change value.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### NumberField.ScrubAreaCursor
+
+Custom cursor for scrub area.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+## Examples
+
+### Basic
+
+```tsx
+import { NumberField } from "@soft-ui/react/number-field"
+
+export default function Basic() {
+  return (
+    <NumberField.Root defaultValue={0} min={0} max={100}>
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
+      </NumberField.Group>
+    </NumberField.Root>
+  )
+}
+```
+
+### Sizes
+
+```tsx
+import { NumberField } from "@soft-ui/react/number-field"
+
+export default function Sizes() {
+  return (
+    <div className="flex flex-col gap-4">
+      <NumberField.Root size="s" defaultValue={0}>
+        <NumberField.Group>
+          <NumberField.Decrement />
+          <NumberField.Input />
+          <NumberField.Increment />
+        </NumberField.Group>
+      </NumberField.Root>
+      <NumberField.Root size="m" defaultValue={0}>
+        <NumberField.Group>
+          <NumberField.Decrement />
+          <NumberField.Input />
+          <NumberField.Increment />
+        </NumberField.Group>
+      </NumberField.Root>
+      <NumberField.Root size="l" defaultValue={0}>
+        <NumberField.Group>
+          <NumberField.Decrement />
+          <NumberField.Input />
+          <NumberField.Increment />
+        </NumberField.Group>
+      </NumberField.Root>
+    </div>
+  )
+}
+```
+
+### With Constraints
+
+```tsx
+import { NumberField } from "@soft-ui/react/number-field"
+
+export default function WithConstraints() {
+  return (
+    <NumberField.Root 
+      defaultValue={5} 
+      min={0} 
+      max={10} 
+      step={0.5}
+    >
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
+      </NumberField.Group>
+    </NumberField.Root>
+  )
+}
+```
+
+### With Scrub Area
+
+```tsx
+import { NumberField } from "@soft-ui/react/number-field"
+
+export default function WithScrubArea() {
+  return (
+    <NumberField.Root defaultValue={50}>
+      <NumberField.ScrubArea>
+        <span>Drag to adjust</span>
+      </NumberField.ScrubArea>
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
+      </NumberField.Group>
+    </NumberField.Root>
+  )
+}
+```

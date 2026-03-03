@@ -1,0 +1,234 @@
+---
+title: Progress
+description: Visual indicator for showing task completion status
+---
+
+<ComponentPreview name="progress-preview" />
+
+## Installation
+
+<Tabs items={['CLI', 'Manual']}>
+  <Tab value="CLI">
+    ```bash
+    npx @soft-ui/cli add progress
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step title="Install dependencies">
+        ```bash
+        npm install @base-ui/react
+        ```
+      </Step>
+      <Step title="Copy component source">
+        Copy the progress component from `packages/react/src/components/progress.tsx`
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Progress } from '@soft-ui/react/progress'
+
+export default function Example() {
+  return (
+    <Progress.Root value={60}>
+      <Progress.Track>
+        <Progress.Indicator />
+      </Progress.Track>
+    </Progress.Root>
+  )
+}
+```
+
+## Examples
+
+### Sizes
+
+Two sizes available: `s` (default) and `m`.
+
+<ComponentPreview name="progress-sizes" />
+
+```tsx
+<Progress.Root size="s" value={60}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+
+<Progress.Root size="m" value={60}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### Tones
+
+Four semantic tones for different states.
+
+<ComponentPreview name="progress-tones" />
+
+```tsx
+<Progress.Root tone="default" value={60}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+
+<Progress.Root tone="success" value={100}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+
+<Progress.Root tone="warning" value={75}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+
+<Progress.Root tone="danger" value={25}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### With Label
+
+Add a descriptive label above the progress bar.
+
+<ComponentPreview name="progress-label" />
+
+```tsx
+<Progress.Root value={60}>
+  <Progress.Label>Uploading files</Progress.Label>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### With Value Display
+
+Show the numeric value alongside the progress bar.
+
+<ComponentPreview name="progress-value" />
+
+```tsx
+<Progress.Root value={60}>
+  <div className="flex items-center justify-between">
+    <Progress.Label>Processing</Progress.Label>
+    <Progress.Value />
+  </div>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### Indeterminate
+
+For unknown progress duration (loading state).
+
+<ComponentPreview name="progress-indeterminate" />
+
+```tsx
+<Progress.Root value={null}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### Dynamic Updates
+
+Progress animates smoothly when value changes.
+
+<ComponentPreview name="progress-dynamic" />
+
+```tsx
+const [value, setValue] = useState(0)
+
+useEffect(() => {
+  const timer = setInterval(() => {
+    setValue((prev) => (prev >= 100 ? 0 : prev + 10))
+  }, 500)
+  return () => clearInterval(timer)
+}, [])
+
+<Progress.Root value={value}>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+## API Reference
+
+### Progress.Root
+
+<ParamField path="value" type="number | null">
+  Current progress value (0-100). Use `null` for indeterminate state.
+</ParamField>
+
+<ParamField path="min" type="number" default={0}>
+  Minimum value.
+</ParamField>
+
+<ParamField path="max" type="number" default={100}>
+  Maximum value.
+</ParamField>
+
+<ParamField path="tone" type="string" default="default">
+  Semantic color tone: `default`, `success`, `warning`, `danger`.
+</ParamField>
+
+<ParamField path="size" type="string" default="s">
+  Size of the progress bar: `s`, `m`.
+</ParamField>
+
+### Progress.Label
+
+Accessible label for the progress indicator. Automatically associated with the progress element.
+
+<ParamField path="children" type="ReactNode">
+  Label text.
+</ParamField>
+
+### Progress.Track
+
+Background track for the progress indicator.
+
+### Progress.Indicator
+
+Filled portion showing progress. Width animates based on `value`.
+
+### Progress.Value
+
+Displays the current value as text (e.g., "60%").
+
+<ParamField path="children" type="(value: number, max: number) => ReactNode">
+  Optional render function to customize value display. Defaults to "{value}%".
+</ParamField>
+
+## Accessibility
+
+- Uses Base UI `Progress` primitive with proper ARIA attributes
+- `Progress.Label` automatically associates with progress via `aria-labelledby`
+- `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` automatically managed
+- Indeterminate state properly communicated to screen readers
+- Visual progress changes announced to assistive technology
+
+## Design Tokens
+
+Progress uses design tokens for consistent styling:
+
+- Spacing: `--space-4`, `--space-6`, `--space-8`
+- Border radius: `--radius-max` for rounded ends
+- Colors: `--color-surface-interactive-default` (track), `--color-content-*` (indicator)
+- Typography: `--font-size-s`, `--line-height-s`, `--font-weight-medium`
+- Animation: 300ms ease-out transition

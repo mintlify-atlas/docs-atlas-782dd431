@@ -1,0 +1,227 @@
+---
+title: Avatar
+description: Display user profile images with fallback support for initials and icons
+---
+
+<ComponentPreview name="avatar-preview" />
+
+## Installation
+
+<Tabs items={['CLI', 'Manual']}>
+  <Tab value="CLI">
+    ```bash
+    npx @soft-ui/cli add avatar
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step title="Install dependencies">
+        ```bash
+        npm install @base-ui/react class-variance-authority
+        ```
+      </Step>
+      <Step title="Copy component source">
+        Copy the avatar component from `packages/react/src/components/avatar.tsx`
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Avatar } from '@soft-ui/react/avatar'
+
+export default function Example() {
+  return (
+    <Avatar 
+      src="/avatars/user.jpg" 
+      alt="User name"
+      initials="JD"
+    />
+  )
+}
+```
+
+## Examples
+
+### Sizes
+
+Avatars support six sizes from `3xs` to `l`.
+
+<ComponentPreview name="avatar-sizes" />
+
+```tsx
+<Avatar size="3xs" initials="JD" />
+<Avatar size="2xs" initials="JD" />
+<Avatar size="xs" initials="JD" />
+<Avatar size="s" initials="JD" />
+<Avatar size="m" initials="JD" />
+<Avatar size="l" initials="JD" />
+```
+
+### Shapes
+
+Choose between circular (default) and square shapes.
+
+<ComponentPreview name="avatar-shapes" />
+
+```tsx
+<Avatar shape="circular" src="/avatar.jpg" />
+<Avatar shape="square" src="/avatar.jpg" />
+```
+
+### Image with Fallback
+
+When an image fails to load, avatar shows initials or icon fallback.
+
+<ComponentPreview name="avatar-fallback" />
+
+```tsx
+// Shows image if src loads, otherwise shows initials
+<Avatar 
+  src="/avatar.jpg" 
+  initials="JD" 
+  alt="John Doe"
+/>
+
+// Use icon fallback instead
+<Avatar 
+  src="/avatar.jpg"
+  fallback="icon"
+/>
+```
+
+### Initials
+
+Display up to 2 characters as initials (automatically uppercased).
+
+<ComponentPreview name="avatar-initials" />
+
+```tsx
+<Avatar initials="JD" />
+<Avatar initials="AB" />
+<Avatar initials="XY" />
+```
+
+### Custom Icon
+
+Provide a custom icon for the fallback.
+
+<ComponentPreview name="avatar-custom-icon" />
+
+```tsx
+import { RiTeamLine } from '@soft-ui/icons'
+
+<Avatar icon={<RiTeamLine />} />
+```
+
+### Decorative Colors
+
+Use with `isEmphasized` to apply decorative background colors.
+
+<ComponentPreview name="avatar-colors" />
+
+```tsx
+<Avatar initials="JD" isEmphasized color="blue" />
+<Avatar initials="AS" isEmphasized color="purple" />
+<Avatar initials="MK" isEmphasized color="pink" />
+<Avatar initials="TW" isEmphasized color="green" />
+```
+
+### Avatar Group
+
+Display multiple overlapping avatars with overflow count.
+
+<ComponentPreview name="avatar-group" />
+
+```tsx
+import { AvatarGroup } from '@soft-ui/react/avatar-group'
+
+<AvatarGroup max={3} size="m">
+  <Avatar src="/avatars/1.jpg" initials="JD" />
+  <Avatar src="/avatars/2.jpg" initials="AS" />
+  <Avatar src="/avatars/3.jpg" initials="MK" />
+  <Avatar src="/avatars/4.jpg" initials="TW" />
+  <Avatar src="/avatars/5.jpg" initials="LB" />
+</AvatarGroup>
+// Shows first 3 avatars + "+2" overflow indicator
+```
+
+## API Reference
+
+### Avatar
+
+<ParamField path="size" type="string" default="m">
+  Size of the avatar: `3xs`, `2xs`, `xs`, `s`, `m`, `l`.
+</ParamField>
+
+<ParamField path="shape" type="string" default="circular">
+  Shape of the avatar: `circular`, `square`.
+</ParamField>
+
+<ParamField path="src" type="string">
+  Image source URL.
+</ParamField>
+
+<ParamField path="alt" type="string" default="">
+  Alt text for the image.
+</ParamField>
+
+<ParamField path="initials" type="string">
+  1-2 characters to display as fallback. Automatically uppercased and limited to 2 characters.
+</ParamField>
+
+<ParamField path="icon" type="ReactNode">
+  Custom icon element for fallback. Defaults to user icon.
+</ParamField>
+
+<ParamField path="fallback" type="string" default="icon">
+  Fallback type to display when image fails: `initials`, `icon`.
+</ParamField>
+
+<ParamField path="isEmphasized" type="boolean" default={false}>
+  When `true`, applies border and allows color customization.
+</ParamField>
+
+<ParamField path="color" type="string">
+  Decorative color (requires `isEmphasized`): `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+### AvatarGroup
+
+<ParamField path="size" type="string" default="m">
+  Size applied to all child avatars: `3xs`, `2xs`, `xs`, `s`, `m`, `l`.
+</ParamField>
+
+<ParamField path="max" type="number" default={4}>
+  Maximum number of avatars to display. Additional avatars show as "+N" overflow count.
+</ParamField>
+
+<ParamField path="children" type="ReactNode">
+  Avatar components to group.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+## Accessibility
+
+- Always provide `alt` text for images
+- Initials are visible to screen readers
+- Fallback icons use `aria-hidden` when initials/images are present
+- Use semantic color variants for status indicators when possible
+
+## Design Tokens
+
+Avatar uses design tokens for consistent styling:
+
+- Spacing: `--space-*` for sizes
+- Border radius: `--radius-8` (square), `--radius-max` (circular)
+- Colors: `--color-utility-avatar`, `--color-surface-decorative-*`, `--color-border-decorative-*`
+- Typography: `--font-size-*`, `--line-height-*`, `--font-weight-medium`

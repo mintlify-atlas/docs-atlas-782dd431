@@ -1,0 +1,372 @@
+---
+title: Customization
+description: Learn how to customize and extend Soft UI components using variant props, CVA, and escape hatches.
+---
+
+# Customization
+
+Soft UI components are built to be flexible while maintaining design consistency. This guide covers the recommended approaches for customizing components.
+
+## Semantic Props Pattern
+
+The primary way to customize components is through semantic props: `variant`, `size`, `tone`, and component-specific props.
+
+### Variant Prop
+
+Controls the visual style of the component:
+
+```tsx
+import { Button } from "@soft-ui/react/button"
+
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="tertiary">Tertiary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>
+<Button variant="danger">Danger</Button>
+```
+
+### Size Prop
+
+Controls the dimensions and spacing:
+
+```tsx
+<Button size="xs">Extra Small</Button>
+<Button size="s">Small</Button>
+<Button size="m">Medium</Button>
+<Button size="l">Large</Button>
+```
+
+### Tone Prop
+
+Overrides color for certain variants. Supports both feedback and decorative tones:
+
+```tsx
+// Feedback tones
+<Button variant="ghost" tone="info">Info</Button>
+<Button variant="ghost" tone="warning">Warning</Button>
+<Button variant="ghost" tone="danger">Danger</Button>
+<Button variant="ghost" tone="success">Success</Button>
+
+// Decorative tones
+<Button variant="ghost" tone="blue">Blue</Button>
+<Button variant="ghost" tone="purple">Purple</Button>
+<Button variant="ghost" tone="green">Green</Button>
+```
+
+## Class Variance Authority (CVA)
+
+All Soft UI components use [CVA](https://cva.style) for managing variants. This provides type-safe variant composition.
+
+### Real Example from Button Component
+
+From `packages/react/src/components/button.tsx:56-97`:
+
+```tsx
+const buttonVariants = cva(
+  // Base styles
+  "inline-flex items-center justify-center whitespace-nowrap rounded-[var(--radius-max)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow,transform] outline-none select-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] active:enabled:scale-[0.98] disabled:cursor-not-allowed",
+  {
+    variants: {
+      variant: {
+        primary:
+          "bg-actions-primary-default text-content-on-accent-strong hover:enabled:bg-actions-primary-hover disabled:bg-actions-primary-disabled disabled:text-content-on-accent-disabled",
+        secondary:
+          "bg-actions-secondary-default text-content-strong hover:enabled:bg-actions-secondary-hover disabled:bg-actions-secondary-disabled disabled:text-content-disabled",
+        // ... more variants
+      },
+      size: {
+        xs: "h-[var(--space-28)] gap-[var(--space-2)] px-[var(--space-10)]",
+        s: "h-[var(--space-32)] gap-[var(--space-4)] px-[var(--space-12)]",
+        m: "h-[var(--space-36)] gap-[var(--space-4)] px-[var(--space-16)]",
+        l: "h-[var(--space-40)] gap-[var(--space-4)] px-[var(--space-16)]",
+      },
+    },
+    compoundVariants: [
+      {
+        variant: "link",
+        className: "px-0 hover:enabled:underline underline-offset-4",
+      },
+    ],
+    defaultVariants: {
+      variant: "primary",
+      size: "m",
+    },
+  }
+)
+```
+
+### Creating Custom Variants
+
+You can extend component variants by wrapping them:
+
+```tsx
+import { Button } from "@soft-ui/react/button"
+import { cva } from "class-variance-authority"
+import { cn } from "@soft-ui/react/lib/utils"
+
+const customButtonVariants = cva("", {
+  variants: {
+    custom: {
+      brand: "bg-gradient-to-r from-blue-500 to-purple-500 text-white",
+      outline: "border-2 border-current bg-transparent",
+    },
+  },
+})
+
+function CustomButton({ custom, ...props }) {
+  return (
+    <Button
+      unsafeClassName={cn(customButtonVariants({ custom }))}
+      {...props}
+    />
+  )
+}
+```
+
+## The className Prop
+
+The `className` prop is **additive only** and should be used for:
+
+- Layout positioning (`self-start`, `flex-1`)
+- Spacing from parent (`mt-4`, `mb-8`)
+- Width constraints (`w-full`, `max-w-xs`)
+
+**Do not use `className` to:**
+- Change component internals (height, padding, typography)
+- Override variant styles
+- Reposition slots (icons, labels)
+
+### Correct Usage
+
+```tsx
+// Layout placement
+<Button className="w-full">Full Width</Button>
+<Button className="self-start">Aligned Start</Button>
+
+// Spacing
+<Button className="mt-4 mb-2">With Margin</Button>
+
+// Container gaps
+<div className="flex gap-2">
+  <Button>Button 1</Button>
+  <Button>Button 2</Button>
+</div>
+```
+
+### Incorrect Usage
+
+```tsx
+// Don't do this - breaks design system
+<Button className="h-12 px-8 text-lg rounded-xl">
+  Broken Button
+</Button>
+
+// Use semantic props instead
+<Button size="l">Correct Button</Button>
+```
+
+## The unsafeClassName Escape Hatch
+
+For intentional structural overrides, hardened components provide `unsafeClassName`.
+
+**Use this only when:**
+- You need to override component internals
+- You've reviewed the design impact
+- Semantic props cannot achieve your goal
+
+### Components with unsafeClassName
+
+- `Button`, `IconButton`
+- `ButtonGroup`, `ButtonGroupItem`
+- `ToggleButton`, `ToggleGroup`, `ToggleGroupItem`
+- `Slider*`, `AdjustmentSlider`
+- `Input`, `Textarea`, `InputGroup`, `NumberField`
+- `CheckboxControl`, `RadioControl`, `SwitchControl`
+- `Tabs*`, `SegmentedControl*`
+- `Select.Trigger`, `Autocomplete.Root`, `Combobox.Root`
+- `Chip`, `ChipGroup`, `Badge`, `Avatar`, `AvatarGroup`
+- `Field`, `Filter`
+
+### Example Usage
+
+From `packages/react/src/components/button.tsx:136-174`:
+
+```tsx
+type ButtonProps = ButtonPrimitive.Props &
+  VariantProps<typeof buttonVariants> & {
+    leadingIcon?: React.ReactNode
+    trailingIcon?: React.ReactNode
+    tone?: ButtonTone
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
+  }
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      className,
+      unsafeClassName,
+      variant,
+      size,
+      tone,
+      // ...
+    },
+    ref
+  ) {
+    return (
+      <ButtonPrimitive
+        className={cn(
+          className,
+          buttonVariants({ variant, size }),
+          toneClass,
+          unsafeClassName // Applied last to override
+        )}
+      />
+    )
+  }
+)
+```
+
+### When to Use unsafeClassName
+
+```tsx
+// Creating a custom icon button size not in the design system
+<IconButton
+  unsafeClassName="h-14 w-14"
+  aria-label="Custom size"
+>
+  <CustomIcon />
+</IconButton>
+
+// Overriding slider thumb position for a unique UI
+<AdjustmentSlider
+  label="Custom"
+  unsafeClassName="[&_[data-slot='thumb']]:translate-y-1"
+/>
+```
+
+## Token-Driven Customization
+
+All components use CSS variables from the design token system.
+
+### Available Token Categories
+
+- **Colors**: `--color-actions-*`, `--color-content-*`, `--color-surface-*`, `--color-border-*`
+- **Spacing**: `--space-{2,4,8,10,12,16,18,20,24,28,32,36,40,...}`
+- **Typography**: `--font-size-*`, `--line-height-*`, `--font-weight-*`
+- **Radii**: `--radius-{4,6,8,10,12,max}`
+- **Focus**: `--color-utility-focus-inner`, `--color-utility-focus-outer`
+
+### Using Tokens in Custom Styles
+
+```tsx
+const customStyles = {
+  background: "var(--color-surface-overlay-default)",
+  padding: "var(--space-16)",
+  borderRadius: "var(--radius-10)",
+  color: "var(--color-content-strong)",
+}
+
+<div style={customStyles}>Custom Card</div>
+```
+
+### Utility Classes
+
+From `packages/tokens/src/utilities.css:54-184`, typography utilities are available:
+
+```tsx
+<p className="text-body-xs">Extra small body text</p>
+<p className="text-body-s-medium">Small medium body text</p>
+<p className="text-body-m">Medium body text</p>
+<p className="text-body-l-semibold">Large semibold text</p>
+<code className="text-mono-s">Monospace small</code>
+```
+
+## Extending Components
+
+### Wrapper Pattern
+
+Create a wrapper component to add custom behavior:
+
+```tsx
+import { Button } from "@soft-ui/react/button"
+import { useAnalytics } from "./analytics"
+
+function TrackedButton({ eventName, ...props }) {
+  const { track } = useAnalytics()
+
+  return (
+    <Button
+      {...props}
+      onClick={(e) => {
+        track(eventName)
+        props.onClick?.(e)
+      }}
+    />
+  )
+}
+
+<TrackedButton eventName="signup_clicked" variant="primary">
+  Sign Up
+</TrackedButton>
+```
+
+### Composition Pattern
+
+Compose multiple components for complex UIs:
+
+```tsx
+import { Button } from "@soft-ui/react/button"
+import { Badge } from "@soft-ui/react/badge"
+
+function NotificationButton({ count, ...props }) {
+  return (
+    <div className="relative inline-flex">
+      <Button {...props} />
+      {count > 0 && (
+        <Badge
+          className="absolute -top-1 -right-1"
+          variant="danger"
+          size="xs"
+        >
+          {count}
+        </Badge>
+      )}
+    </div>
+  )
+}
+```
+
+## Component Integrity Rules
+
+To prevent layout issues and maintain consistency:
+
+1. **Prefer semantic props** over `className`
+2. **Treat `className` as additive** (spacing, layout placement)
+3. **Use `unsafeClassName`** only for intentional structural overrides
+4. **Never change slot styling** (button labels/icons, slider values, segment indicators)
+5. **Use wrapper/container classes** for placement instead of styling component internals
+
+### Allowed vs Forbidden Overrides
+
+| Component Type | Allowed | Forbidden |
+|----------------|---------|----------|
+| Buttons | `variant`, `size`, `tone`, icon/label props | Forcing `h-*`, `w-*`, `px-*`, `text-*` via `className` |
+| Inputs | `variant`, `size`, prefix/suffix props | Overriding heights/paddings/typography |
+| Sliders | `variant`, `size`, min/max/step props | Repositioning thumb/value text |
+| Controls | checked/disabled/state props | Changing control dimensions |
+
+## Best Practices
+
+1. **Always check semantic props first** before reaching for `className` or `unsafeClassName`
+2. **Use design tokens** for consistent spacing and colors
+3. **Wrap components** for reusable customizations
+4. **Document intentional overrides** when using `unsafeClassName`
+5. **Test across variants and sizes** when extending components
+
+## Related Resources
+
+- [Animation Guidelines](/advanced/animations)
+- [Accessibility](/advanced/accessibility)
+- [Design Tokens](/design-system/tokens)

@@ -1,0 +1,189 @@
+---
+title: Tooltip
+description: Contextual information displayed on hover or focus.
+---
+
+Tooltips provide helpful information about UI elements when users hover or focus on them. Use them for labels, keyboard shortcuts, and explanations.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Simple Tooltip
+import { Tooltip } from "@soft-ui/react/tooltip"
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiSettings4Fill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger>
+        <IconButton><RiSettings4Fill /></IconButton>
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>
+            <Tooltip.Arrow />
+            <Tooltip.Simple>Settings</Tooltip.Simple>
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  )
+}
+```
+</CodeGroup>
+
+## Tooltip Variants
+
+Tooltip offers three content variants:
+
+### Simple
+
+Basic text with optional keyboard shortcut:
+
+<CodeGroup>
+```tsx Simple with Shortcut
+import { Tooltip } from "@soft-ui/react/tooltip"
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiSaveFill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger>
+        <IconButton><RiSaveFill /></IconButton>
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>
+            <Tooltip.Arrow />
+            <Tooltip.Simple shortcut={["⌘", "S"]}>
+              Save
+            </Tooltip.Simple>
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  )
+}
+```
+</CodeGroup>
+
+### Explainer
+
+Title with description and optional shortcut:
+
+<CodeGroup>
+```tsx Explainer
+import { Tooltip } from "@soft-ui/react/tooltip"
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiMagicFill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger>
+        <IconButton><RiMagicFill /></IconButton>
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>
+            <Tooltip.Arrow />
+            <Tooltip.Explainer title="AI Assistant" shortcut={["⌘", "K"]}>
+              Get help from AI to generate code and answer questions
+            </Tooltip.Explainer>
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  )
+}
+```
+</CodeGroup>
+
+### Breakdown
+
+Data visualization tooltips with title, description, and labeled items:
+
+<CodeGroup>
+```tsx Breakdown
+import { Tooltip } from "@soft-ui/react/tooltip"
+
+function Example() {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger>
+        <div>Hover over chart</div>
+      </Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Popup>
+            <Tooltip.Breakdown
+              title="March 2024"
+              description="Total revenue"
+              items={[
+                { label: "Product A", value: "$45,231", color: "blue" },
+                { label: "Product B", value: "$32,123", color: "success" },
+                { label: "Product C", value: "$12,456", color: "warning" },
+              ]}
+            />
+          </Tooltip.Popup>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip.Root>
+  )
+}
+```
+</CodeGroup>
+
+## Shared Delay with Provider
+
+Use `Tooltip.Provider` to coordinate delays across multiple tooltips:
+
+<CodeGroup>
+```tsx Provider
+import { Tooltip } from "@soft-ui/react/tooltip"
+import { IconButton } from "@soft-ui/react/icon-button"
+import { RiHomeFill, RiUserFill } from "@soft-ui/icons"
+
+function Example() {
+  return (
+    <Tooltip.Provider delay={200}>
+      <Tooltip.Root>
+        <Tooltip.Trigger>
+          <IconButton><RiHomeFill /></IconButton>
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Positioner>
+            <Tooltip.Popup>
+              <Tooltip.Simple>Home</Tooltip.Simple>
+            </Tooltip.Popup>
+          </Tooltip.Positioner>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+
+      <Tooltip.Root>
+        <Tooltip.Trigger>
+          <IconButton><RiUserFill /></IconButton>
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Positioner>
+            <Tooltip.Popup>
+              <Tooltip.Simple>Profile</Tooltip.Simple>
+            </Tooltip.Popup>
+          </Tooltip.Positioner>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
+  )
+}
+```
+</CodeGroup>
+
+<Note>
+Tooltips automatically animate with spring physics and respect reduced motion preferences.
+</Note>
+
+## API Reference
+
+For complete prop documentation including positioning and delay options, see the [Tooltip API reference](/api/tooltip).

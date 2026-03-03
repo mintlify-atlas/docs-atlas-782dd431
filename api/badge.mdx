@@ -1,0 +1,161 @@
+---
+title: Badge
+description: Compact labels for displaying status, metadata, or categorization
+---
+
+<ComponentPreview name="badge-preview" />
+
+## Installation
+
+<Tabs items={['CLI', 'Manual']}>
+  <Tab value="CLI">
+    ```bash
+    npx @soft-ui/cli add badge
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step title="Install dependencies">
+        ```bash
+        npm install class-variance-authority
+        ```
+      </Step>
+      <Step title="Copy component source">
+        Copy the badge component from `packages/react/src/components/badge.tsx`
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Badge } from '@soft-ui/react/badge'
+
+export default function Example() {
+  return <Badge variant="success">Active</Badge>
+}
+```
+
+## Examples
+
+### Variants
+
+Badges support semantic and decorative color variants.
+
+<ComponentPreview name="badge-variants" />
+
+```tsx
+// Semantic variants
+<Badge variant="neutral">Neutral</Badge>
+<Badge variant="info">Info</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="danger">Danger</Badge>
+<Badge variant="success">Success</Badge>
+
+// Decorative variants
+<Badge variant="blue">Blue</Badge>
+<Badge variant="purple">Purple</Badge>
+<Badge variant="pink">Pink</Badge>
+```
+
+### Sizes
+
+Three sizes available: `xs`, `s` (default), and `m`.
+
+<ComponentPreview name="badge-sizes" />
+
+```tsx
+<Badge size="xs">Extra Small</Badge>
+<Badge size="s">Small</Badge>
+<Badge size="m">Medium</Badge>
+```
+
+### Emphasized
+
+Use `isEmphasized` for higher contrast with background color and border.
+
+<ComponentPreview name="badge-emphasized" />
+
+```tsx
+<Badge isEmphasized variant="info">Emphasized</Badge>
+<Badge variant="info">Default</Badge>
+```
+
+### With Icons
+
+Add leading or trailing icons. Icons only appear on `s` and `m` sizes.
+
+<ComponentPreview name="badge-icons" />
+
+```tsx
+import { RiCheckLine, RiCloseLine } from '@soft-ui/icons'
+
+<Badge leadingIcon={<RiCheckLine />}>Verified</Badge>
+<Badge trailingIcon={<RiCloseLine />}>Dismissible</Badge>
+```
+
+### With Dots
+
+Use dots as decorative indicators. Dots are hidden if icons are present.
+
+<ComponentPreview name="badge-dots" />
+
+```tsx
+<Badge leadingDot variant="success">Active</Badge>
+<Badge trailingDot variant="warning">Pending</Badge>
+```
+
+## API Reference
+
+### Badge
+
+<ParamField path="variant" type="string" default="neutral">
+  Color variant. Semantic: `neutral`, `info`, `warning`, `danger`, `success`. Decorative: `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`.
+</ParamField>
+
+<ParamField path="size" type="string" default="s">
+  Size of the badge: `xs`, `s`, `m`.
+</ParamField>
+
+<ParamField path="isEmphasized" type="boolean" default={false}>
+  When `true`, applies background color and border for higher contrast.
+</ParamField>
+
+<ParamField path="leadingIcon" type="ReactNode">
+  Icon element to display before the label. Only shown on `s` and `m` sizes.
+</ParamField>
+
+<ParamField path="trailingIcon" type="ReactNode">
+  Icon element to display after the label. Only shown on `s` and `m` sizes.
+</ParamField>
+
+<ParamField path="leadingDot" type="boolean" default={false}>
+  Show decorative dot before the label. Hidden if `leadingIcon` is present.
+</ParamField>
+
+<ParamField path="trailingDot" type="boolean" default={false}>
+  Show decorative dot after the label. Hidden if `trailingIcon` is present.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides. Use with caution.
+</ParamField>
+
+<ParamField path="children" type="ReactNode">
+  Badge label content.
+</ParamField>
+
+## Accessibility
+
+- When a badge contains only an icon or dot without text, provide an `aria-label` on the parent element
+- Decorative adornments (icons, dots) are automatically hidden from screen readers when a label is present
+
+## Design Tokens
+
+Badge uses design tokens for consistent styling:
+
+- Spacing: `--space-*` for padding and gaps
+- Border radius: `--radius-max` for pill shape
+- Colors: `--color-actions-*`, `--color-content-*`, `--color-surface-*`, `--color-border-*`
+- Typography: `--font-size-*`, `--line-height-*`, `--font-weight-medium`

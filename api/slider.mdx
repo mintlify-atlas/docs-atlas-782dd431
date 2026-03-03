@@ -1,0 +1,254 @@
+---
+title: Slider
+description: API reference for the Slider component
+---
+
+# Slider
+
+A slider control with multiple variants and extensive animation support, built on Base UI's Slider primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/slider`](https://base-ui.com/react/components/slider)
+
+## Import
+
+```tsx
+import { Slider } from "@soft-ui/react/slider"
+```
+
+## Usage
+
+```tsx
+import { Slider } from "@soft-ui/react/slider"
+
+export default function Example() {
+  return (
+    <Slider defaultValue={50} min={0} max={100}>
+      <Slider.Control>
+        <Slider.Track>
+          <Slider.Indicator />
+          <Slider.Thumb />
+        </Slider.Track>
+      </Slider.Control>
+    </Slider>
+  )
+}
+```
+
+## Components
+
+### Slider (Root)
+
+<ParamField path="variant" type="'default' | 'adjustment' | 'segmented'" default="'default'">
+  Visual variant.
+  - `default`: Standard slider with circular thumb
+  - `adjustment`: Compact slider with inline value
+  - `segmented`: Slider with visual segments
+</ParamField>
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Control size.
+  - `s`: 32px height (adjustment/segmented)
+  - `m`: 36px height (adjustment/segmented)
+  - `l`: 40px height (adjustment/segmented)
+</ParamField>
+
+<ParamField path="value" type="number | readonly number[]">
+  Controlled value.
+</ParamField>
+
+<ParamField path="defaultValue" type="number | readonly number[]">
+  Uncontrolled default value.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: number | readonly number[]) => void">
+  Callback fired when value changes.
+</ParamField>
+
+<ParamField path="min" type="number" default="0">
+  Minimum value.
+</ParamField>
+
+<ParamField path="max" type="number" default="100">
+  Maximum value.
+</ParamField>
+
+<ParamField path="step" type="number" default="1">
+  Step increment.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the slider.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Slider.Control
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Slider.Track
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Slider.Indicator
+
+Filled portion of the track.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Slider.Thumb
+
+Draggable thumb control.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Slider.Value
+
+Displays current value (for adjustment variant).
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Slider.AdjustmentTrack
+
+Visual wrapper for adjustment variant.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Slider.SegmentedTrack / SelectedSegment / UnselectedSegment / SegmentedGap / SegmentedThumb
+
+Components for segmented variant.
+
+## Examples
+
+### Default Variant
+
+```tsx
+import { Slider } from "@soft-ui/react/slider"
+
+export default function Default() {
+  return (
+    <Slider defaultValue={50} min={0} max={100}>
+      <Slider.Control>
+        <Slider.Track>
+          <Slider.Indicator />
+          <Slider.Thumb />
+        </Slider.Track>
+      </Slider.Control>
+    </Slider>
+  )
+}
+```
+
+### Adjustment Variant
+
+```tsx
+import { Slider } from "@soft-ui/react/slider"
+
+export default function Adjustment() {
+  return (
+    <Slider variant="adjustment" defaultValue={50} min={0} max={100}>
+      <Slider.Control>
+        <Slider.AdjustmentTrack>
+          <Slider.Track>
+            <Slider.Indicator />
+            <Slider.Thumb />
+          </Slider.Track>
+          <Slider.Value />
+        </Slider.AdjustmentTrack>
+      </Slider.Control>
+    </Slider>
+  )
+}
+```
+
+### Segmented Variant
+
+```tsx
+import { Slider } from "@soft-ui/react/slider"
+
+export default function Segmented() {
+  return (
+    <Slider variant="segmented" defaultValue={50} min={0} max={100}>
+      <Slider.Control>
+        <Slider.Track>
+          <Slider.SegmentedTrack>
+            <Slider.SelectedSegment />
+            <Slider.SegmentedGap />
+            <Slider.SegmentedThumb />
+            <Slider.SegmentedGap />
+            <Slider.UnselectedSegment />
+          </Slider.SegmentedTrack>
+          <Slider.Thumb />
+        </Slider.Track>
+      </Slider.Control>
+    </Slider>
+  )
+}
+```
+
+### With Custom Step
+
+```tsx
+import { Slider } from "@soft-ui/react/slider"
+
+export default function CustomStep() {
+  return (
+    <Slider defaultValue={50} min={0} max={100} step={10}>
+      <Slider.Control>
+        <Slider.Track>
+          <Slider.Indicator />
+          <Slider.Thumb />
+        </Slider.Track>
+      </Slider.Control>
+    </Slider>
+  )
+}
+```
+
+## Animation Configuration
+
+The Slider component supports extensive animation customization via `window.__sliderAnimConfig`. See slider.tsx:72-188 for complete configuration options.

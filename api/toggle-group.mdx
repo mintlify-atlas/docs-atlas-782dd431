@@ -1,0 +1,339 @@
+---
+title: ToggleGroup
+description: Group of toggle buttons with optional separators and icon morphing.
+---
+
+# ToggleGroup
+
+A component that manages a group of toggle buttons, supporting both single and multiple selection modes.
+
+## Import
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@soft-ui/react/toggle-group"
+```
+
+## Components
+
+### ToggleGroup
+
+The container component that manages toggle state across items.
+
+<ParamField path="size" type="string" default="m">
+  The size of all items in the group.
+  
+  **Options:**
+  - `xs` - 28px height (var(--space-28))
+  - `s` - 32px height (var(--space-32))
+  - `m` - 36px height (var(--space-36))
+  - `l` - 40px height (var(--space-40))
+</ParamField>
+
+<ParamField path="variant" type="string" default="ghost">
+  The visual style variant for all items.
+  
+  **Options:**
+  - `ghost` - Transparent background, visible on hover (default)
+  - `tertiary` - Glass-like appearance with shadow and blur
+  - `secondary` - Subtle gray background
+</ParamField>
+
+<ParamField path="hideSeparator" type="boolean" default={false}>
+  Hide separators between items.
+</ParamField>
+
+<ParamField path="value" type="readonly unknown[]">
+  Controlled array of selected toggle values.
+</ParamField>
+
+<ParamField path="defaultValue" type="readonly unknown[]">
+  Default array of selected toggle values for uncontrolled usage.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: unknown[], eventDetails: object) => void">
+  Callback fired when the selection changes.
+</ParamField>
+
+<ParamField path="allowEmpty" type="boolean">
+  Whether to allow all items to be unselected. Passed to Base UI.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  ToggleGroupItem components to display in the group.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the group container.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+### ToggleGroupItem
+
+Individual toggle button within a ToggleGroup.
+
+<ParamField path="value" type="string" required>
+  Unique value to identify this toggle in the group.
+</ParamField>
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Leading icon displayed before the label.
+</ParamField>
+
+<ParamField path="pressedIcon" type="React.ReactNode">
+  Icon displayed when toggle is pressed (for icon morphing).
+</ParamField>
+
+<ParamField path="trailingIcon" type="React.ReactNode">
+  Trailing icon displayed after the label.
+</ParamField>
+
+<ParamField path="morph" type="boolean" default={false}>
+  Enable morph animation between icons. When false, uses fade transition.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode">
+  Text label for the item.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  When true, disables interaction and applies disabled styling.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the item.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+## Usage
+
+### Basic Toggle Group
+
+```tsx
+<ToggleGroup>
+  <ToggleGroupItem value="left">Left</ToggleGroupItem>
+  <ToggleGroupItem value="center">Center</ToggleGroupItem>
+  <ToggleGroupItem value="right">Right</ToggleGroupItem>
+</ToggleGroup>
+```
+
+### Variants
+
+```tsx
+<ToggleGroup variant="ghost">
+  <ToggleGroupItem value="1">Option 1</ToggleGroupItem>
+  <ToggleGroupItem value="2">Option 2</ToggleGroupItem>
+</ToggleGroup>
+
+<ToggleGroup variant="tertiary">
+  <ToggleGroupItem value="1">Option 1</ToggleGroupItem>
+  <ToggleGroupItem value="2">Option 2</ToggleGroupItem>
+</ToggleGroup>
+
+<ToggleGroup variant="secondary">
+  <ToggleGroupItem value="1">Option 1</ToggleGroupItem>
+  <ToggleGroupItem value="2">Option 2</ToggleGroupItem>
+</ToggleGroup>
+```
+
+### Sizes
+
+```tsx
+<ToggleGroup size="xs">
+  <ToggleGroupItem value="xs1">XS</ToggleGroupItem>
+  <ToggleGroupItem value="xs2">XS</ToggleGroupItem>
+</ToggleGroup>
+
+<ToggleGroup size="s">
+  <ToggleGroupItem value="s1">Small</ToggleGroupItem>
+  <ToggleGroupItem value="s2">Small</ToggleGroupItem>
+</ToggleGroup>
+
+<ToggleGroup size="m">
+  <ToggleGroupItem value="m1">Medium</ToggleGroupItem>
+  <ToggleGroupItem value="m2">Medium</ToggleGroupItem>
+</ToggleGroup>
+
+<ToggleGroup size="l">
+  <ToggleGroupItem value="l1">Large</ToggleGroupItem>
+  <ToggleGroupItem value="l2">Large</ToggleGroupItem>
+</ToggleGroup>
+```
+
+### With Icons
+
+```tsx
+import { GridIcon, ListIcon } from "@soft-ui/icons"
+
+<ToggleGroup>
+  <ToggleGroupItem value="grid" leadingIcon={<GridIcon />}>
+    Grid
+  </ToggleGroupItem>
+  <ToggleGroupItem value="list" leadingIcon={<ListIcon />}>
+    List
+  </ToggleGroupItem>
+</ToggleGroup>
+```
+
+### Icon-Only Items
+
+```tsx
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "@soft-ui/icons"
+
+<ToggleGroup>
+  <ToggleGroupItem value="bold" leadingIcon={<BoldIcon />} aria-label="Bold" />
+  <ToggleGroupItem value="italic" leadingIcon={<ItalicIcon />} aria-label="Italic" />
+  <ToggleGroupItem value="underline" leadingIcon={<UnderlineIcon />} aria-label="Underline" />
+</ToggleGroup>
+```
+
+### Icon Morphing
+
+```tsx
+import { StarIcon, StarFilledIcon } from "@soft-ui/icons"
+
+<ToggleGroup>
+  <ToggleGroupItem
+    value="star"
+    leadingIcon={<StarIcon />}
+    pressedIcon={<StarFilledIcon />}
+    morph
+  >
+    Favorite
+  </ToggleGroupItem>
+</ToggleGroup>
+```
+
+### Without Separators
+
+```tsx
+<ToggleGroup hideSeparator>
+  <ToggleGroupItem value="1">One</ToggleGroupItem>
+  <ToggleGroupItem value="2">Two</ToggleGroupItem>
+  <ToggleGroupItem value="3">Three</ToggleGroupItem>
+</ToggleGroup>
+```
+
+### Controlled Toggle Group
+
+```tsx
+import { useState } from "react"
+
+function TextAlignment() {
+  const [alignment, setAlignment] = useState<string[]>(['left'])
+  
+  return (
+    <ToggleGroup value={alignment} onValueChange={setAlignment}>
+      <ToggleGroupItem value="left">Left</ToggleGroupItem>
+      <ToggleGroupItem value="center">Center</ToggleGroupItem>
+      <ToggleGroupItem value="right">Right</ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+### Uncontrolled with Default
+
+```tsx
+<ToggleGroup defaultValue={['center']}>
+  <ToggleGroupItem value="left">Left</ToggleGroupItem>
+  <ToggleGroupItem value="center">Center</ToggleGroupItem>
+  <ToggleGroupItem value="right">Right</ToggleGroupItem>
+</ToggleGroup>
+```
+
+### Multiple Selection
+
+```tsx
+import { useState } from "react"
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "@soft-ui/icons"
+
+function TextFormatting() {
+  const [formats, setFormats] = useState<string[]>([])
+  
+  return (
+    <ToggleGroup value={formats} onValueChange={setFormats}>
+      <ToggleGroupItem value="bold" leadingIcon={<BoldIcon />}>
+        Bold
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" leadingIcon={<ItalicIcon />}>
+        Italic
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline" leadingIcon={<UnderlineIcon />}>
+        Underline
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+## Animation
+
+ToggleGroup includes sophisticated animations:
+
+### Icon Animations
+
+**Fade Mode (default):**
+- Duration: 150ms
+- Easing: [0.19, 1, 0.22, 1] (custom ease-out)
+
+**Morph Mode:**
+- Y-axis translation: 8px
+- Scale: 0.5 to 1.0
+- Blur: 0 to 8px
+- Spring: bounce 0.2, duration 250ms
+
+### Label Animations
+
+Layout animations use spring physics:
+- Spring: bounce 0.15, duration 250ms
+- Automatically adjusts width when text changes
+
+All animations respect `prefers-reduced-motion`.
+
+## Behavior
+
+- Items automatically track their pressed state based on the group's value
+- Gap of 4px (var(--space-4)) between items
+- Separators are 16px tall (var(--space-16)) and use border-interactive-default
+- Active state on items scales down to 0.98
+- Focus is managed at the item level with proper z-index
+
+## Accessibility
+
+- Built on Base UI's `ToggleGroup` and `Toggle` primitives
+- Items use `data-pressed` attribute to indicate state
+- Focus ring appears on individual items with z-10 layering
+- When using icon-only items, always provide `aria-label`
+- Supports keyboard navigation between items
+- Disabled items use `cursor-not-allowed` and reduced opacity
+
+## Design Tokens
+
+The ToggleGroup components use the following design tokens:
+
+**Colors:**
+- `actions-tertiary-default`, `actions-tertiary-hover`, `actions-tertiary-disabled`
+- `actions-secondary-default`, `actions-secondary-hover`, `actions-secondary-disabled`
+- `content-strong`, `content-subtle`, `content-disabled`
+- `border-interactive-default` (separators)
+
+**Spacing:**
+- Heights: `space-28`, `space-32`, `space-36`, `space-40`
+- Horizontal padding: `space-10`, `space-12`, `space-16`
+- Gap between items: `space-4`
+- Gap between elements: `space-2`, `space-4`
+- Icon sizes: `space-16`, `space-18`
+- Label padding: `space-4`, `space-6`
+- Separator height: `space-16`
+
+**Other:**
+- Border radius: `radius-max`
+- Font weight: `font-weight-medium`
+- Focus ring: `utility-focus-inner`, `utility-focus-outer`
+- Shadows (tertiary): `utility-shadow-l1`, `utility-shadow-l2`, `utility-shadow-l3`

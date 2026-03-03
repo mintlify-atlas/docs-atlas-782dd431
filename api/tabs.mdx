@@ -1,0 +1,193 @@
+---
+title: Tabs
+description: API reference for the Tabs component
+---
+
+# Tabs
+
+A set of layered sections of content that can be navigated through tabs.
+
+## Import
+
+```jsx
+import { Tabs } from "@soft-ui/react/tabs"
+```
+
+## Anatomy
+
+```jsx
+<Tabs.Root variant="stroke" size="m">
+  <Tabs.List>
+    <Tabs.Trigger value="tab1" leadingIcon={<Icon />}>Tab 1</Tabs.Trigger>
+    <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Content value="tab1">Content 1</Tabs.Content>
+  <Tabs.Content value="tab2">Content 2</Tabs.Content>
+</Tabs.Root>
+```
+
+## Tabs.Root
+
+The root container for the tabs component.
+
+<ParamField path="variant" type="'stroke' | 'pill' | 'pill-emphasized'" default="'stroke'">
+  Visual style variant of the tabs
+  - `stroke`: Underline indicator below tabs
+  - `pill`: Pill-shaped background indicator
+  - `pill-emphasized`: Pill-shaped background with accent color
+</ParamField>
+
+<ParamField path="size" type="'s' | 'm'" default="'m'">
+  Size of the tabs
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  The value of the tab that should be active by default
+</ParamField>
+
+<ParamField path="value" type="string">
+  The controlled value of the active tab
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: string) => void">
+  Callback fired when the active tab changes
+</ParamField>
+
+<ParamField path="orientation" type="'horizontal' | 'vertical'" default="'horizontal'">
+  The orientation of the tabs
+</ParamField>
+
+<ParamField path="activationMode" type="'automatic' | 'manual'" default="'automatic'">
+  Whether tabs are activated automatically on focus or require explicit activation
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="tabs"`
+- `data-variant`: Current variant (`stroke`, `pill`, `pill-emphasized`)
+- `data-size`: Current size (`s`, `m`)
+
+## Tabs.List
+
+Container for the tab triggers and indicator.
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="tabs-list"`
+
+## Tabs.Trigger
+
+A button that activates a tab panel.
+
+<ParamField path="value" type="string" required>
+  Unique identifier for this tab
+</ParamField>
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Icon displayed before the tab label
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the tab is disabled
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="tabs-trigger"`
+- `data-active`: Present when the tab is active
+- `data-disabled`: Present when the tab is disabled
+
+## Tabs.Indicator
+
+Visual indicator showing the active tab.
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="tabs-indicator"`
+
+## Tabs.Content
+
+Container for the content of a tab panel.
+
+<ParamField path="value" type="string" required>
+  The value of the tab that this content is associated with
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="tabs-content"`
+
+## Examples
+
+### Basic Tabs
+
+```jsx
+<Tabs.Root defaultValue="home">
+  <Tabs.List>
+    <Tabs.Trigger value="home">Home</Tabs.Trigger>
+    <Tabs.Trigger value="profile">Profile</Tabs.Trigger>
+    <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Content value="home">Home content</Tabs.Content>
+  <Tabs.Content value="profile">Profile content</Tabs.Content>
+  <Tabs.Content value="settings">Settings content</Tabs.Content>
+</Tabs.Root>
+```
+
+### Pill Variant with Icons
+
+```jsx
+<Tabs.Root variant="pill" defaultValue="overview">
+  <Tabs.List>
+    <Tabs.Trigger value="overview" leadingIcon={<HomeIcon />}>
+      Overview
+    </Tabs.Trigger>
+    <Tabs.Trigger value="analytics" leadingIcon={<ChartIcon />}>
+      Analytics
+    </Tabs.Trigger>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Content value="overview">Overview content</Tabs.Content>
+  <Tabs.Content value="analytics">Analytics content</Tabs.Content>
+</Tabs.Root>
+```
+
+### Controlled Tabs
+
+```jsx
+const [value, setValue] = React.useState("first")
+
+return (
+  <Tabs.Root value={value} onValueChange={setValue}>
+    <Tabs.List>
+      <Tabs.Trigger value="first">First</Tabs.Trigger>
+      <Tabs.Trigger value="second">Second</Tabs.Trigger>
+      <Tabs.Indicator />
+    </Tabs.List>
+    <Tabs.Content value="first">First tab content</Tabs.Content>
+    <Tabs.Content value="second">Second tab content</Tabs.Content>
+  </Tabs.Root>
+)
+```

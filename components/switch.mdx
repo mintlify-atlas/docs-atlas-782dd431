@@ -1,0 +1,108 @@
+---
+title: Switch
+description: Toggle between two states with a sliding switch control.
+---
+
+Switch provides an alternative to checkboxes for binary on/off states. Use switches for settings that take effect immediately.
+
+## Basic Usage
+
+<CodeGroup>
+```tsx Basic Switch
+import { Switch } from "@soft-ui/react/switch"
+
+function Example() {
+  return <Switch label="Enable notifications" />
+}
+```
+
+```tsx With Description
+import { Switch } from "@soft-ui/react/switch"
+
+function Example() {
+  return (
+    <Switch
+      label="Dark mode"
+      description="Use dark theme across the application"
+    />
+  )
+}
+```
+</CodeGroup>
+
+## Label Position
+
+Control label placement with the `position` prop:
+
+<CodeGroup>
+```tsx Label Position
+import { Switch } from "@soft-ui/react/switch"
+
+function Example() {
+  return (
+    <>
+      <Switch label="Label on right" position="right" />
+      <Switch label="Label on left" position="left" />
+    </>
+  )
+}
+```
+</CodeGroup>
+
+## Controlled State
+
+<CodeGroup>
+```tsx Controlled
+import { useState } from "react"
+import { Switch } from "@soft-ui/react/switch"
+
+function Example() {
+  const [enabled, setEnabled] = useState(false)
+
+  return (
+    <Switch
+      label="Auto-save"
+      checked={enabled}
+      onCheckedChange={setEnabled}
+    />
+  )
+}
+```
+</CodeGroup>
+
+## Switch Without Label
+
+<CodeGroup>
+```tsx Standalone
+import { Switch } from "@soft-ui/react/switch"
+
+function Example() {
+  return <Switch aria-label="Toggle feature" />
+}
+```
+</CodeGroup>
+
+<Tip>
+Use Switch for settings that apply immediately. Use Checkbox when changes require confirmation (like in a form).
+</Tip>
+
+## Disabled State
+
+<CodeGroup>
+```tsx Disabled
+import { Switch } from "@soft-ui/react/switch"
+
+function Example() {
+  return (
+    <Switch
+      label="Disabled switch"
+      disabled
+    />
+  )
+}
+```
+</CodeGroup>
+
+## API Reference
+
+For complete prop documentation, see the [Switch API reference](/api/switch).

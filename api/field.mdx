@@ -1,0 +1,231 @@
+---
+title: Field
+description: API reference for the Field component
+---
+
+# Field
+
+A field wrapper that provides label, description, and error message support for form controls, built on Base UI's Field primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/field`](https://base-ui.com/react/components/field)
+
+## Import
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+```
+
+## Usage
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+
+export default function Example() {
+  return (
+    <Field
+      label="Email address"
+      description="We'll never share your email"
+      error="Please enter a valid email"
+    >
+      <Input type="email" placeholder="you@example.com" />
+    </Field>
+  )
+}
+```
+
+## Props
+
+<ParamField path="label" type="string">
+  Label text displayed above the control.
+</ParamField>
+
+<ParamField path="description" type="string">
+  Description text displayed below the label.
+</ParamField>
+
+<ParamField path="error" type="string">
+  Error message displayed below the control with error icon.
+</ParamField>
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Size variant affecting label/description typography.
+  - `s`: Extra small text
+  - `m`: Medium text
+  - `l`: Medium text
+</ParamField>
+
+<ParamField path="invalid" type="boolean">
+  Marks field as invalid (automatically true if `error` is provided).
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disabled state - affects label/description styling.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  The form control element (Input, Select, etc.).
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the container.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+## Examples
+
+### Basic
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+
+export default function Basic() {
+  return (
+    <Field label="Email address">
+      <Input type="email" placeholder="you@example.com" />
+    </Field>
+  )
+}
+```
+
+### With Description
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+
+export default function WithDescription() {
+  return (
+    <Field
+      label="Email address"
+      description="We'll never share your email with anyone else"
+    >
+      <Input type="email" placeholder="you@example.com" />
+    </Field>
+  )
+}
+```
+
+### With Error
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+
+export default function WithError() {
+  return (
+    <Field
+      label="Email address"
+      error="Please enter a valid email address"
+    >
+      <Input type="email" placeholder="you@example.com" />
+    </Field>
+  )
+}
+```
+
+### With Textarea
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Textarea } from "@soft-ui/react/textarea"
+
+export default function WithTextarea() {
+  return (
+    <Field
+      label="Message"
+      description="Enter your message here"
+    >
+      <Textarea rows={4} placeholder="Type your message..." />
+    </Field>
+  )
+}
+```
+
+### With Select
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Select } from "@soft-ui/react/select"
+
+export default function WithSelect() {
+  return (
+    <Field
+      label="Country"
+      description="Select your country"
+    >
+      <Select.Root>
+        <Select.Trigger>
+          <Select.Value placeholder="Select a country" />
+          <Select.Icon />
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Positioner>
+            <Select.Popup>
+              <Select.List>
+                <Select.Item value="us">
+                  <Select.ItemText>United States</Select.ItemText>
+                  <Select.ItemIndicator />
+                </Select.Item>
+                <Select.Item value="ca">
+                  <Select.ItemText>Canada</Select.ItemText>
+                  <Select.ItemIndicator />
+                </Select.Item>
+              </Select.List>
+            </Select.Popup>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select.Root>
+    </Field>
+  )
+}
+```
+
+### Size Variants
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+
+export default function SizeVariants() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Field size="s" label="Small" description="Small description">
+        <Input size="s" placeholder="Small input" />
+      </Field>
+      <Field size="m" label="Medium" description="Medium description">
+        <Input size="m" placeholder="Medium input" />
+      </Field>
+      <Field size="l" label="Large" description="Large description">
+        <Input size="l" placeholder="Large input" />
+      </Field>
+    </div>
+  )
+}
+```
+
+### Disabled State
+
+```tsx
+import { Field } from "@soft-ui/react/field"
+import { Input } from "@soft-ui/react/input"
+
+export default function DisabledState() {
+  return (
+    <Field
+      label="Disabled field"
+      description="This field is disabled"
+      disabled
+    >
+      <Input disabled placeholder="Cannot edit" />
+    </Field>
+  )
+}
+```

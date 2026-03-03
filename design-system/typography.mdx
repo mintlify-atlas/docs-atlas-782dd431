@@ -1,0 +1,347 @@
+---
+title: Typography
+description: The typography scale, weights, and font configuration for Soft UI.
+---
+
+Soft UI uses a refined typography system built on Inter Variable with custom weights and a consistent size scale.
+
+## Font Family
+
+Soft UI uses **Inter Variable** for all UI text:
+
+```css
+@import url('https://rsms.me/inter/inter.css');
+
+html {
+  font-family: 'Inter Variable', system-ui, sans-serif;
+  font-feature-settings: 'cv11' 1; /* Single-story 'a' */
+}
+```
+
+<Info>
+Inter Variable supports the full weight range (100-900), allowing precise optical tuning with custom weights.
+</Info>
+
+## Font Weights
+
+Soft UI uses three carefully chosen weights:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--font-weight-default` | 400 | Body text, labels |
+| `--font-weight-medium` | 480 | Emphasized text, buttons |
+| `--font-weight-semibold` | 550 | Headings, strong emphasis |
+
+```css
+/* Default */
+body {
+  font-weight: var(--font-weight-default); /* 400 */
+}
+
+/* Medium (buttons, emphasized text) */
+button {
+  font-weight: var(--font-weight-medium); /* 480 */
+}
+
+/* Semibold (headings) */
+h1, h2, h3 {
+  font-weight: var(--font-weight-semibold); /* 550 */
+}
+```
+
+<Note>
+Weights 480 and 550 are custom values that provide better optical balance than standard 500/600.
+</Note>
+
+## Typography Scale
+
+The scale uses paired font-size and line-height tokens:
+
+| Size | Font Size Token | Line Height Token | Font Size | Line Height | Usage |
+|------|----------------|-------------------|-----------|-------------|-------|
+| `2xs` | `--font-size-2xs` | `--line-height-2xs` | 10px | 10px | Captions, fine print |
+| `xs` | `--font-size-xs` | `--line-height-xs` | 12px | 16px | Small labels, metadata |
+| `s` | `--font-size-s` | `--line-height-s` | 13px | 18px | Compact UI elements |
+| `m` | `--font-size-m` | `--line-height-m` | 14px | 20px | Body text (default) |
+| `l` | `--font-size-l` | `--line-height-l` | 16px | 22px | Emphasized body |
+| `xl` | `--font-size-xl` | `--line-height-xl` | 18px | 24px | Subheadings |
+| `2xl` | `--font-size-2xl` | `--line-height-2xl` | 20px | 28px | Section headings |
+| `3xl` | `--font-size-3xl` | `--line-height-3xl` | 24px | 32px | Page headings |
+
+### Token Definitions
+
+```css
+/* Font sizes */
+--font-size-2xs: 10px;
+--font-size-xs: 12px;
+--font-size-s: 13px;
+--font-size-m: 14px;
+--font-size-l: 16px;
+--font-size-xl: 18px;
+--font-size-2xl: 20px;
+--font-size-3xl: 24px;
+
+/* Line heights */
+--line-height-2xs: 10px;
+--line-height-xs: 16px;
+--line-height-s: 18px;
+--line-height-m: 20px;
+--line-height-l: 22px;
+--line-height-xl: 24px;
+--line-height-2xl: 28px;
+--line-height-3xl: 32px;
+```
+
+## Usage Examples
+
+### Body Text (Default)
+
+```css
+body {
+  font-size: var(--font-size-m);      /* 14px */
+  line-height: var(--line-height-m);  /* 20px */
+  font-weight: var(--font-weight-default); /* 400 */
+}
+```
+
+### Headings
+
+```css
+h1 {
+  font-size: var(--font-size-3xl);      /* 24px */
+  line-height: var(--line-height-3xl);  /* 32px */
+  font-weight: var(--font-weight-semibold); /* 550 */
+}
+
+h2 {
+  font-size: var(--font-size-2xl);      /* 20px */
+  line-height: var(--line-height-2xl);  /* 28px */
+  font-weight: var(--font-weight-semibold); /* 550 */
+}
+
+h3 {
+  font-size: var(--font-size-xl);       /* 18px */
+  line-height: var(--line-height-xl);   /* 24px */
+  font-weight: var(--font-weight-semibold); /* 550 */
+}
+```
+
+### Buttons
+
+```css
+button {
+  font-size: var(--font-size-m);       /* 14px */
+  line-height: var(--line-height-m);   /* 20px */
+  font-weight: var(--font-weight-medium); /* 480 */
+}
+```
+
+### Labels & Captions
+
+```css
+label {
+  font-size: var(--font-size-xs);      /* 12px */
+  line-height: var(--line-height-xs);  /* 16px */
+  font-weight: var(--font-weight-medium); /* 480 */
+}
+
+.caption {
+  font-size: var(--font-size-2xs);     /* 10px */
+  line-height: var(--line-height-2xs); /* 10px */
+  font-weight: var(--font-weight-default); /* 400 */
+}
+```
+
+## Component Typography
+
+Most components use the medium size by default:
+
+### Button
+
+| Size | Font Size | Line Height | Weight |
+|------|-----------|-------------|---------|
+| `xs` | 12px (xs) | 16px (xs) | 480 (medium) |
+| `s` | 12px (xs) | 16px (xs) | 480 (medium) |
+| `m` | 14px (m) | 20px (m) | 480 (medium) |
+| `l` | 14px (m) | 20px (m) | 480 (medium) |
+
+### Input
+
+| Size | Font Size | Line Height | Weight |
+|------|-----------|-------------|---------|
+| `s` | 12px (xs) | 16px (xs) | 400 (default) |
+| `m` | 14px (m) | 20px (m) | 400 (default) |
+| `l` | 16px (l) | 22px (l) | 400 (default) |
+
+### Badge
+
+| Size | Font Size | Line Height | Weight |
+|------|-----------|-------------|---------|
+| `s` | 10px (2xs) | 10px (2xs) | 480 (medium) |
+| `m` | 12px (xs) | 16px (xs) | 480 (medium) |
+
+<Tip>
+Components automatically apply the appropriate typography tokens based on their size prop.
+</Tip>
+
+## Responsive Typography
+
+Typography tokens are fixed and do not scale with viewport size. For responsive layouts, switch sizes explicitly:
+
+```tsx
+<h1 className="text-2xl sm:text-3xl">
+  Responsive Heading
+</h1>
+```
+
+Or using CSS:
+
+```css
+h1 {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-2xl);
+}
+
+@media (min-width: 640px) {
+  h1 {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-3xl);
+  }
+}
+```
+
+## Font Features
+
+Inter Variable supports OpenType features:
+
+```css
+/* Single-story 'a' (applied globally) */
+html {
+  font-feature-settings: 'cv11' 1;
+}
+
+/* Tabular figures for numbers */
+.tabular {
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Slashed zero */
+.code {
+  font-feature-settings: 'zero' 1;
+}
+```
+
+<Info>
+Soft UI enables `cv11` (single-story 'a') by default for a more geometric, modern appearance.
+</Info>
+
+## Monospace Font
+
+For code and technical content, use a monospace font:
+
+```css
+code, pre, kbd {
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+  font-size: var(--font-size-xs); /* 12px */
+  line-height: var(--line-height-xs); /* 16px */
+}
+```
+
+## Optical Adjustments
+
+### Vertical Alignment
+
+Inter has built-in optical adjustments. For pixel-perfect alignment:
+
+```css
+/* Buttons and inputs */
+button, input {
+  /* Inter's default alignment works well */
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Icons next to text */
+.icon {
+  /* Shift slightly to align with text baseline */
+  transform: translateY(0.5px);
+}
+```
+
+### Letter Spacing
+
+Letter spacing is not typically needed with Inter, but can be adjusted for all-caps or headings:
+
+```css
+.all-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+```
+
+## Text Colors
+
+Combine typography with semantic color tokens:
+
+```css
+/* Strong emphasis */
+h1 {
+  color: var(--color-content-strong);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Body text */
+p {
+  color: var(--color-content-subtle);
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-default);
+}
+
+/* Muted/secondary text */
+.muted {
+  color: var(--color-content-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* Links */
+a {
+  color: var(--color-content-link-default);
+  font-weight: var(--font-weight-medium);
+}
+
+a:hover {
+  color: var(--color-content-link-hover);
+}
+```
+
+## Best Practices
+
+<Tip>
+**Do:**
+- Use paired font-size and line-height tokens (e.g., `--font-size-m` with `--line-height-m`)
+- Use medium (480) weight for buttons and emphasized text
+- Use semibold (550) weight for headings
+- Combine typography tokens with semantic color tokens
+</Tip>
+
+<Info>
+**Don't:**
+- Mix size tokens from different scales (e.g., `--font-size-m` with `--line-height-xl`)
+- Use standard weights (500/600) instead of custom weights (480/550)
+- Hardcode font sizes or line heights
+- Use bold (700+) for UI elements
+</Info>
+
+## Accessibility
+
+- Minimum font size for body text: 14px (`--font-size-m`)
+- Minimum contrast ratio: 4.5:1 (use `--color-content-strong` for important text)
+- Line height provides comfortable reading (1.4-1.6 ratio)
+- Font weights are distinct enough for clear hierarchy
+
+<Note>
+All typography tokens meet WCAG 2.1 Level AA guidelines when paired with appropriate color tokens.
+</Note>

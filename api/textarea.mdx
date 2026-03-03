@@ -1,0 +1,141 @@
+---
+title: Textarea
+description: API reference for the Textarea component
+---
+
+# Textarea
+
+A multi-line text input field built on Base UI's Input primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/input`](https://base-ui.com/react/components/input) with `render={<textarea />}`
+
+## Import
+
+```tsx
+import { Textarea } from "@soft-ui/react/textarea"
+```
+
+## Usage
+
+```tsx
+import { Textarea } from "@soft-ui/react/textarea"
+
+export default function Example() {
+  return (
+    <Textarea 
+      placeholder="Enter your message..."
+      rows={4}
+    />
+  )
+}
+```
+
+## Props
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Control size. Affects padding.
+  - `s`: 10px horizontal, 8px vertical padding
+  - `m`: 12px horizontal, 10px vertical padding
+  - `l`: 12px horizontal, 12px vertical padding
+</ParamField>
+
+<ParamField path="variant" type="'secondary' | 'tertiary'" default="'secondary'">
+  Visual style variant.
+  - `secondary`: Solid background
+  - `tertiary`: Glass-morphic with backdrop blur
+</ParamField>
+
+<ParamField path="rows" type="number" default="3">
+  Number of visible text rows.
+</ParamField>
+
+<ParamField path="resize" type="'none' | 'vertical' | 'horizontal' | 'both'" default="'vertical'">
+  Resize behavior.
+  - `none`: Not resizable
+  - `vertical`: Vertically resizable
+  - `horizontal`: Horizontally resizable
+  - `both`: Both directions
+</ParamField>
+
+<ParamField path="focusVisibleOnly" type="boolean" default="true">
+  Only show focus ring on keyboard navigation (not mouse clicks).
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the textarea and applies disabled styles.
+</ParamField>
+
+<ParamField path="placeholder" type="string">
+  Placeholder text shown when textarea is empty.
+</ParamField>
+
+<ParamField path="value" type="string">
+  Controlled value.
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  Uncontrolled default value.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLTextAreaElement>) => void">
+  Callback fired when value changes.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the container.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+## Examples
+
+### Basic
+
+```tsx
+import { Textarea } from "@soft-ui/react/textarea"
+
+export default function Basic() {
+  return (
+    <Textarea 
+      placeholder="Enter your message..."
+      rows={4}
+    />
+  )
+}
+```
+
+### Sizes
+
+```tsx
+import { Textarea } from "@soft-ui/react/textarea"
+
+export default function Sizes() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Textarea size="s" placeholder="Small" />
+      <Textarea size="m" placeholder="Medium" />
+      <Textarea size="l" placeholder="Large" />
+    </div>
+  )
+}
+```
+
+### Resize Options
+
+```tsx
+import { Textarea } from "@soft-ui/react/textarea"
+
+export default function ResizeOptions() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Textarea resize="none" placeholder="Not resizable" />
+      <Textarea resize="vertical" placeholder="Vertical only" />
+      <Textarea resize="both" placeholder="Both directions" />
+    </div>
+  )
+}
+```

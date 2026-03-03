@@ -1,0 +1,261 @@
+---
+title: Popover
+description: API reference for the Popover component - a floating overlay for additional content.
+---
+
+# Popover
+
+A floating popover component for displaying additional content. Built on Base UI Popover primitive with positioning support.
+
+## Compound Components
+
+### Popover.Root
+
+The root container that manages popover state.
+
+<ParamField path="open" type="boolean">
+  Controlled open state. When provided, the popover becomes controlled.
+</ParamField>
+
+<ParamField path="defaultOpen" type="boolean" default="false">
+  Uncontrolled default open state.
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean) => void">
+  Callback fired when the open state changes.
+</ParamField>
+
+<ParamField path="openOnHover" type="boolean" default="false">
+  Whether to open on hover instead of click.
+</ParamField>
+
+<ParamField path="delay" type="number" default="200">
+  Delay in milliseconds before opening on hover.
+</ParamField>
+
+<ParamField path="closeDelay" type="number" default="0">
+  Delay in milliseconds before closing on hover.
+</ParamField>
+
+### Popover.Trigger
+
+The trigger element that opens the popover.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+<ParamField path="asChild" type="boolean" default="false">
+  Merge props onto the child element instead of rendering a button.
+</ParamField>
+
+### Popover.Portal
+
+Portals the popover content to the end of the document body.
+
+<ParamField path="keepMounted" type="boolean" default="false">
+  Whether to keep the popover mounted in the DOM when closed.
+</ParamField>
+
+<ParamField path="container" type="HTMLElement | null">
+  The container element to portal into. Defaults to `document.body`.
+</ParamField>
+
+### Popover.Positioner
+
+Positions the popover relative to the trigger.
+
+<ParamField path="side" type="'top' | 'right' | 'bottom' | 'left'" default="'bottom'">
+  The side of the trigger to position the popover.
+</ParamField>
+
+<ParamField path="align" type="'start' | 'center' | 'end'" default="'center'">
+  The alignment of the popover relative to the trigger.
+</ParamField>
+
+<ParamField path="sideOffset" type="number" default="8">
+  The distance in pixels from the trigger.
+</ParamField>
+
+<ParamField path="alignOffset" type="number" default="0">
+  The offset in pixels along the alignment axis.
+</ParamField>
+
+<ParamField path="collisionPadding" type="number | { top?: number; right?: number; bottom?: number; left?: number }" default="8">
+  The padding in pixels from the viewport edges.
+</ParamField>
+
+<ParamField path="sticky" type="boolean" default="true">
+  Whether the popover should stick to the trigger on scroll.
+</ParamField>
+
+### Popover.Popup
+
+The popover popup container.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Rounded surface with shadow and backdrop blur.
+</ParamField>
+
+**Animation**: 
+- Scale from 0.98 to 1 with fade
+- Duration: 100ms
+- Uses CSS `data-starting-style` and `data-ending-style` for transitions
+
+### Popover.Arrow
+
+Optional arrow pointing to the trigger.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: `"fill-surface-overlay"`
+</ParamField>
+
+### Popover.Title
+
+Accessible popover title.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Medium weight text with strong content color.
+</ParamField>
+
+### Popover.Description
+
+Accessible popover description.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Regular weight text with subtle content color.
+</ParamField>
+
+### Popover.Close
+
+Close button wrapper.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+<ParamField path="asChild" type="boolean" default="false">
+  Merge props onto the child element.
+</ParamField>
+
+### Popover.Backdrop
+
+Optional backdrop overlay.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: `"fixed inset-0 z-40 bg-utility-backdrop"`
+</ParamField>
+
+**Animation**: Fades in/out with 100ms duration.
+
+## Usage
+
+```tsx
+import { Popover } from '@soft-ui/react/popover'
+import { Button } from '@soft-ui/react/button'
+
+function Example() {
+  return (
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <Button>Open Popover</Button>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Positioner side="bottom" align="center">
+          <Popover.Popup className="p-4 max-w-xs">
+            <Popover.Title>Title</Popover.Title>
+            <Popover.Description>
+              Additional information or actions.
+            </Popover.Description>
+          </Popover.Popup>
+          <Popover.Arrow />
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  )
+}
+```
+
+## With Close Button
+
+```tsx
+import { RiCloseLine } from '@soft-ui/icons'
+
+<Popover.Popup className="p-4">
+  <div className="flex items-start justify-between gap-4">
+    <div>
+      <Popover.Title>Notification</Popover.Title>
+      <Popover.Description>You have new messages.</Popover.Description>
+    </div>
+    <Popover.Close asChild>
+      <button className="p-1 rounded hover:bg-actions-secondary-hover">
+        <RiCloseLine className="size-4" />
+      </button>
+    </Popover.Close>
+  </div>
+</Popover.Popup>
+```
+
+## Hover Trigger
+
+```tsx
+<Popover.Root openOnHover delay={300}>
+  <Popover.Trigger asChild>
+    <Button variant="ghost">Hover me</Button>
+  </Popover.Trigger>
+  <Popover.Portal>
+    <Popover.Positioner>
+      <Popover.Popup className="p-3">
+        <p className="text-sm">Quick info appears on hover</p>
+      </Popover.Popup>
+    </Popover.Positioner>
+  </Popover.Portal>
+</Popover.Root>
+```
+
+## With Backdrop
+
+```tsx
+<Popover.Portal>
+  <Popover.Backdrop />
+  <Popover.Positioner>
+    <Popover.Popup className="p-4">
+      <Popover.Title>Modal Popover</Popover.Title>
+      <Popover.Description>
+        Backdrop dims the background.
+      </Popover.Description>
+    </Popover.Popup>
+  </Popover.Positioner>
+</Popover.Portal>
+```
+
+## Types
+
+```tsx
+export type PopoverRootProps = {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  openOnHover?: boolean
+  delay?: number
+  closeDelay?: number
+  children?: React.ReactNode
+}
+
+export type PopoverPositionerProps = {
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  align?: 'start' | 'center' | 'end'
+  sideOffset?: number
+  alignOffset?: number
+  collisionPadding?: number | { top?: number; right?: number; bottom?: number; left?: number }
+  sticky?: boolean
+  className?: string
+}
+```
+
+## Accessibility
+
+- Popover is linked to trigger via `aria-controls` and `aria-expanded`
+- Escape key closes the popover
+- Focus returns to trigger on close
+- Title and description are linked via `aria-labelledby` and `aria-describedby` when provided

@@ -1,0 +1,206 @@
+---
+title: Checkbox Group
+description: API reference for the Checkbox Group component
+---
+
+# Checkbox Group
+
+A collection of checkboxes with consistent styling and layout.
+
+## Import
+
+```jsx
+import { CheckboxGroup, CheckboxGroupItem } from "@soft-ui/react/checkbox-group"
+```
+
+## Anatomy
+
+```jsx
+<CheckboxGroup style="simple" stack="vertical">
+  <CheckboxGroupItem
+    label="Option 1"
+    description="Description text"
+    checked={checked1}
+    onCheckedChange={setChecked1}
+  />
+  <CheckboxGroupItem
+    label="Option 2"
+    checked={checked2}
+    onCheckedChange={setChecked2}
+  />
+</CheckboxGroup>
+```
+
+## CheckboxGroup
+
+Container component that provides consistent styling and layout for checkbox items.
+
+<ParamField path="style" type="'simple' | 'list' | 'card-small' | 'card-big'" default="'simple'">
+  Visual style of the checkbox group
+  - `simple`: Minimal spacing with checkbox on left
+  - `list`: Border-separated items
+  - `card-small`: Card-style with small padding
+  - `card-big`: Card-style with larger padding
+</ParamField>
+
+<ParamField path="stack" type="'vertical' | 'horizontal'" default="'vertical'">
+  Layout direction of the checkbox items
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="checkbox-group"`
+- `data-style`: Current style (`simple`, `list`, `card-small`, `card-big`)
+- `data-stack`: Current layout (`vertical`, `horizontal`)
+
+## CheckboxGroupItem
+
+An individual checkbox item within the group.
+
+<ParamField path="label" type="string" required>
+  The label text for the checkbox
+</ParamField>
+
+<ParamField path="description" type="string">
+  Optional description text (only shown in `list` and card styles)
+</ParamField>
+
+<ParamField path="type" type="'simple' | 'list' | 'card-small' | 'card-big'">
+  Override the style from CheckboxGroup context
+</ParamField>
+
+<ParamField path="checked" type="boolean">
+  Controlled checked state
+</ParamField>
+
+<ParamField path="defaultChecked" type="boolean">
+  Uncontrolled default checked state
+</ParamField>
+
+<ParamField path="onCheckedChange" type="(checked: boolean | 'indeterminate') => void">
+  Callback when the checked state changes
+</ParamField>
+
+<ParamField path="indeterminate" type="boolean" default="false">
+  Whether the checkbox is in an indeterminate state
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the checkbox is disabled
+</ParamField>
+
+<ParamField path="badge" type="React.ReactNode">
+  Optional badge content displayed on the right (simple/list) or before checkbox (card)
+</ParamField>
+
+<ParamField path="prefix" type="React.ReactNode">
+  Custom prefix content (card styles only, typically a Prefix component)
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="checkbox-group-item"`
+- `data-type`: Current type (`simple`, `list`, `card-small`, `card-big`)
+- `data-disabled`: Present when the item is disabled
+
+## Examples
+
+### Simple Vertical Group
+
+```jsx
+<CheckboxGroup style="simple" stack="vertical">
+  <CheckboxGroupItem label="Receive emails" />
+  <CheckboxGroupItem label="Receive SMS" />
+  <CheckboxGroupItem label="Receive push notifications" />
+</CheckboxGroup>
+```
+
+### List Style with Descriptions
+
+```jsx
+<CheckboxGroup style="list">
+  <CheckboxGroupItem
+    label="Marketing emails"
+    description="Receive updates about new features and promotions"
+  />
+  <CheckboxGroupItem
+    label="Security alerts"
+    description="Get notified about important account activity"
+  />
+</CheckboxGroup>
+```
+
+### Card Style with Prefix
+
+```jsx
+import { Prefix } from "@soft-ui/react/prefix"
+
+<CheckboxGroup style="card-big" stack="horizontal">
+  <CheckboxGroupItem
+    label="Pro Plan"
+    description="Advanced features for power users"
+    prefix={<Prefix color="blue">P</Prefix>}
+  />
+  <CheckboxGroupItem
+    label="Enterprise"
+    description="Custom solutions for teams"
+    prefix={<Prefix color="purple">E</Prefix>}
+  />
+</CheckboxGroup>
+```
+
+### Controlled State
+
+```jsx
+const [preferences, setPreferences] = React.useState({
+  emails: true,
+  sms: false,
+  push: false,
+})
+
+return (
+  <CheckboxGroup>
+    <CheckboxGroupItem
+      label="Emails"
+      checked={preferences.emails}
+      onCheckedChange={(checked) =>
+        setPreferences((prev) => ({ ...prev, emails: checked }))
+      }
+    />
+    <CheckboxGroupItem
+      label="SMS"
+      checked={preferences.sms}
+      onCheckedChange={(checked) =>
+        setPreferences((prev) => ({ ...prev, sms: checked }))
+      }
+    />
+  </CheckboxGroup>
+)
+```
+
+### With Badges
+
+```jsx
+import { Badge } from "@soft-ui/react/badge"
+
+<CheckboxGroup style="list">
+  <CheckboxGroupItem
+    label="New feature"
+    description="Try our latest release"
+    badge={<Badge variant="accent" size="s">New</Badge>}
+  />
+  <CheckboxGroupItem
+    label="Beta testing"
+    description="Help us test experimental features"
+    badge={<Badge variant="secondary" size="s">Beta</Badge>}
+  />
+</CheckboxGroup>
+```

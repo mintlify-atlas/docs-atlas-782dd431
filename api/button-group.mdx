@@ -1,0 +1,223 @@
+---
+title: ButtonGroup
+description: Group related buttons together with a unified glass-like container.
+---
+
+# ButtonGroup
+
+A component that groups multiple buttons together within a glass-like container with separators between items.
+
+## Import
+
+```tsx
+import { ButtonGroup, ButtonGroupItem } from "@soft-ui/react/button-group"
+```
+
+## Components
+
+### ButtonGroup
+
+The container component that wraps ButtonGroupItem elements.
+
+<ParamField path="size" type="string" default="m">
+  The size of all buttons in the group.
+  
+  **Options:**
+  - `xs` - 28px height (var(--space-28))
+  - `s` - 32px height (var(--space-32))
+  - `m` - 36px height (var(--space-36))
+  - `l` - 40px height (var(--space-40))
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  ButtonGroupItem components to display in the group.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the group container.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+### ButtonGroupItem
+
+Individual button within a ButtonGroup.
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Icon element displayed before the button text.
+</ParamField>
+
+<ParamField path="trailingIcon" type="React.ReactNode">
+  Icon element displayed after the button text.
+</ParamField>
+
+<ParamField path="position" type="string">
+  Position within the group (automatically set by ButtonGroup).
+  
+  **Options:**
+  - `only` - Single item (fully rounded)
+  - `first` - First item (rounded left, border right)
+  - `middle` - Middle item (no rounding, border right)
+  - `last` - Last item (rounded right)
+</ParamField>
+
+<ParamField path="tone" type="string">
+  Color tone applied to the item.
+  
+  **Feedback tones:**
+  - `default`, `info`, `warning`, `danger`, `success`
+  
+  **Decorative tones:**
+  - `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`
+  - `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`
+  - `fuchsia`, `pink`, `rose`
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode">
+  Text label for the button.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  When true, disables interaction and applies disabled styling.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the item.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides.
+</ParamField>
+
+## Usage
+
+### Basic Button Group
+
+```tsx
+<ButtonGroup>
+  <ButtonGroupItem>Left</ButtonGroupItem>
+  <ButtonGroupItem>Center</ButtonGroupItem>
+  <ButtonGroupItem>Right</ButtonGroupItem>
+</ButtonGroup>
+```
+
+### Sizes
+
+```tsx
+<ButtonGroup size="xs">
+  <ButtonGroupItem>Small</ButtonGroupItem>
+  <ButtonGroupItem>Group</ButtonGroupItem>
+</ButtonGroup>
+
+<ButtonGroup size="s">
+  <ButtonGroupItem>Small</ButtonGroupItem>
+  <ButtonGroupItem>Group</ButtonGroupItem>
+</ButtonGroup>
+
+<ButtonGroup size="m">
+  <ButtonGroupItem>Medium</ButtonGroupItem>
+  <ButtonGroupItem>Group</ButtonGroupItem>
+</ButtonGroup>
+
+<ButtonGroup size="l">
+  <ButtonGroupItem>Large</ButtonGroupItem>
+  <ButtonGroupItem>Group</ButtonGroupItem>
+</ButtonGroup>
+```
+
+### With Icons
+
+```tsx
+import { GridIcon, ListIcon } from "@soft-ui/icons"
+
+<ButtonGroup>
+  <ButtonGroupItem leadingIcon={<GridIcon />}>Grid</ButtonGroupItem>
+  <ButtonGroupItem leadingIcon={<ListIcon />}>List</ButtonGroupItem>
+</ButtonGroup>
+```
+
+### Icon-Only Items
+
+```tsx
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "@soft-ui/icons"
+
+<ButtonGroup>
+  <ButtonGroupItem leadingIcon={<BoldIcon />} aria-label="Bold" />
+  <ButtonGroupItem leadingIcon={<ItalicIcon />} aria-label="Italic" />
+  <ButtonGroupItem leadingIcon={<UnderlineIcon />} aria-label="Underline" />
+</ButtonGroup>
+```
+
+### With Tone
+
+```tsx
+<ButtonGroup>
+  <ButtonGroupItem>Default</ButtonGroupItem>
+  <ButtonGroupItem tone="info">Info</ButtonGroupItem>
+  <ButtonGroupItem tone="success">Success</ButtonGroupItem>
+</ButtonGroup>
+```
+
+### Single Item
+
+```tsx
+<ButtonGroup>
+  <ButtonGroupItem>Single</ButtonGroupItem>
+</ButtonGroup>
+```
+
+### With Click Handlers
+
+```tsx
+<ButtonGroup>
+  <ButtonGroupItem onClick={() => console.log('Left')}>
+    Left
+  </ButtonGroupItem>
+  <ButtonGroupItem onClick={() => console.log('Center')}>
+    Center
+  </ButtonGroupItem>
+  <ButtonGroupItem onClick={() => console.log('Right')}>
+    Right
+  </ButtonGroupItem>
+</ButtonGroup>
+```
+
+## Behavior
+
+- Items automatically receive proper border radius based on position
+- Items between other items get a right border separator
+- Active state on items scales the content wrapper (0.94) for tactile feedback
+- The group container has a glass-like appearance with backdrop blur
+- Size is controlled at the group level and applies to all items
+
+## Accessibility
+
+- The group container uses `role="group"` for semantic grouping
+- Built on Base UI's `Button` primitive with full keyboard support
+- Focus ring appears on individual items with proper z-index
+- When using icon-only items, always provide `aria-label`
+- Disabled items use `cursor-not-allowed` and reduced opacity
+
+## Design Tokens
+
+The ButtonGroup components use the following design tokens:
+
+**Colors:**
+- `actions-tertiary-default`, `actions-tertiary-hover`, `actions-tertiary-disabled`
+- `content-strong`, `content-disabled`
+- `border-interactive-default` (for separators)
+
+**Spacing:**
+- Heights: `space-28`, `space-32`, `space-36`, `space-40`
+- Horizontal padding: `space-10`, `space-12`, `space-16`
+- Gap between elements: `space-2`, `space-4`
+- Icon sizes: `space-16`, `space-18`
+
+**Other:**
+- Border radius: `radius-max` (fully rounded)
+- Font weight: `font-weight-medium`
+- Focus ring: `utility-focus-inner`, `utility-focus-outer`
+- Shadows: `utility-shadow-l1`, `utility-shadow-l2`, `utility-shadow-l3`
+- Backdrop blur: `12px`

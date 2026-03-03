@@ -1,0 +1,176 @@
+---
+title: Button
+description: Action button component with multiple variants, sizes, and icon support.
+---
+
+# Button
+
+A versatile button component built on Base UI with support for different variants, sizes, icons, and color tones.
+
+## Import
+
+```tsx
+import { Button } from "@soft-ui/react/button"
+```
+
+## Props
+
+<ParamField path="variant" type="string" default="primary">
+  The visual style variant of the button.
+  
+  **Options:**
+  - `primary` - Filled accent color background
+  - `secondary` - Subtle gray background
+  - `tertiary` - Glass-like appearance with shadow and blur
+  - `ghost` - Transparent background, visible on hover
+  - `link` - Appears as a link with accent color
+  - `link-neutral` - Appears as a link with neutral color
+  - `danger` - Destructive action styling with red background
+</ParamField>
+
+<ParamField path="size" type="string" default="m">
+  The size of the button.
+  
+  **Options:**
+  - `xs` - 28px height (var(--space-28))
+  - `s` - 32px height (var(--space-32))
+  - `m` - 36px height (var(--space-36))
+  - `l` - 40px height (var(--space-40))
+</ParamField>
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Icon element displayed before the button text. Automatically sized based on the button size.
+</ParamField>
+
+<ParamField path="trailingIcon" type="React.ReactNode">
+  Icon element displayed after the button text. Automatically sized based on the button size.
+</ParamField>
+
+<ParamField path="tone" type="string">
+  Color tone applied to text when using certain variants.
+  
+  **Feedback tones:**
+  - `default` - No tone applied
+  - `info` - Information blue
+  - `warning` - Warning amber
+  - `danger` - Error red
+  - `success` - Success green
+  
+  **Decorative tones:**
+  - `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`
+  - `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`
+  - `fuchsia`, `pink`, `rose`
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  When true, disables interaction and applies disabled styling.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides. Use with caution.
+</ParamField>
+
+## Usage
+
+### Basic Button
+
+```tsx
+<Button>Click me</Button>
+```
+
+### Variants
+
+```tsx
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="tertiary">Tertiary</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>
+<Button variant="link-neutral">Link Neutral</Button>
+<Button variant="danger">Danger</Button>
+```
+
+### Sizes
+
+```tsx
+<Button size="xs">Extra Small</Button>
+<Button size="s">Small</Button>
+<Button size="m">Medium</Button>
+<Button size="l">Large</Button>
+```
+
+### With Icons
+
+```tsx
+import { PlusIcon } from "@soft-ui/icons"
+
+<Button leadingIcon={<PlusIcon />}>Add Item</Button>
+<Button trailingIcon={<ArrowRightIcon />}>Continue</Button>
+<Button 
+  leadingIcon={<DownloadIcon />}
+  trailingIcon={<ChevronDownIcon />}
+>
+  Download
+</Button>
+```
+
+### Icon-Only Button
+
+```tsx
+import { SearchIcon } from "@soft-ui/icons"
+
+<Button leadingIcon={<SearchIcon />} aria-label="Search" />
+```
+
+### With Tone
+
+```tsx
+<Button variant="ghost" tone="info">Info</Button>
+<Button variant="ghost" tone="warning">Warning</Button>
+<Button variant="ghost" tone="success">Success</Button>
+<Button variant="ghost" tone="purple">Purple</Button>
+```
+
+### Disabled State
+
+```tsx
+<Button disabled>Disabled Button</Button>
+<Button variant="primary" disabled>Disabled Primary</Button>
+```
+
+## Accessibility
+
+- Built on Base UI's `Button` primitive with full keyboard support
+- Focus ring uses utility-focus-inner (1px) and utility-focus-outer (3px) for clear visibility
+- Icons are automatically hidden from assistive technology when label text is present
+- When using icon-only buttons, always provide an `aria-label` attribute
+- Active state includes a subtle scale animation (0.98) for tactile feedback
+- Disabled buttons use `cursor-not-allowed` and reduced opacity
+
+## Design Tokens
+
+The Button component uses the following design tokens:
+
+**Colors:**
+- `actions-primary-default`, `actions-primary-hover`, `actions-primary-disabled`
+- `actions-secondary-default`, `actions-secondary-hover`, `actions-secondary-disabled`
+- `actions-tertiary-default`, `actions-tertiary-hover`, `actions-tertiary-disabled`
+- `actions-danger-default`, `actions-danger-hover`, `actions-danger-disabled`
+- `content-strong`, `content-subtle`, `content-disabled`
+- `content-on-accent-strong`, `content-on-accent-disabled`
+- `content-link-default`, `content-link-hover`
+
+**Spacing:**
+- Heights: `space-28`, `space-32`, `space-36`, `space-40`
+- Horizontal padding: `space-10`, `space-12`, `space-16`
+- Gap between elements: `space-2`, `space-4`
+- Icon sizes: `space-16`, `space-18`
+
+**Other:**
+- Border radius: `radius-max` (fully rounded)
+- Font weight: `font-weight-medium`
+- Focus ring: `utility-focus-inner`, `utility-focus-outer`

@@ -1,0 +1,275 @@
+---
+title: Installation
+description: Install and configure Soft UI in your React or Next.js project
+---
+
+# Installation
+
+Get started with Soft UI by installing the required packages and configuring your project.
+
+## Prerequisites
+
+<Note>
+Soft UI requires React 19+ and Next.js 16+ (for Next.js projects). Make sure your project meets these requirements before installing.
+</Note>
+
+## Installation Steps
+
+<Steps>
+  <Step title="Install packages">
+    Install all three Soft UI packages:
+
+    <CodeGroup>
+      ```bash npm
+      npm i @soft-ui/tokens @soft-ui/icons @soft-ui/react
+      ```
+
+      ```bash yarn
+      yarn add @soft-ui/tokens @soft-ui/icons @soft-ui/react
+      ```
+
+      ```bash pnpm
+      pnpm add @soft-ui/tokens @soft-ui/icons @soft-ui/react
+      ```
+    </CodeGroup>
+
+    ### Package Details
+
+    | Package | Description | Version |
+    |---------|-------------|----------|
+    | `@soft-ui/tokens` | Design tokens, CSS entrypoints, and theme helpers | 0.1.0 |
+    | `@soft-ui/icons` | Icon adapter with Remix Icons implementation | 0.1.0 |
+    | `@soft-ui/react` | 70+ UI components with subpath imports | 0.1.0 |
+
+  </Step>
+
+  <Step title="Import global styles">
+    Import the Soft UI styles once in your application entry point.
+
+    For **Next.js App Router**, add to your root `layout.tsx`:
+
+    ```tsx app/layout.tsx
+    import "@soft-ui/tokens/styles.css"
+    import type { Metadata } from "next"
+
+    export const metadata: Metadata = {
+      title: "My App",
+      description: "Built with Soft UI",
+    }
+
+    export default function RootLayout({
+      children,
+    }: {
+      children: React.ReactNode
+    }) {
+      return (
+        <html lang="en">
+          <body>{children}</body>
+        </html>
+      )
+    }
+    ```
+
+    For **Next.js Pages Router** or **Create React App**, add to `_app.tsx` or `index.tsx`:
+
+    ```tsx _app.tsx
+    import "@soft-ui/tokens/styles.css"
+    import type { AppProps } from "next/app"
+
+    export default function App({ Component, pageProps }: AppProps) {
+      return <Component {...pageProps} />
+    }
+    ```
+
+  </Step>
+
+  <Step title="Configure Tailwind v4">
+    Soft UI components use Tailwind v4 utility classes. Add the source scanning directive to your CSS file.
+
+    If using **Next.js**, add to your `globals.css` or main CSS file:
+
+    ```css app/globals.css
+    @import "@soft-ui/tokens/styles.css";
+    @source "../node_modules/@soft-ui/react/dist/**/*.{js,mjs}";
+    ```
+
+    <Warning>
+    The `@source` directive tells Tailwind v4 to scan the Soft UI component files for utility classes. Without this, components may not display correctly.
+    </Warning>
+
+    For **Vite** or other build tools, ensure your Tailwind config includes the Soft UI package:
+
+    ```css src/index.css
+    @import "@soft-ui/tokens/styles.css";
+    @source "../node_modules/@soft-ui/react/dist/**/*.{js,mjs}";
+    ```
+
+  </Step>
+
+  <Step title="Set up theme initialization (Optional)">
+    For theme switching support, add the theme initialization script to your HTML root.
+
+    In **Next.js App Router**, update your `layout.tsx`:
+
+    ```tsx app/layout.tsx
+    import "@soft-ui/tokens/styles.css"
+    import type { Metadata } from "next"
+    import { createThemeInitScript, designSystemConfig } from "@soft-ui/tokens"
+
+    export const metadata: Metadata = {
+      title: "My App",
+      description: "Built with Soft UI",
+    }
+
+    const themeInitScript = createThemeInitScript()
+
+    export default function RootLayout({
+      children,
+    }: {
+      children: React.ReactNode
+    }) {
+      return (
+        <html
+          lang="en"
+          data-mode={designSystemConfig.defaultMode}
+          data-scheme={designSystemConfig.defaultScheme}
+          data-theme-color={designSystemConfig.defaultThemeColor}
+          data-base-color={designSystemConfig.defaultBaseColor}
+          suppressHydrationWarning
+        >
+          <head>
+            <script
+              dangerouslySetInnerHTML={{ __html: themeInitScript }}
+              suppressHydrationWarning
+            />
+          </head>
+          <body suppressHydrationWarning>{children}</body>
+        </html>
+      )
+    }
+    ```
+
+    <Info>
+    The theme initialization script prevents flash of unstyled content (FOUC) by applying the correct theme before the page renders. It also handles system preference detection for dark mode.
+    </Info>
+
+    ### Theme Configuration
+
+    You can customize the default theme settings:
+
+    ```tsx
+    import { createThemeInitScript } from "@soft-ui/tokens"
+
+    const themeInitScript = createThemeInitScript({
+      defaults: {
+        defaultMode: "dark",
+        defaultScheme: "color",
+        defaultThemeColor: "violet",
+        defaultBaseColor: "slate",
+      },
+    })
+    ```
+
+    **Available options:**
+
+    - **Mode**: `"light"` | `"dark"`
+    - **Scheme**: `"mono"` (neutral) | `"color"` (themed)
+    - **Theme colors**: `"red"`, `"orange"`, `"amber"`, `"yellow"`, `"lime"`, `"green"`, `"emerald"`, `"teal"`, `"cyan"`, `"sky"`, `"blue"`, `"indigo"`, `"violet"`, `"purple"`, `"fuchsia"`, `"pink"`, `"rose"`, `"mauve"`, `"mist"`, `"olive"`, `"taupe"`
+    - **Base colors**: `"neutral"`, `"slate"`, `"gray"`, `"zinc"`, `"stone"`, `"mauve"`, `"mist"`, `"olive"`, `"taupe"`
+
+  </Step>
+</Steps>
+
+## Peer Dependencies
+
+Soft UI has the following peer dependencies:
+
+```json package.json
+{
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19",
+    "next": ">=16",
+    "tailwindcss": "^4.0.0"
+  }
+}
+```
+
+<Warning>
+Make sure these dependencies are installed in your project. The `next` peer dependency is only required for Next.js projects.
+</Warning>
+
+## Font Setup
+
+Soft UI uses **Inter Variable** for optimal typography. Install it via Google Fonts in Next.js:
+
+```tsx app/layout.tsx
+import { Inter } from "next/font/google"
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+})
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.variable}>{children}</body>
+    </html>
+  )
+}
+```
+
+For non-Next.js projects, add Inter Variable from Google Fonts:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+```
+
+## Verification
+
+To verify your installation is correct, try importing and using a component:
+
+```tsx
+import { Button } from "@soft-ui/react/button"
+
+export default function Page() {
+  return <Button variant="primary">Hello Soft UI</Button>
+}
+```
+
+If the button renders with proper styling, you're all set!
+
+## Troubleshooting
+
+<Accordion title="Components have no styles">
+  Make sure you've added the `@source` directive to your CSS file to scan Soft UI components:
+  
+  ```css
+  @source "../node_modules/@soft-ui/react/dist/**/*.{js,mjs}";
+  ```
+</Accordion>
+
+<Accordion title="TypeScript errors on import">
+  Soft UI requires TypeScript 5.9.3+. Update your TypeScript version:
+  
+  ```bash
+  npm install -D typescript@latest
+  ```
+</Accordion>
+
+<Accordion title="Theme flashing on page load">
+  Make sure the theme initialization script is in the `<head>` and runs before the body renders. See [Step 4](#step-4-set-up-theme-initialization-optional) for details.
+</Accordion>
+
+## Next Steps
+
+<Card title="Quick Start Guide" icon="rocket" href="/quickstart">
+  Build your first component and learn the basics of Soft UI
+</Card>

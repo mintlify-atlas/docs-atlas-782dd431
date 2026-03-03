@@ -1,0 +1,216 @@
+---
+title: Autocomplete
+description: API reference for the Autocomplete component
+---
+
+# Autocomplete
+
+A text input with automatic filtering suggestions, built on Base UI's Autocomplete primitive.
+
+## Base UI Primitive
+
+Built on [`@base-ui/react/autocomplete`](https://base-ui.com/react/components/autocomplete)
+
+## Import
+
+```tsx
+import { Autocomplete } from "@soft-ui/react/autocomplete"
+```
+
+## Usage
+
+```tsx
+import { Autocomplete } from "@soft-ui/react/autocomplete"
+
+const items = ["Apple", "Banana", "Cherry"]
+
+export default function Example() {
+  return (
+    <Autocomplete.Root items={items}>
+      <Autocomplete.Input placeholder="Type to search..." />
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {items.map((item) => (
+                <Autocomplete.Item key={item} value={item}>
+                  {item}
+                </Autocomplete.Item>
+              ))}
+            </Autocomplete.List>
+            <Autocomplete.Empty>No results</Autocomplete.Empty>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  )
+}
+```
+
+## Components
+
+### Autocomplete.Root
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Control size.
+  - `s`: 32px height
+  - `m`: 36px height
+  - `l`: 40px height
+</ParamField>
+
+<ParamField path="variant" type="'secondary' | 'tertiary'" default="'secondary'">
+  Visual style variant.
+  - `secondary`: Solid background
+  - `tertiary`: Glass-morphic with backdrop blur
+</ParamField>
+
+<ParamField path="items" type="readonly ItemValue[] | readonly AutocompleteGroup<ItemValue>[]">
+  Array of items or grouped items for autocomplete suggestions.
+</ParamField>
+
+<ParamField path="value" type="string">
+  Controlled value.
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  Uncontrolled default value.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: string) => void">
+  Callback fired when value changes.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the autocomplete.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the container.
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Escape hatch for structural overrides.
+</ParamField>
+
+### Autocomplete.Input
+
+<ParamField path="placeholder" type="string">
+  Placeholder text.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Autocomplete.Trigger
+
+Optional trigger button to show/hide suggestions.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Autocomplete.Positioner
+
+<ParamField path="sideOffset" type="number" default="4">
+  Distance from input.
+</ParamField>
+
+<ParamField path="collisionPadding" type="number" default="8">
+  Padding from viewport edge.
+</ParamField>
+
+### Autocomplete.Item
+
+<ParamField path="value" type="string">
+  Value of the item.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Disables the item.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Autocomplete.Empty
+
+Displayed when no items match the input.
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Autocomplete.Group / Autocomplete.GroupLabel
+
+For grouping items with labels.
+
+## Examples
+
+### Basic
+
+```tsx
+import { Autocomplete } from "@soft-ui/react/autocomplete"
+
+const fruits = ["Apple", "Banana", "Cherry", "Date", "Elderberry"]
+
+export default function Basic() {
+  return (
+    <Autocomplete.Root items={fruits}>
+      <Autocomplete.Input placeholder="Type to search..." />
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {fruits.map((fruit) => (
+                <Autocomplete.Item key={fruit} value={fruit}>
+                  {fruit}
+                </Autocomplete.Item>
+              ))}
+            </Autocomplete.List>
+            <Autocomplete.Empty>No results found</Autocomplete.Empty>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  )
+}
+```
+
+### Grouped Items
+
+```tsx
+import { Autocomplete } from "@soft-ui/react/autocomplete"
+
+const items = [
+  { label: "Fruits", items: ["Apple", "Banana"] },
+  { label: "Vegetables", items: ["Carrot", "Broccoli"] },
+]
+
+export default function Grouped() {
+  return (
+    <Autocomplete.Root items={items}>
+      <Autocomplete.Input placeholder="Search..." />
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner>
+          <Autocomplete.Popup>
+            <Autocomplete.List>
+              {items.map((group) => (
+                <Autocomplete.Group key={group.label}>
+                  <Autocomplete.GroupLabel>{group.label}</Autocomplete.GroupLabel>
+                  {group.items.map((item) => (
+                    <Autocomplete.Item key={item} value={item}>
+                      {item}
+                    </Autocomplete.Item>
+                  ))}
+                </Autocomplete.Group>
+              ))}
+            </Autocomplete.List>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  )
+}
+```

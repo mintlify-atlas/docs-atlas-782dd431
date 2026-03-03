@@ -1,0 +1,393 @@
+---
+title: Accordion
+description: Expandable panels for organizing content in a collapsible interface.
+---
+
+Accordions allow users to show and hide sections of related content, reducing vertical space and helping users focus on relevant information.
+
+## Anatomy
+
+Accordion consists of four sub-components:
+
+- **AccordionRoot**: Root container managing open/closed state
+- **AccordionItem**: Individual accordion panel with variant styling
+- **AccordionTrigger**: Clickable header that toggles panel visibility
+- **AccordionContent**: Collapsible content area with animation
+
+## Basic Usage
+
+```tsx
+import {
+  AccordionRoot,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent
+} from '@soft-ui/react/accordion'
+
+<AccordionRoot>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>What is Soft UI?</AccordionTrigger>
+    <AccordionContent>
+      Soft UI is a comprehensive design system for building modern interfaces.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>How do I get started?</AccordionTrigger>
+    <AccordionContent>
+      Install the package and import the components you need.
+    </AccordionContent>
+  </AccordionItem>
+</AccordionRoot>
+```
+
+## AccordionRoot
+
+Root container that manages which panels are open. Built on Base UI Accordion primitive.
+
+### Props
+
+<ParamField path="value" type="Array<string | number>">
+  Controlled array of open item values. Use with `onValueChange` for controlled behavior.
+</ParamField>
+
+<ParamField path="defaultValue" type="Array<string | number>">
+  Default open items for uncontrolled usage.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: Array<string | number>, details: object) => void">
+  Callback fired when open items change.
+</ParamField>
+
+<ParamField path="openMultiple" type="boolean" default="true">
+  Whether multiple panels can be open simultaneously. Set to `false` for single-panel mode.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables all accordion items.
+</ParamField>
+
+### Example: Controlled Accordion
+
+```tsx
+function ControlledAccordion() {
+  const [openItems, setOpenItems] = useState(['item-1'])
+
+  return (
+    <AccordionRoot value={openItems} onValueChange={setOpenItems}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Section 1</AccordionTrigger>
+        <AccordionContent>Content 1</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Section 2</AccordionTrigger>
+        <AccordionContent>Content 2</AccordionContent>
+      </AccordionItem>
+    </AccordionRoot>
+  )
+}
+```
+
+### Example: Single Panel Mode
+
+```tsx
+<AccordionRoot openMultiple={false} defaultValue={['faq-1']}>
+  <AccordionItem value="faq-1">
+    <AccordionTrigger>Question 1</AccordionTrigger>
+    <AccordionContent>Answer 1</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="faq-2">
+    <AccordionTrigger>Question 2</AccordionTrigger>
+    <AccordionContent>Answer 2</AccordionContent>
+  </AccordionItem>
+</AccordionRoot>
+```
+
+## AccordionItem
+
+Individual expandable panel with styling variants.
+
+### Props
+
+<ParamField path="value" type="string | number" required>
+  Unique identifier for this accordion item. Used to track open/closed state.
+</ParamField>
+
+<ParamField path="variant" type="'list' | 'card'" default="'list'">
+  Visual style variant:
+  - `list`: Minimal style with bottom border (default)
+  - `card`: Elevated card style with background and rounded corners
+</ParamField>
+
+<ParamField path="withIcon" type="boolean" default="true">
+  Whether to show the leading icon in the trigger. Affects grid layout.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables this specific accordion item.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Example: Variants
+
+```tsx
+{/* List variant (default) */}
+<AccordionRoot>
+  <AccordionItem value="1" variant="list">
+    <AccordionTrigger>List Style</AccordionTrigger>
+    <AccordionContent>Content with minimal styling</AccordionContent>
+  </AccordionItem>
+</AccordionRoot>
+
+{/* Card variant */}
+<AccordionRoot>
+  <AccordionItem value="1" variant="card">
+    <AccordionTrigger>Card Style</AccordionTrigger>
+    <AccordionContent>Content with elevated background</AccordionContent>
+  </AccordionItem>
+</AccordionRoot>
+```
+
+### Example: Without Icon
+
+```tsx
+<AccordionItem value="no-icon" withIcon={false}>
+  <AccordionTrigger>No Leading Icon</AccordionTrigger>
+  <AccordionContent>Content without icon</AccordionContent>
+</AccordionItem>
+```
+
+## AccordionTrigger
+
+Clickable header that toggles panel visibility. Contains an animated chevron icon.
+
+### Props
+
+<ParamField path="icon" type="ReactNode">
+  Custom icon to display on the left. Defaults to `QuestionIcon`. Only shown when `withIcon={true}` on parent `AccordionItem`.
+</ParamField>
+
+<ParamField path="variant" type="'list' | 'card'">
+  Inherited from parent `AccordionItem` unless explicitly overridden.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Example: Custom Icon
+
+```tsx
+import { SettingsIcon } from '@soft-ui/icons'
+
+<AccordionItem value="settings">
+  <AccordionTrigger icon={<SettingsIcon />}>
+    Settings
+  </AccordionTrigger>
+  <AccordionContent>Configuration options</AccordionContent>
+</AccordionItem>
+```
+
+### Animation
+
+The chevron icon rotates 180 degrees when the panel opens using a spring animation:
+- **Duration**: 250ms
+- **Easing**: Spring with no bounce
+- **Respects**: `prefers-reduced-motion` (disables animation)
+
+## AccordionContent
+
+Collapsible content area with smooth height animation.
+
+### Props
+
+<ParamField path="keepMounted" type="boolean" default="true">
+  Whether to keep content in the DOM when collapsed. Improves performance for dynamic content.
+</ParamField>
+
+<ParamField path="variant" type="'list' | 'card'">
+  Inherited from parent `AccordionItem` unless explicitly overridden.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes.
+</ParamField>
+
+### Animation
+
+Content animates height and opacity:
+- **Height**: Spring animation (250ms open, 200ms close)
+- **Opacity**: Fades in over 150ms (50ms delay), fades out over 100ms
+- **Respects**: `prefers-reduced-motion` (disables animation)
+
+### Example: Dynamic Content
+
+```tsx
+<AccordionContent keepMounted={false}>
+  <ExpensiveComponent />
+</AccordionContent>
+```
+
+## Navigation Patterns
+
+### FAQ List
+
+```tsx
+<AccordionRoot variant="list">
+  <AccordionItem value="q1">
+    <AccordionTrigger>How do I install Soft UI?</AccordionTrigger>
+    <AccordionContent>
+      Run `npm install @soft-ui/react` in your project directory.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="q2">
+    <AccordionTrigger>Is TypeScript supported?</AccordionTrigger>
+    <AccordionContent>
+      Yes, all components include full TypeScript definitions.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="q3">
+    <AccordionTrigger>Can I customize the theme?</AccordionTrigger>
+    <AccordionContent>
+      Absolutely! Use CSS variables to customize colors, spacing, and more.
+    </AccordionContent>
+  </AccordionItem>
+</AccordionRoot>
+```
+
+### Settings Panel
+
+```tsx
+import { UserIcon, BellIcon, ShieldIcon } from '@soft-ui/icons'
+
+<AccordionRoot variant="card" openMultiple={false}>
+  <AccordionItem value="account" variant="card">
+    <AccordionTrigger icon={<UserIcon />}>
+      Account Settings
+    </AccordionTrigger>
+    <AccordionContent>
+      <div className="space-y-4">
+        <label>Username</label>
+        <input type="text" />
+      </div>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="notifications" variant="card">
+    <AccordionTrigger icon={<BellIcon />}>
+      Notifications
+    </AccordionTrigger>
+    <AccordionContent>
+      <div className="space-y-4">
+        <label>Email notifications</label>
+        <input type="checkbox" />
+      </div>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="privacy" variant="card">
+    <AccordionTrigger icon={<ShieldIcon />}>
+      Privacy & Security
+    </AccordionTrigger>
+    <AccordionContent>
+      <p>Manage your privacy settings and security preferences.</p>
+    </AccordionContent>
+  </AccordionItem>
+</AccordionRoot>
+```
+
+### Mixed Content
+
+```tsx
+<AccordionRoot defaultValue={['intro']}>
+  <AccordionItem value="intro" variant="list">
+    <AccordionTrigger>Introduction</AccordionTrigger>
+    <AccordionContent>
+      <p>Welcome to our documentation.</p>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="guide" variant="list" withIcon={false}>
+    <AccordionTrigger>Getting Started Guide</AccordionTrigger>
+    <AccordionContent>
+      <ol>
+        <li>Install dependencies</li>
+        <li>Configure your project</li>
+        <li>Build your first component</li>
+      </ol>
+    </AccordionContent>
+  </AccordionItem>
+  
+  <AccordionItem value="api" variant="list">
+    <AccordionTrigger>API Reference</AccordionTrigger>
+    <AccordionContent>
+      <p>Detailed API documentation...</p>
+    </AccordionContent>
+  </AccordionItem>
+</AccordionRoot>
+```
+
+## Accessibility
+
+- Built on Base UI Accordion primitive for ARIA compliance
+- Triggers use `<button>` with proper ARIA attributes
+- Keyboard navigation:
+  - `Enter`/`Space`: Toggle panel
+  - `Tab`: Navigate between triggers
+- `aria-expanded` automatically managed
+- Focus indicators use design system focus rings
+- Respects `prefers-reduced-motion` for animations
+
+## Data Attributes
+
+### AccordionItem
+
+- `data-slot="accordion-item"`: Identifies the item container
+- `data-variant`: Current variant ("list" or "card")
+
+### AccordionTrigger
+
+- `data-slot="accordion-trigger"`: Identifies the trigger button
+- `data-panel-open`: Present when panel is expanded
+
+### AccordionContent
+
+- `data-slot="accordion-panel"`: Identifies the content panel
+
+## Performance
+
+### Animation Optimization
+
+- Uses `motion/react` for hardware-accelerated animations
+- Height animations use `transform` under the hood
+- Opacity animations are GPU-accelerated
+- `AnimatePresence` manages mount/unmount transitions
+
+### Content Rendering
+
+- `keepMounted={true}` (default): Content stays in DOM, faster toggling
+- `keepMounted={false}`: Content removed when closed, better for heavy components
+
+## Variant Specifications
+
+### List Variant
+
+- Border bottom on each item
+- No background color
+- 8px horizontal padding
+- 16px vertical padding
+- Border color changes on hover
+
+### Card Variant
+
+- Rounded corners (12px border radius)
+- Background with interactive states
+- 16px horizontal padding
+- 16px vertical padding
+- Background color changes on hover
+
+## Source Reference
+
+Implementation: `packages/react/src/components/accordion.tsx`

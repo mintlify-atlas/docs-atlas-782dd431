@@ -1,0 +1,350 @@
+---
+title: Context Menu
+description: API reference for the ContextMenu component - a right-click menu with items, groups, and submenus.
+---
+
+# Context Menu
+
+A context menu component that appears on right-click. Built on Base UI ContextMenu primitive with the same item API as Menu.
+
+## Compound Components
+
+### ContextMenu.Root
+
+The root container that manages context menu state.
+
+<ParamField path="open" type="boolean">
+  Controlled open state. When provided, the menu becomes controlled.
+</ParamField>
+
+<ParamField path="defaultOpen" type="boolean" default="false">
+  Uncontrolled default open state.
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean) => void">
+  Callback fired when the open state changes.
+</ParamField>
+
+### ContextMenu.Trigger
+
+The element that triggers the context menu on right-click.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+<ParamField path="asChild" type="boolean" default="false">
+  Merge props onto the child element instead of rendering a div.
+</ParamField>
+
+### ContextMenu.Portal
+
+Portals the menu content to the end of the document body.
+
+<ParamField path="keepMounted" type="boolean" default="false">
+  Whether to keep the menu mounted in the DOM when closed.
+</ParamField>
+
+<ParamField path="container" type="HTMLElement | null">
+  The container element to portal into. Defaults to `document.body`.
+</ParamField>
+
+### ContextMenu.Positioner
+
+Positions the menu at the cursor position.
+
+<ParamField path="sideOffset" type="number" default="4">
+  The distance in pixels from the cursor.
+</ParamField>
+
+<ParamField path="collisionPadding" type="number | { top?: number; right?: number; bottom?: number; left?: number }" default="8">
+  The padding in pixels from the viewport edges.
+</ParamField>
+
+### ContextMenu.Popup
+
+The context menu popup container with list styles.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Surface overlay background with shadow.
+</ParamField>
+
+**Layout**: 
+- Min-width: 220px
+- Max-width: 400px
+- Max-height: 320px
+- Vertical scrolling when content overflows
+
+### ContextMenu.Arrow
+
+Optional arrow pointing to the trigger position.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: `"fill-surface-overlay"`
+</ParamField>
+
+### MenuItem
+
+A clickable context menu item. Same component as Menu.
+
+<ParamField path="onSelect" type="(event: Event) => void">
+  Callback fired when the item is selected.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the item is disabled.
+</ParamField>
+
+<ParamField path="closeOnSelect" type="boolean" default="true">
+  Whether to close the menu when this item is selected.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### MenuPrefix
+
+Leading content for a menu item (icon, avatar, etc.).
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### MenuSuffix
+
+Trailing content for a menu item (shortcut, badge, etc.).
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### MenuSeparator
+
+Visual separator between menu sections.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### MenuGroup
+
+Groups related menu items.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### MenuGroupLabel
+
+Label for a menu group.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply. Default: Small subtle text with padding.
+</ParamField>
+
+### MenuEmpty
+
+Empty state message when menu has no items.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+### ContextMenu.RadioGroup
+
+Groups radio items with single selection.
+
+<ParamField path="value" type="string">
+  The currently selected value.
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: string) => void">
+  Callback fired when the selection changes.
+</ParamField>
+
+### ContextMenu.RadioItem
+
+A radio menu item with indicator.
+
+<ParamField path="value" type="string">
+  The value of this radio item.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the item is disabled.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Indicator**: Shows checked circle icon (RiCheckboxCircleFill) when selected.
+
+### ContextMenu.CheckboxItem
+
+A checkbox menu item with indicator.
+
+<ParamField path="checked" type="boolean | 'indeterminate'">
+  The checked state.
+</ParamField>
+
+<ParamField path="onCheckedChange" type="(checked: boolean | 'indeterminate') => void">
+  Callback fired when the checked state changes.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the item is disabled.
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+**Indicator**: Shows checked circle icon (RiCheckboxCircleFill) when checked.
+
+### ContextMenu.SubmenuRoot
+
+Root container for a submenu.
+
+<ParamField path="open" type="boolean">
+  Controlled open state.
+</ParamField>
+
+<ParamField path="defaultOpen" type="boolean" default="false">
+  Uncontrolled default open state.
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean) => void">
+  Callback fired when the submenu open state changes.
+</ParamField>
+
+### ContextMenu.SubmenuTrigger
+
+Trigger for opening a submenu.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply.
+</ParamField>
+
+## Usage
+
+```tsx
+import { 
+  ContextMenu, 
+  MenuItem, 
+  MenuPrefix, 
+  MenuSuffix, 
+  MenuSeparator 
+} from '@soft-ui/react/context-menu'
+import { 
+  RiFileCopyLine, 
+  RiScissorsCutLine, 
+  RiClipboardLine, 
+  RiDeleteBinLine 
+} from '@soft-ui/icons'
+
+function Example() {
+  return (
+    <ContextMenu.Root>
+      <ContextMenu.Trigger asChild>
+        <div className="p-8 border border-border-subtle rounded-lg">
+          Right-click me
+        </div>
+      </ContextMenu.Trigger>
+      <ContextMenu.Portal>
+        <ContextMenu.Positioner>
+          <ContextMenu.Popup>
+            <MenuItem>
+              <MenuPrefix><RiFileCopyLine /></MenuPrefix>
+              Copy
+              <MenuSuffix>⌘C</MenuSuffix>
+            </MenuItem>
+            <MenuItem>
+              <MenuPrefix><RiScissorsCutLine /></MenuPrefix>
+              Cut
+              <MenuSuffix>⌘X</MenuSuffix>
+            </MenuItem>
+            <MenuItem>
+              <MenuPrefix><RiClipboardLine /></MenuPrefix>
+              Paste
+              <MenuSuffix>⌘V</MenuSuffix>
+            </MenuItem>
+            <MenuSeparator />
+            <MenuItem>
+              <MenuPrefix><RiDeleteBinLine /></MenuPrefix>
+              Delete
+            </MenuItem>
+          </ContextMenu.Popup>
+        </ContextMenu.Positioner>
+      </ContextMenu.Portal>
+    </ContextMenu.Root>
+  )
+}
+```
+
+## With Checkbox Items
+
+```tsx
+<ContextMenu.Popup>
+  <ContextMenu.CheckboxItem 
+    checked={showGrid} 
+    onCheckedChange={setShowGrid}
+  >
+    Show Grid
+  </ContextMenu.CheckboxItem>
+  <ContextMenu.CheckboxItem 
+    checked={showRulers} 
+    onCheckedChange={setShowRulers}
+  >
+    Show Rulers
+  </ContextMenu.CheckboxItem>
+</ContextMenu.Popup>
+```
+
+## Submenu
+
+```tsx
+<ContextMenu.Popup>
+  <MenuItem>New File</MenuItem>
+  <ContextMenu.SubmenuRoot>
+    <ContextMenu.SubmenuTrigger>
+      More Actions
+      <MenuSuffix><RiArrowRightSLine /></MenuSuffix>
+    </ContextMenu.SubmenuTrigger>
+    <ContextMenu.Portal>
+      <ContextMenu.Positioner>
+        <ContextMenu.Popup>
+          <MenuItem>Rename</MenuItem>
+          <MenuItem>Duplicate</MenuItem>
+          <MenuItem>Archive</MenuItem>
+        </ContextMenu.Popup>
+      </ContextMenu.Positioner>
+    </ContextMenu.Portal>
+  </ContextMenu.SubmenuRoot>
+</ContextMenu.Popup>
+```
+
+## Types
+
+```tsx
+export type ContextMenuRootProps = {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  children?: React.ReactNode
+}
+
+export type ContextMenuPopupProps = {
+  className?: string
+  children?: React.ReactNode
+}
+```
+
+## Accessibility
+
+- Opens on right-click or Shift+F10
+- Arrow keys navigate between items
+- Enter or Space selects an item
+- Escape closes the menu
+- Focus is trapped within the menu when open

@@ -1,0 +1,212 @@
+---
+title: Switch Group
+description: API reference for the Switch Group component
+---
+
+# Switch Group
+
+A collection of toggle switches with consistent styling and layout.
+
+## Import
+
+```jsx
+import { SwitchGroup, SwitchGroupItem } from "@soft-ui/react/switch-group"
+```
+
+## Anatomy
+
+```jsx
+<SwitchGroup style="simple" stack="vertical">
+  <SwitchGroupItem
+    label="Enable notifications"
+    description="Receive alerts and updates"
+    checked={enabled}
+    onCheckedChange={setEnabled}
+  />
+  <SwitchGroupItem
+    label="Dark mode"
+    checked={darkMode}
+    onCheckedChange={setDarkMode}
+  />
+</SwitchGroup>
+```
+
+## SwitchGroup
+
+Container component that provides consistent styling and layout for switch items.
+
+<ParamField path="style" type="'simple' | 'list' | 'card-small' | 'card-big'" default="'simple'">
+  Visual style of the switch group
+  - `simple`: Minimal spacing with switch on left
+  - `list`: Border-separated items
+  - `card-small`: Card-style with small padding
+  - `card-big`: Card-style with larger padding
+</ParamField>
+
+<ParamField path="stack" type="'vertical' | 'horizontal'" default="'vertical'">
+  Layout direction of the switch items
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="switch-group"`
+- `data-style`: Current style (`simple`, `list`, `card-small`, `card-big`)
+- `data-stack`: Current layout (`vertical`, `horizontal`)
+
+## SwitchGroupItem
+
+An individual switch item within the group.
+
+<ParamField path="label" type="string" required>
+  The label text for the switch
+</ParamField>
+
+<ParamField path="description" type="string">
+  Optional description text (only shown in `list` and card styles)
+</ParamField>
+
+<ParamField path="type" type="'simple' | 'list' | 'card-small' | 'card-big'">
+  Override the style from SwitchGroup context
+</ParamField>
+
+<ParamField path="checked" type="boolean">
+  Controlled checked state
+</ParamField>
+
+<ParamField path="defaultChecked" type="boolean">
+  Uncontrolled default checked state
+</ParamField>
+
+<ParamField path="onCheckedChange" type="(checked: boolean) => void">
+  Callback when the checked state changes
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the switch is disabled
+</ParamField>
+
+<ParamField path="badge" type="React.ReactNode">
+  Optional badge content displayed on the right (simple/list) or before switch (card)
+</ParamField>
+
+<ParamField path="prefix" type="React.ReactNode">
+  Custom prefix content (card styles only, typically a Prefix component)
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+### Data Attributes
+
+- `data-slot="switch-group-item"`
+- `data-type`: Current type (`simple`, `list`, `card-small`, `card-big`)
+- `data-disabled`: Present when the item is disabled
+
+## Examples
+
+### Simple Vertical Group
+
+```jsx
+<SwitchGroup style="simple" stack="vertical">
+  <SwitchGroupItem label="Enable notifications" />
+  <SwitchGroupItem label="Enable sounds" />
+  <SwitchGroupItem label="Enable vibration" />
+</SwitchGroup>
+```
+
+### List Style with Descriptions
+
+```jsx
+<SwitchGroup style="list">
+  <SwitchGroupItem
+    label="Two-factor authentication"
+    description="Add an extra layer of security to your account"
+  />
+  <SwitchGroupItem
+    label="Login notifications"
+    description="Get alerted when someone logs into your account"
+  />
+</SwitchGroup>
+```
+
+### Card Style with Prefix
+
+```jsx
+import { Prefix } from "@soft-ui/react/prefix"
+
+<SwitchGroup style="card-big" stack="horizontal">
+  <SwitchGroupItem
+    label="Analytics"
+    description="Track usage and performance metrics"
+    prefix={<Prefix color="blue" icon={<ChartIcon />} />}
+  />
+  <SwitchGroupItem
+    label="Monitoring"
+    description="Real-time system health monitoring"
+    prefix={<Prefix color="green" icon={<ActivityIcon />} />}
+  />
+</SwitchGroup>
+```
+
+### Controlled State
+
+```jsx
+const [settings, setSettings] = React.useState({
+  notifications: true,
+  darkMode: false,
+  sounds: true,
+})
+
+return (
+  <SwitchGroup>
+    <SwitchGroupItem
+      label="Notifications"
+      checked={settings.notifications}
+      onCheckedChange={(checked) =>
+        setSettings((prev) => ({ ...prev, notifications: checked }))
+      }
+    />
+    <SwitchGroupItem
+      label="Dark Mode"
+      checked={settings.darkMode}
+      onCheckedChange={(checked) =>
+        setSettings((prev) => ({ ...prev, darkMode: checked }))
+      }
+    />
+  </SwitchGroup>
+)
+```
+
+### With Badges
+
+```jsx
+import { Badge } from "@soft-ui/react/badge"
+
+<SwitchGroup style="list">
+  <SwitchGroupItem
+    label="Experimental features"
+    description="Enable beta features and improvements"
+    badge={<Badge variant="accent" size="s">Beta</Badge>}
+  />
+  <SwitchGroupItem
+    label="AI suggestions"
+    description="Get intelligent recommendations"
+    badge={<Badge variant="accent" size="s">New</Badge>}
+  />
+</SwitchGroup>
+```
+
+### Horizontal Layout
+
+```jsx
+<SwitchGroup style="simple" stack="horizontal">
+  <SwitchGroupItem label="Email" />
+  <SwitchGroupItem label="SMS" />
+  <SwitchGroupItem label="Push" />
+</SwitchGroup>
+```
