@@ -1,0 +1,161 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "Soft UI",
+  "projectDescription": "A package-first React design system built on Base UI primitives with design tokens and Tailwind v4 integration.",
+  "theme": "palm",
+  "primaryColor": "#3b82f6",
+  "lightColor": "#60a5fa",
+  "darkColor": "#2563eb",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "installation", "quickstart"]
+          },
+          {
+            "group": "Design System",
+            "pages": ["design-system/tokens", "design-system/theming", "design-system/typography", "design-system/colors"]
+          },
+          {
+            "group": "Components",
+            "pages": [
+              "components/button",
+              "components/icon-button",
+              "components/input",
+              "components/select",
+              "components/checkbox",
+              "components/switch",
+              "components/tabs",
+              "components/dialog",
+              "components/menu",
+              "components/tooltip"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": ["advanced/customization", "advanced/animations", "advanced/accessibility"]
+          }
+        ]
+      },
+      {
+        "tab": "Components",
+        "groups": [
+          {
+            "group": "Actions",
+            "pages": [
+              "api/button",
+              "api/icon-button",
+              "api/button-group",
+              "api/toggle-button",
+              "api/toggle-group"
+            ]
+          },
+          {
+            "group": "Forms",
+            "pages": [
+              "api/input",
+              "api/textarea",
+              "api/select",
+              "api/combobox",
+              "api/autocomplete",
+              "api/checkbox",
+              "api/radio-group",
+              "api/switch",
+              "api/slider",
+              "api/number-field",
+              "api/field",
+              "api/form"
+            ]
+          },
+          {
+            "group": "Selection",
+            "pages": [
+              "api/tabs",
+              "api/segmented-control",
+              "api/checkbox-group",
+              "api/switch-group",
+              "api/filter",
+              "api/chip"
+            ]
+          },
+          {
+            "group": "Overlays",
+            "pages": [
+              "api/dialog",
+              "api/alert-dialog",
+              "api/menu",
+              "api/context-menu",
+              "api/popover",
+              "api/tooltip"
+            ]
+          },
+          {
+            "group": "Display",
+            "pages": [
+              "api/badge",
+              "api/avatar",
+              "api/separator",
+              "api/table",
+              "api/progress",
+              "api/meter"
+            ]
+          },
+          {
+            "group": "Feedback",
+            "pages": [
+              "api/toast",
+              "api/banner",
+              "api/inline-notification",
+              "api/empty-state"
+            ]
+          },
+          {
+            "group": "Navigation",
+            "pages": [
+              "api/breadcrumbs",
+              "api/pagination",
+              "api/accordion"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "70+ production-ready React components built on Base UI primitives",
+    "Design token system with CSS variables for theming and color schemes",
+    "Subpath imports for optimal tree-shaking (@soft-ui/react/button)",
+    "Tailwind v4 integration with utility classes",
+    "TypeScript support with full type definitions",
+    "Comprehensive variant system (size, tone, variant props)",
+    "Built-in animation support with motion library",
+    "Accessibility-first design with ARIA patterns"
+  ],
+  "publicApiSurface": [
+    "@soft-ui/react/button - Button component with variants (primary, secondary, tertiary, ghost, link, danger)",
+    "@soft-ui/react/icon-button - Icon-only button component",
+    "@soft-ui/react/input - Single-line text input with prefix/suffix support",
+    "@soft-ui/react/select - Dropdown selection component",
+    "@soft-ui/react/checkbox - Checkbox control with indeterminate state",
+    "@soft-ui/react/switch - Toggle switch component",
+    "@soft-ui/react/radio-group - Radio button group",
+    "@soft-ui/react/tabs - Tab navigation component",
+    "@soft-ui/react/dialog - Modal dialog component",
+    "@soft-ui/react/menu - Dropdown menu component",
+    "@soft-ui/react/tooltip - Tooltip overlay component",
+    "@soft-ui/react/badge - Status and label badges",
+    "@soft-ui/react/avatar - User avatar component",
+    "@soft-ui/react/table - Data table with sorting and selection",
+    "@soft-ui/react/toast - Toast notification system",
+    "@soft-ui/react/combobox - Searchable dropdown",
+    "@soft-ui/react/autocomplete - Auto-suggestion input",
+    "@soft-ui/react/slider - Range slider component",
+    "@soft-ui/react/progress - Progress indicator",
+    "@soft-ui/react/accordion - Collapsible content sections",
+    "@soft-ui/tokens - Design tokens and CSS utilities",
+    "@soft-ui/icons - Icon adapter (default: Remix Icons)"
+  ]
+}
