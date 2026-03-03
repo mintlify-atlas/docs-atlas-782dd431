@@ -69,6 +69,7 @@
             "group": "Forms",
             "pages": [
               "api/input",
+              "api/input-group",
               "api/textarea",
               "api/select",
               "api/combobox",
@@ -77,9 +78,12 @@
               "api/radio-group",
               "api/switch",
               "api/slider",
+              "api/adjustment-slider",
               "api/number-field",
               "api/field",
-              "api/form"
+              "api/fieldset",
+              "api/form",
+              "api/file-upload"
             ]
           },
           {
@@ -101,7 +105,8 @@
               "api/menu",
               "api/context-menu",
               "api/popover",
-              "api/tooltip"
+              "api/tooltip",
+              "api/command-palette"
             ]
           },
           {
@@ -112,7 +117,11 @@
               "api/separator",
               "api/table",
               "api/progress",
-              "api/meter"
+              "api/meter",
+              "api/kbd",
+              "api/logo",
+              "api/crypto",
+              "api/file-icon"
             ]
           },
           {

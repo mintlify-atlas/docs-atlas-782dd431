@@ -1,0 +1,129 @@
+---
+title: Fieldset
+description: Group related form fields with an accessible legend.
+---
+
+Fieldset provides semantic grouping for form controls with a legend heading, using Base UI's Fieldset primitive.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Fieldset } from "@soft-ui/react/fieldset"
+import { Input } from "@soft-ui/react/input"
+
+<Fieldset.Root>
+  <Fieldset.Legend>Personal Information</Fieldset.Legend>
+  <Input placeholder="First name" />
+  <Input placeholder="Last name" />
+  <Input type="email" placeholder="Email" />
+</Fieldset.Root>
+```
+
+Alternatively, use the compound component:
+
+```tsx
+<Fieldset>
+  <Fieldset.Legend>Personal Information</Fieldset.Legend>
+  <Input placeholder="First name" />
+  <Input placeholder="Last name" />
+</Fieldset>
+```
+
+## API Reference
+
+### Fieldset / Fieldset.Root
+
+<ParamField path="disabled" type="boolean">
+  Whether all controls in the fieldset are disabled
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes. Default styling includes:
+  - Flexbox column layout
+  - 24px gap between children
+  - No border, padding, or margin (reset)
+</ParamField>
+
+### Fieldset.Legend
+
+<ParamField path="className" type="string">
+  Additional CSS classes. Default styling includes:
+  - Large font size
+  - Semibold weight
+  - Strong content color
+  - No padding
+</ParamField>
+
+## Examples
+
+### Basic Form Section
+
+```tsx
+<Fieldset>
+  <Fieldset.Legend>Contact Details</Fieldset.Legend>
+  <Input type="email" placeholder="Email" />
+  <Input type="tel" placeholder="Phone" />
+</Fieldset>
+```
+
+### Disabled Fieldset
+
+```tsx
+<Fieldset disabled>
+  <Fieldset.Legend>Locked Settings</Fieldset.Legend>
+  <Input defaultValue="Locked" />
+  <Input defaultValue="Cannot edit" />
+</Fieldset>
+```
+
+### Multiple Sections
+
+```tsx
+<form className="space-y-8">
+  <Fieldset>
+    <Fieldset.Legend>Personal Information</Fieldset.Legend>
+    <Input placeholder="First name" />
+    <Input placeholder="Last name" />
+  </Fieldset>
+
+  <Fieldset>
+    <Fieldset.Legend>Contact Information</Fieldset.Legend>
+    <Input type="email" placeholder="Email" />
+    <Input type="tel" placeholder="Phone" />
+  </Fieldset>
+
+  <Fieldset>
+    <Fieldset.Legend>Address</Fieldset.Legend>
+    <Input placeholder="Street" />
+    <Input placeholder="City" />
+    <Input placeholder="Postal code" />
+  </Fieldset>
+</form>
+```
+
+### With Description
+
+```tsx
+<Fieldset>
+  <Fieldset.Legend>Security Settings</Fieldset.Legend>
+  <p className="text-sm text-content-subtle mb-4">
+    Configure your account security preferences.
+  </p>
+  <Input type="password" placeholder="Current password" />
+  <Input type="password" placeholder="New password" />
+</Fieldset>
+```

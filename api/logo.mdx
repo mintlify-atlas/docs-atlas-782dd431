@@ -1,0 +1,155 @@
+---
+title: Logo
+description: Display company and product logos with brand-accurate styling.
+---
+
+Logo renders brand logos for popular companies and products including Claude, OpenAI, Linear, Discord, and more. Supports both default and filled variants.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Logo } from "@soft-ui/react/logo"
+
+<Logo logo="claude" size={24} />
+```
+
+## API Reference
+
+### Props
+
+<ParamField path="logo" type="LogoType" required>
+  Logo to display. Supported values:
+  - `claude` - Claude
+  - `airbnb` - Airbnb
+  - `apple` - Apple
+  - `discord` - Discord
+  - `framer` - Framer
+  - `gemini` - Gemini
+  - `linear` - Linear
+  - `loom` - Loom
+  - `openai` - OpenAI
+  - `replit` - Replit
+  - `twilio` - Twilio
+  - `copilot` - GitHub Copilot
+  - `google` - Google
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'filled'" default="'default'">
+  Visual style:
+  - `default`: Logo only
+  - `filled`: Logo on colored background with rounded corners
+</ParamField>
+
+<ParamField path="size" type="number" default="24">
+  Size of the logo in pixels
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+## Examples
+
+### Different Logos
+
+```tsx
+<div className="flex gap-4">
+  <Logo logo="claude" />
+  <Logo logo="openai" />
+  <Logo logo="linear" />
+  <Logo logo="discord" />
+</div>
+```
+
+### Filled Variant
+
+```tsx
+<div className="flex gap-4">
+  <Logo logo="claude" variant="filled" />
+  <Logo logo="openai" variant="filled" />
+  <Logo logo="linear" variant="filled" />
+  <Logo logo="discord" variant="filled" />
+</div>
+```
+
+### Different Sizes
+
+```tsx
+<div className="flex items-center gap-4">
+  <Logo logo="claude" size={16} />
+  <Logo logo="claude" size={24} />
+  <Logo logo="claude" size={32} />
+  <Logo logo="claude" size={48} />
+</div>
+```
+
+### All Available Logos
+
+```tsx
+import { logos } from "@soft-ui/react/logo"
+
+<div className="grid grid-cols-6 gap-4">
+  {logos.map((logo) => (
+    <Logo key={logo} logo={logo} size={32} />
+  ))}
+</div>
+```
+
+### In a List
+
+```tsx
+const integrations = [
+  { logo: "linear", name: "Linear" },
+  { logo: "discord", name: "Discord" },
+  { logo: "loom", name: "Loom" },
+]
+
+<div className="space-y-2">
+  {integrations.map(({ logo, name }) => (
+    <div key={logo} className="flex items-center gap-3">
+      <Logo logo={logo} variant="filled" size={32} />
+      <span>{name}</span>
+    </div>
+  ))}
+</div>
+```
+
+### With Tooltips
+
+```tsx
+import { logoNames } from "@soft-ui/react/logo"
+
+<div className="flex gap-2">
+  {["claude", "openai", "gemini"].map((logo) => (
+    <div key={logo} title={logoNames[logo]}>
+      <Logo logo={logo} variant="filled" />
+    </div>
+  ))}
+</div>
+```
+
+### Accessing Colors and Names
+
+```tsx
+import { logoColors, logoNames } from "@soft-ui/react/logo"
+
+// Get brand color
+const claudeColor = logoColors.claude // "#D97757"
+
+// Get display name
+const claudeName = logoNames.claude // "Claude"
+```

@@ -1,0 +1,117 @@
+---
+title: Crypto
+description: Display cryptocurrency icons with proper branding and colors.
+---
+
+Crypto renders brand-accurate cryptocurrency icons including Bitcoin, Ethereum, and 13+ other popular cryptocurrencies.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Crypto } from "@soft-ui/react/crypto"
+
+<Crypto crypto="btc" size={24} />
+```
+
+## API Reference
+
+### Props
+
+<ParamField path="crypto" type="CryptoType" required>
+  Cryptocurrency to display. Supported values:
+  - `btc` - Bitcoin
+  - `eth` - Ethereum
+  - `usdt` - Tether
+  - `bnb` - Binance Coin
+  - `ada` - Cardano
+  - `xrp` - XRP
+  - `usdc` - USD Coin
+  - `dot` - Polkadot
+  - `busd` - Binance USD
+  - `uni` - Uniswap
+  - `ltc` - Litecoin
+  - `sol` - Solana
+  - `link` - Chainlink
+  - `wbtc` - Wrapped Bitcoin
+  - `dai` - Dai
+</ParamField>
+
+<ParamField path="size" type="number" default="24">
+  Size of the icon in pixels
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+## Examples
+
+### Different Cryptocurrencies
+
+```tsx
+<div className="flex gap-4">
+  <Crypto crypto="btc" />
+  <Crypto crypto="eth" />
+  <Crypto crypto="sol" />
+  <Crypto crypto="usdc" />
+</div>
+```
+
+### Different Sizes
+
+```tsx
+<div className="flex items-center gap-4">
+  <Crypto crypto="btc" size={16} />
+  <Crypto crypto="btc" size={24} />
+  <Crypto crypto="btc" size={32} />
+  <Crypto crypto="btc" size={48} />
+</div>
+```
+
+### In a List
+
+```tsx
+const holdings = [
+  { crypto: "btc", name: "Bitcoin", amount: "0.5" },
+  { crypto: "eth", name: "Ethereum", amount: "2.3" },
+  { crypto: "sol", name: "Solana", amount: "15" },
+]
+
+<div className="space-y-2">
+  {holdings.map(({ crypto, name, amount }) => (
+    <div key={crypto} className="flex items-center gap-3">
+      <Crypto crypto={crypto} size={32} />
+      <div>
+        <p className="font-medium">{name}</p>
+        <p className="text-sm text-content-subtle">{amount}</p>
+      </div>
+    </div>
+  ))}
+</div>
+```
+
+### Accessing Colors and Names
+
+```tsx
+import { cryptoColors, cryptoNames } from "@soft-ui/react/crypto"
+
+// Get brand color
+const btcColor = cryptoColors.btc // "#F7931A"
+
+// Get display name
+const btcName = cryptoNames.btc // "Bitcoin"
+```

@@ -1,0 +1,152 @@
+---
+title: Kbd
+description: Display keyboard keys and shortcuts with proper styling.
+---
+
+Kbd renders keyboard keys with a realistic keyboard shortcut appearance. Use KbdGroup to display key combinations.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Kbd, KbdGroup } from "@soft-ui/react/kbd"
+
+<Kbd>⌘</Kbd>
+<Kbd>K</Kbd>
+
+// Or as a group
+<KbdGroup keys={["⌘", "K"]} />
+```
+
+## API Reference
+
+### Kbd
+
+<ParamField path="variant" type="'tertiary' | 'inverted'" default="'tertiary'">
+  Visual style:
+  - `tertiary`: Light background (default)
+  - `inverted`: Dark background with white text
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### KbdGroup
+
+Renders multiple keyboard keys with proper spacing.
+
+<ParamField path="keys" type="string[]" required>
+  Array of key labels to display
+</ParamField>
+
+<ParamField path="variant" type="'tertiary' | 'inverted'" default="'tertiary'">
+  Visual style (applied to all keys)
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the container
+</ParamField>
+
+## Examples
+
+### Single Key
+
+```tsx
+<Kbd>Esc</Kbd>
+<Kbd>Enter</Kbd>
+<Kbd>⌘</Kbd>
+```
+
+### Key Combinations
+
+```tsx
+<div className="flex items-center gap-2">
+  <Kbd>⌘</Kbd>
+  <Kbd>K</Kbd>
+</div>
+```
+
+### Using KbdGroup
+
+```tsx
+<KbdGroup keys={["⌘", "K"]} />
+<KbdGroup keys={["Ctrl", "Shift", "P"]} />
+<KbdGroup keys={["↑", "↓"]} />
+```
+
+### Inverted Variant
+
+```tsx
+<div className="bg-content-strong p-4 rounded">
+  <KbdGroup keys={["⌘", "K"]} variant="inverted" />
+</div>
+```
+
+### Common Shortcuts
+
+```tsx
+<div className="space-y-2">
+  <div className="flex items-center justify-between">
+    <span>Search</span>
+    <KbdGroup keys={["⌘", "K"]} />
+  </div>
+  <div className="flex items-center justify-between">
+    <span>Save</span>
+    <KbdGroup keys={["⌘", "S"]} />
+  </div>
+  <div className="flex items-center justify-between">
+    <span>Undo</span>
+    <KbdGroup keys={["⌘", "Z"]} />
+  </div>
+  <div className="flex items-center justify-between">
+    <span>Copy</span>
+    <KbdGroup keys={["⌘", "C"]} />
+  </div>
+</div>
+```
+
+### Arrow Keys
+
+```tsx
+<div className="flex items-center gap-2">
+  <span>Navigate</span>
+  <KbdGroup keys={["↑", "↓", "←", "→"]} />
+</div>
+```
+
+### With Text
+
+```tsx
+<p className="flex items-center gap-2">
+  Press <KbdGroup keys={["⌘", "K"]} /> to open the command palette
+</p>
+```
+
+### Special Characters
+
+```tsx
+<div className="flex flex-wrap gap-2">
+  <Kbd>⌘</Kbd>
+  <Kbd>⌥</Kbd>
+  <Kbd>⇧</Kbd>
+  <Kbd>⌃</Kbd>
+  <Kbd>⏎</Kbd>
+  <Kbd>⌫</Kbd>
+  <Kbd>⇥</Kbd>
+  <Kbd>⎋</Kbd>
+</div>
+```

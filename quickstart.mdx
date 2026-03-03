@@ -1,0 +1,118 @@
+---
+title: 'Quickstart'
+description: 'Get started with Soft UI in under 5 minutes'
+---
+
+Get your first Soft UI component running in minutes. This guide walks you through installation, setup, and your first interactive component.
+
+<Steps>
+  <Step title="Install packages">
+    Install the core Soft UI packages using your preferred package manager:
+
+    <CodeGroup>
+    ```bash npm
+    npm install @soft-ui/tokens @soft-ui/icons @soft-ui/react
+    ```
+
+    ```bash yarn
+    yarn add @soft-ui/tokens @soft-ui/icons @soft-ui/react
+    ```
+
+    ```bash pnpm
+    pnpm add @soft-ui/tokens @soft-ui/icons @soft-ui/react
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Import styles">
+    Import the Soft UI styles once in your app entry point (e.g., `app/layout.tsx` or `_app.tsx`):
+
+    ```tsx
+    import "@soft-ui/tokens/styles.css"
+    ```
+  </Step>
+
+  <Step title="Configure Tailwind v4">
+    Add Soft UI's component source scanning to your CSS file (e.g., `app/globals.css`):
+
+    ```css
+    @import "@soft-ui/tokens/styles.css";
+    @source "../node_modules/@soft-ui/react/dist/**/*.{js,mjs}";
+    ```
+
+    This ensures Tailwind v4 scans Soft UI components for utility classes.
+  </Step>
+
+  <Step title="Initialize theme (optional)">
+    For theme switching support, add the theme initialization script to your root layout:
+
+    ```tsx app/layout.tsx
+    import { createThemeInitScript } from "@soft-ui/tokens"
+
+    export default function RootLayout({ children }) {
+      return (
+        <html suppressHydrationWarning>
+          <head>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: createThemeInitScript(),
+              }}
+            />
+          </head>
+          <body>{children}</body>
+        </html>
+      )
+    }
+    ```
+
+    This prevents flash of unstyled content (FOUC) and syncs with system preferences.
+  </Step>
+
+  <Step title="Use your first component">
+    Import and use the Button component via subpath imports:
+
+    ```tsx app/page.tsx
+    import { Button } from "@soft-ui/react/button"
+
+    export default function Home() {
+      return (
+        <div>
+          <Button variant="primary">Click me</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="tertiary">Tertiary</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="danger">Delete</Button>
+        </div>
+      )
+    }
+    ```
+
+    All components support variants, sizes, and design tokens out of the box:
+
+    ```tsx
+    <Button variant="primary" size="l">
+      Large Button
+    </Button>
+    <Button variant="secondary" size="s">
+      Small Button
+    </Button>
+    ```
+  </Step>
+</Steps>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Components" icon="cube" href="/components/button">
+    Explore all available UI components
+  </Card>
+  <Card title="Design Tokens" icon="palette" href="/design-system/tokens">
+    Customize colors, spacing, and typography
+  </Card>
+  <Card title="Installation Guide" icon="download" href="/installation">
+    Advanced setup and configuration
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/button">
+    Component props and variants
+  </Card>
+</CardGroup>

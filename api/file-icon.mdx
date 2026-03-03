@@ -1,0 +1,159 @@
+---
+title: FileIcon
+description: Display file type icons with color-coded backgrounds.
+---
+
+FileIcon renders visually distinct icons for different file types including documents, spreadsheets, PDFs, presentations, audio, images, and generic files.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { FileIcon } from "@soft-ui/react/file-icon"
+
+<FileIcon fileType="pdf" size="m" />
+```
+
+## API Reference
+
+### FileIcon
+
+<ParamField path="fileType" type="FileType" default="'generic'">
+  Type of file to display:
+  - `doc` - Word documents (blue)
+  - `spreadsheet` - Excel/CSV (green)
+  - `pdf` - PDF documents (red)
+  - `slides` - PowerPoint presentations (orange)
+  - `audio` - Audio files (pink)
+  - `image` - Image files (lime)
+  - `generic` - Unknown file types (gray)
+  - `custom` - Custom color (requires `color` prop)
+</ParamField>
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Size of the icon:
+  - `s`: 32px
+  - `m`: 44px (default)
+  - `l`: 56px
+</ParamField>
+
+<ParamField path="color" type="DecorativeColor">
+  Custom color for `fileType="custom"`. Supports all decorative colors: red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose.
+</ParamField>
+
+<ParamField path="src" type="string">
+  Image source for `fileType="image"` - displays actual image thumbnail instead of icon
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### UploadIcon
+
+Cloud upload icon for file upload dropzones.
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Size matching FileIcon sizes
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### Helper: getFileTypeFromExtension
+
+Automatically determine file type from filename.
+
+```tsx
+import { getFileTypeFromExtension } from "@soft-ui/react/file-icon"
+
+const fileType = getFileTypeFromExtension("document.pdf") // "pdf"
+const fileType2 = getFileTypeFromExtension("data.xlsx") // "spreadsheet"
+```
+
+## Examples
+
+### Different File Types
+
+```tsx
+<div className="flex gap-4">
+  <FileIcon fileType="doc" />
+  <FileIcon fileType="spreadsheet" />
+  <FileIcon fileType="pdf" />
+  <FileIcon fileType="slides" />
+  <FileIcon fileType="audio" />
+  <FileIcon fileType="image" />
+</div>
+```
+
+### Different Sizes
+
+```tsx
+<div className="flex items-end gap-4">
+  <FileIcon fileType="pdf" size="s" />
+  <FileIcon fileType="pdf" size="m" />
+  <FileIcon fileType="pdf" size="l" />
+</div>
+```
+
+### Custom Color
+
+```tsx
+<div className="flex gap-4">
+  <FileIcon fileType="custom" color="blue" />
+  <FileIcon fileType="custom" color="purple" />
+  <FileIcon fileType="custom" color="pink" />
+</div>
+```
+
+### Image Thumbnail
+
+```tsx
+<FileIcon
+  fileType="image"
+  src="/path/to/image.jpg"
+  size="l"
+/>
+```
+
+### Dynamic from Filename
+
+```tsx
+import { getFileTypeFromExtension } from "@soft-ui/react/file-icon"
+
+function FilePreview({ filename }: { filename: string }) {
+  const fileType = getFileTypeFromExtension(filename)
+
+  return (
+    <div className="flex items-center gap-3">
+      <FileIcon fileType={fileType} />
+      <span>{filename}</span>
+    </div>
+  )
+}
+```
+
+### Upload Icon
+
+```tsx
+import { UploadIcon } from "@soft-ui/react/file-icon"
+
+<div className="flex flex-col items-center gap-2">
+  <UploadIcon size="l" />
+  <p>Drag and drop files here</p>
+</div>
+```

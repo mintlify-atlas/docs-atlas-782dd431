@@ -1,0 +1,245 @@
+---
+title: InputGroup
+description: A segmented input field with prefix, suffix, and action segments.
+---
+
+InputGroup extends the standard input with prefix and suffix segments that can contain static text, selects, or interactive actions. Perfect for currency inputs, unit selectors, and multi-part fields.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { InputGroup } from "@soft-ui/react/input-group"
+
+<InputGroup
+  prefix="$"
+  placeholder="0.00"
+  suffix="USD"
+/>
+```
+
+## API Reference
+
+### Props
+
+<ParamField path="variant" type="'secondary' | 'tertiary'" default="'secondary'">
+  Visual style variant:
+  - `secondary`: Solid background
+  - `tertiary`: Translucent with backdrop blur
+</ParamField>
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Size variant:
+  - `s`: 32px height
+  - `m`: 36px height (default)
+  - `l`: 40px height
+</ParamField>
+
+<ParamField path="prefix" type="React.ReactNode">
+  Content for the prefix segment (text or select element)
+</ParamField>
+
+<ParamField path="prefixIcon" type="React.ReactNode">
+  Visual element before prefix content (icon, crypto, avatar)
+</ParamField>
+
+<ParamField path="prefixType" type="'static' | 'action' | 'select'" default="'static'">
+  Type of prefix segment:
+  - `static`: Non-interactive display
+  - `action`: Clickable segment
+  - `select`: Contains a select element
+</ParamField>
+
+<ParamField path="onPrefixClick" type="() => void">
+  Click handler for prefix (when `prefixType="action"`)
+</ParamField>
+
+<ParamField path="suffix" type="React.ReactNode">
+  Content for the suffix segment (text or select element)
+</ParamField>
+
+<ParamField path="suffixIcon" type="React.ReactNode">
+  Visual element before suffix content
+</ParamField>
+
+<ParamField path="suffixType" type="'static' | 'action' | 'select'" default="'static'">
+  Type of suffix segment
+</ParamField>
+
+<ParamField path="onSuffixClick" type="() => void">
+  Click handler for suffix (when `suffixType="action"`)
+</ParamField>
+
+<ParamField path="leadingIcon" type="React.ReactNode">
+  Icon shown before the input text (inside the main field)
+</ParamField>
+
+<ParamField path="trailingIcon" type="React.ReactNode">
+  Icon shown after the input text (inside the main field)
+</ParamField>
+
+<ParamField path="focusVisibleOnly" type="boolean" default="true">
+  Only show focus ring on keyboard focus (not mouse clicks)
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Whether the input is disabled
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the container
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+All standard input props (`placeholder`, `value`, `onChange`, `type`, etc.) are supported.
+
+## Examples
+
+### Currency Input
+
+```tsx
+<InputGroup
+  prefix="$"
+  placeholder="0.00"
+  suffix="USD"
+  type="number"
+/>
+```
+
+### With Unit Selector
+
+```tsx
+<InputGroup
+  placeholder="Enter value"
+  suffix={
+    <select className="bg-transparent border-0 outline-none">
+      <option>px</option>
+      <option>em</option>
+      <option>rem</option>
+      <option>%</option>
+    </select>
+  }
+  suffixType="select"
+/>
+```
+
+### With Prefix Icon
+
+```tsx
+import { RiSearchLine } from "@soft-ui/icons"
+
+<InputGroup
+  prefixIcon={<RiSearchLine />}
+  prefix="Search"
+  placeholder="Enter query..."
+/>
+```
+
+### With Action Suffix
+
+```tsx
+<InputGroup
+  placeholder="Enter password"
+  type="password"
+  suffix="Show"
+  suffixType="action"
+  onSuffixClick={() => console.log("Toggle visibility")}
+/>
+```
+
+### Crypto Amount
+
+```tsx
+import { Crypto } from "@soft-ui/react/crypto"
+
+<InputGroup
+  prefixIcon={<Crypto crypto="btc" size={16} />}
+  prefix="BTC"
+  placeholder="0.00000000"
+  type="number"
+/>
+```
+
+### Different Sizes
+
+```tsx
+<div className="flex flex-col gap-4">
+  <InputGroup size="s" prefix="$" placeholder="Small" />
+  <InputGroup size="m" prefix="$" placeholder="Medium" />
+  <InputGroup size="l" prefix="$" placeholder="Large" />
+</div>
+```
+
+### Tertiary Variant
+
+```tsx
+<InputGroup
+  variant="tertiary"
+  prefix="https://"
+  placeholder="example.com"
+/>
+```
+
+### Leading and Trailing Icons
+
+```tsx
+import { RiSearchLine, RiCloseLine } from "@soft-ui/icons"
+
+<InputGroup
+  leadingIcon={<RiSearchLine />}
+  placeholder="Search..."
+  trailingIcon={<RiCloseLine />}
+/>
+```
+
+### Disabled State
+
+```tsx
+<InputGroup
+  prefix="$"
+  placeholder="0.00"
+  suffix="USD"
+  disabled
+/>
+```
+
+### Multiple Segments
+
+```tsx
+<InputGroup
+  prefixIcon={<Crypto crypto="eth" size={16} />}
+  prefix={
+    <select className="bg-transparent border-0 outline-none">
+      <option>ETH</option>
+      <option>BTC</option>
+      <option>USDC</option>
+    </select>
+  }
+  prefixType="select"
+  placeholder="0.00"
+  suffix={
+    <select className="bg-transparent border-0 outline-none">
+      <option>USD</option>
+      <option>EUR</option>
+      <option>GBP</option>
+    </select>
+  }
+  suffixType="select"
+/>
+```

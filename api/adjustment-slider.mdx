@@ -1,0 +1,187 @@
+---
+title: AdjustmentSlider
+description: A slider component with integrated label, icon, and value display for adjusting numeric values.
+---
+
+AdjustmentSlider provides a compact, touch-friendly slider with a built-in label, optional icon, and animated value display. The filled portion of the track animates smoothly as the value changes.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { AdjustmentSlider } from "@soft-ui/react/adjustment-slider"
+import { RiVolumeMuteLine } from "@soft-ui/icons"
+
+function Example() {
+  const [volume, setVolume] = useState(50)
+
+  return (
+    <AdjustmentSlider
+      label="Volume"
+      icon={<RiVolumeMuteLine />}
+      value={volume}
+      onValueChange={(value) => setVolume(value as number)}
+      min={0}
+      max={100}
+    />
+  )
+}
+```
+
+## API Reference
+
+### Props
+
+<ParamField path="label" type="string" required>
+  Label text displayed next to the icon
+</ParamField>
+
+<ParamField path="icon" type="React.ReactNode">
+  Icon displayed at the start of the slider
+</ParamField>
+
+<ParamField path="size" type="'s' | 'm' | 'l'" default="'m'">
+  Size variant matching input component sizes:
+  - `s`: 32px height
+  - `m`: 36px height (default)
+  - `l`: 40px height
+</ParamField>
+
+<ParamField path="showValue" type="boolean" default="true">
+  Whether to show the current value
+</ParamField>
+
+<ParamField path="renderValue" type="(value: number) => React.ReactNode">
+  Custom render function for the value display. Overrides the default numeric display.
+</ParamField>
+
+<ParamField path="animated" type="boolean" default="true">
+  Whether to animate the value changes using NumberFlow
+</ParamField>
+
+<ParamField path="value" type="number | readonly number[]">
+  Controlled value of the slider
+</ParamField>
+
+<ParamField path="defaultValue" type="number | readonly number[]">
+  Uncontrolled default value
+</ParamField>
+
+<ParamField path="onValueChange" type="(value: number | readonly number[], details: ChangeEventDetails) => void">
+  Callback fired when the value changes
+</ParamField>
+
+<ParamField path="min" type="number" default="0">
+  Minimum value
+</ParamField>
+
+<ParamField path="max" type="number" default="100">
+  Maximum value
+</ParamField>
+
+<ParamField path="step" type="number">
+  Step increment for value changes
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Whether the slider is disabled
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the root element
+</ParamField>
+
+<ParamField path="unsafeClassName" type="string">
+  Explicit escape hatch for intentional structural overrides
+</ParamField>
+
+## Examples
+
+### With Icon
+
+```tsx
+import { RiVolumeMuteLine } from "@soft-ui/icons"
+
+<AdjustmentSlider
+  label="Volume"
+  icon={<RiVolumeMuteLine />}
+  defaultValue={75}
+  min={0}
+  max={100}
+/>
+```
+
+### Without Value Display
+
+```tsx
+<AdjustmentSlider
+  label="Brightness"
+  defaultValue={50}
+  showValue={false}
+/>
+```
+
+### Custom Value Renderer
+
+```tsx
+<AdjustmentSlider
+  label="Temperature"
+  defaultValue={72}
+  min={60}
+  max={85}
+  renderValue={(value) => `${value}°F`}
+/>
+```
+
+### Different Sizes
+
+```tsx
+<div className="flex flex-col gap-4">
+  <AdjustmentSlider label="Small" size="s" defaultValue={30} />
+  <AdjustmentSlider label="Medium" size="m" defaultValue={50} />
+  <AdjustmentSlider label="Large" size="l" defaultValue={70} />
+</div>
+```
+
+### Disabled State
+
+```tsx
+<AdjustmentSlider
+  label="Volume"
+  icon={<RiVolumeMuteLine />}
+  defaultValue={50}
+  disabled
+/>
+```
+
+### Controlled
+
+```tsx
+function ControlledExample() {
+  const [value, setValue] = useState(50)
+
+  return (
+    <div className="flex flex-col gap-4">
+      <AdjustmentSlider
+        label="Volume"
+        value={value}
+        onValueChange={(v) => setValue(v as number)}
+      />
+      <p>Current value: {value}</p>
+    </div>
+  )
+}
+```

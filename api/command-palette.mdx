@@ -1,0 +1,252 @@
+---
+title: CommandPalette
+description: A composable command palette component with search, keyboard navigation, and customizable items.
+---
+
+CommandPalette provides a searchable command menu with keyboard shortcuts, groups, and rich item composition. Built using cmdk and Base UI Dialog.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { CommandPalette } from "@soft-ui/react/command-palette"
+import { RiSearchLine } from "@soft-ui/icons"
+
+function Example() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <CommandPalette.Root open={open} onOpenChange={setOpen}>
+      <CommandPalette.Trigger>Open Command Palette</CommandPalette.Trigger>
+      <CommandPalette.Content>
+        <CommandPalette.Input placeholder="Search..." />
+        <CommandPalette.List>
+          <CommandPalette.Group>
+            <CommandPalette.GroupHeading>Actions</CommandPalette.GroupHeading>
+            <CommandPalette.Item>
+              <CommandPalette.ItemPrefix><RiSearchLine /></CommandPalette.ItemPrefix>
+              <CommandPalette.ItemLabel>Search</CommandPalette.ItemLabel>
+            </CommandPalette.Item>
+          </CommandPalette.Group>
+        </CommandPalette.List>
+        <CommandPalette.Footer />
+      </CommandPalette.Content>
+    </CommandPalette.Root>
+  )
+}
+```
+
+## API Reference
+
+### CommandPalette.Root
+
+<ParamField path="open" type="boolean">
+  Controlled open state
+</ParamField>
+
+<ParamField path="defaultOpen" type="boolean">
+  Uncontrolled default open state
+</ParamField>
+
+<ParamField path="onOpenChange" type="(open: boolean) => void">
+  Callback when open state changes
+</ParamField>
+
+<ParamField path="enableKeyboardShortcut" type="boolean" default="false">
+  Enable ⌘K / Ctrl+K global keyboard shortcut to open
+</ParamField>
+
+### CommandPalette.Trigger
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.Content
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the popup
+</ParamField>
+
+### CommandPalette.Input
+
+<ParamField path="placeholder" type="string">
+  Placeholder text for the search input
+</ParamField>
+
+<ParamField path="loading" type="boolean">
+  Show loading spinner instead of search icon
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.List
+
+<ParamField path="className" type="string">
+  Additional CSS classes for the scrollable list container
+</ParamField>
+
+### CommandPalette.Empty
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+Displays when no results match the search query. Defaults to "No results found" message.
+
+### CommandPalette.Group
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.GroupHeading
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.Item
+
+<ParamField path="value" type="string">
+  Value used for search filtering
+</ParamField>
+
+<ParamField path="keywords" type="string[]">
+  Additional keywords for search
+</ParamField>
+
+<ParamField path="onSelect" type="() => void">
+  Callback when item is selected
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Whether the item is disabled
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.ItemPrefix
+
+<ParamField path="variant" type="'icon' | 'avatar' | 'emphasized'" default="'icon'">
+  Visual style of the prefix:
+  - `icon`: Simple icon with subtle color
+  - `avatar`: Avatar-sized container
+  - `emphasized`: Colored background badge
+</ParamField>
+
+<ParamField path="color" type="DecorativeColor" default="'neutral'">
+  Color for emphasized variant (red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose, neutral)
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.ItemLabel
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.ItemSuffix
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.Separator
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### CommandPalette.Footer
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+Defaults to keyboard navigation hints (↑↓, Enter, Esc).
+
+## Examples
+
+### With Groups
+
+```tsx
+<CommandPalette.Root>
+  <CommandPalette.Trigger>Open</CommandPalette.Trigger>
+  <CommandPalette.Content>
+    <CommandPalette.Input placeholder="Type a command..." />
+    <CommandPalette.List>
+      <CommandPalette.Group>
+        <CommandPalette.GroupHeading>Navigation</CommandPalette.GroupHeading>
+        <CommandPalette.Item>
+          <CommandPalette.ItemLabel>Home</CommandPalette.ItemLabel>
+        </CommandPalette.Item>
+      </CommandPalette.Group>
+      <CommandPalette.Separator />
+      <CommandPalette.Group>
+        <CommandPalette.GroupHeading>Actions</CommandPalette.GroupHeading>
+        <CommandPalette.Item>
+          <CommandPalette.ItemLabel>Create</CommandPalette.ItemLabel>
+        </CommandPalette.Item>
+      </CommandPalette.Group>
+    </CommandPalette.List>
+  </CommandPalette.Content>
+</CommandPalette.Root>
+```
+
+### With Emphasized Items
+
+```tsx
+<CommandPalette.Item>
+  <CommandPalette.ItemPrefix variant="emphasized" color="blue">
+    <RiFileIcon />
+  </CommandPalette.ItemPrefix>
+  <CommandPalette.ItemLabel>New File</CommandPalette.ItemLabel>
+  <CommandPalette.ItemSuffix>
+    <Kbd>⌘</Kbd><Kbd>N</Kbd>
+  </CommandPalette.ItemSuffix>
+</CommandPalette.Item>
+```
+
+### With Keyboard Shortcut
+
+```tsx
+<CommandPalette.Root enableKeyboardShortcut>
+  {/* Content */}
+</CommandPalette.Root>
+```
+
+### Loading State
+
+```tsx
+<CommandPalette.Input placeholder="Searching..." loading />
+```
+
+### Custom Empty State
+
+```tsx
+<CommandPalette.Empty>
+  <p>No commands found.</p>
+  <p>Try a different search term.</p>
+</CommandPalette.Empty>
+```

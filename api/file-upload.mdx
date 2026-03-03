@@ -1,0 +1,233 @@
+---
+title: FileUpload
+description: A drag-and-drop file upload component with progress tracking and file previews.
+---
+
+FileUpload provides a complete file upload experience with drag-and-drop, file validation, progress tracking, and visual feedback for upload states.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npm install @soft-ui/react
+```
+```bash yarn
+yarn add @soft-ui/react
+```
+```bash pnpm
+pnpm add @soft-ui/react
+```
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { FileUpload } from "@soft-ui/react/file-upload"
+
+function Example() {
+  return (
+    <FileUpload
+      label="Drag and drop or browse"
+      hint="Supports PDF, DOC, and images up to 10MB"
+      accept=".pdf,.doc,.docx,image/*"
+    />
+  )
+}
+```
+
+## API Reference
+
+### FileUpload
+
+<ParamField path="label" type="string" default="'Drag and drop or browse'">
+  Label text shown in the dropzone
+</ParamField>
+
+<ParamField path="hint" type="string">
+  Helper text shown below the label
+</ParamField>
+
+<ParamField path="accept" type="string">
+  Accepted file types (e.g., `"image/*,.pdf"`). Supports:
+  - MIME types: `"image/png"`
+  - MIME wildcards: `"image/*"`
+  - Extensions: `".pdf,.docx"`
+</ParamField>
+
+<ParamField path="multiple" type="boolean" default="true">
+  Allow multiple files to be selected
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Whether the upload is disabled
+</ParamField>
+
+<ParamField path="files" type="FileUploadFile[]">
+  Controlled files array. Each file has:
+  - `file`: File object
+  - `state`: `"uploaded" | "uploading" | "error" | "warning"`
+  - `progress`: number (0-100)
+</ParamField>
+
+<ParamField path="onFilesChange" type="(files: FileUploadFile[]) => void">
+  Callback when files change (for controlled mode)
+</ParamField>
+
+<ParamField path="onFilesAdded" type="(files: File[]) => void">
+  Callback when new files are added
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+### FileItem
+
+Individual file display with state indicators.
+
+<ParamField path="file" type="File" required>
+  File object to display
+</ParamField>
+
+<ParamField path="state" type="'uploaded' | 'uploading' | 'error' | 'warning'" default="'uploaded'">
+  Current state of the file:
+  - `uploaded`: Green checkmark (success)
+  - `uploading`: Animated spinner with progress bar
+  - `error`: Red error icon
+  - `warning`: Yellow warning icon
+</ParamField>
+
+<ParamField path="progress" type="number" default="0">
+  Upload progress (0-100). Only shown when `state="uploading"`
+</ParamField>
+
+<ParamField path="displaySize" type="number">
+  Override file size display (defaults to file.size)
+</ParamField>
+
+<ParamField path="onRemove" type="() => void">
+  Callback when remove button is clicked
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes
+</ParamField>
+
+## Examples
+
+### Basic Upload
+
+```tsx
+<FileUpload
+  label="Upload documents"
+  hint="PDF or Word documents only"
+  accept=".pdf,.doc,.docx"
+/>
+```
+
+### Image Upload Only
+
+```tsx
+<FileUpload
+  label="Upload photos"
+  hint="PNG, JPG, or GIF up to 5MB"
+  accept="image/*"
+/>
+```
+
+### Single File Upload
+
+```tsx
+<FileUpload
+  label="Upload your resume"
+  hint="PDF format only"
+  accept=".pdf"
+  multiple={false}
+/>
+```
+
+### Controlled with Upload Simulation
+
+```tsx
+function ControlledUpload() {
+  const [files, setFiles] = useState<FileUploadFile[]>([])
+
+  const handleFilesAdded = (newFiles: File[]) => {
+    // Start uploads
+    const uploadFiles = newFiles.map((file) => ({
+      file,
+      state: "uploading" as const,
+      progress: 0,
+    }))
+    setFiles([...files, ...uploadFiles])
+
+    // Simulate upload progress
+    uploadFiles.forEach((_, index) => {
+      const interval = setInterval(() => {
+        setFiles((current) => {
+          const fileIndex = current.length - uploadFiles.length + index
+          const updated = [...current]
+          const currentProgress = updated[fileIndex].progress
+
+          if (currentProgress >= 100) {
+            updated[fileIndex] = {
+              ...updated[fileIndex],
+              state: "uploaded",
+              progress: 100,
+            }
+            clearInterval(interval)
+          } else {
+            updated[fileIndex] = {
+              ...updated[fileIndex],
+              progress: currentProgress + 10,
+            }
+          }
+
+          return updated
+        })
+      }, 200)
+    })
+  }
+
+  return (
+    <FileUpload
+      files={files}
+      onFilesChange={setFiles}
+      onFilesAdded={handleFilesAdded}
+    />
+  )
+}
+```
+
+### Different File States
+
+```tsx
+import { FileItem } from "@soft-ui/react/file-upload"
+
+const demoFiles = [
+  { file: new File([], "uploaded.pdf"), state: "uploaded", progress: 100 },
+  { file: new File([], "uploading.pdf"), state: "uploading", progress: 45 },
+  { file: new File([], "failed.pdf"), state: "error", progress: 0 },
+  { file: new File([], "warning.pdf"), state: "warning", progress: 100 },
+]
+
+<div className="space-y-2">
+  {demoFiles.map((fileData) => (
+    <FileItem
+      key={fileData.file.name}
+      {...fileData}
+      onRemove={() => console.log("Remove", fileData.file.name)}
+    />
+  ))}
+</div>
+```
+
+### Disabled State
+
+```tsx
+<FileUpload
+  label="Upload disabled"
+  hint="This upload is currently disabled"
+  disabled
+/>
+```
